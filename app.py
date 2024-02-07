@@ -17,7 +17,7 @@ migrate = Migrate(app, db)
 """
 
 # Create Flask app
-app = Flask(__name__)
+app = Flask(__name__, static_folder='my-app/build', static_url_path='/static')
 CORS(app)
 app.config['SECRET_KEY'] = 'algobattle'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
