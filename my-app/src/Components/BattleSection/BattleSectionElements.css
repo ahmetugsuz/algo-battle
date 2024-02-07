@@ -1,0 +1,215 @@
+.arenaContainer{
+    width: 100vw;
+    height: 100vh;
+    justify-content: center;
+}
+
+
+.battleContainer{
+    width: 70%;
+    height: 100%;
+    background-color: rgba(105, 109, 115, 0.214);
+    margin: auto;
+    display: block;
+    justify-content: center;
+    align-items: center;
+    z-index: 0;
+}
+
+.ArenaHeadline{
+    font-weight: 600;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1.2rem;
+}
+
+.infoBattle{
+    padding-top: 100px;
+}
+
+.infoContainerArena{
+    padding-top: 40px;
+    text-align: center;
+    justify-content: center;
+    max-width: 80%;
+    margin: auto;
+}
+
+.boxesContainer{
+    display: flex;
+    flex-wrap: wrap;
+    padding-top: 100px;
+    height: 60%;
+    max-width: fit-content;
+    max-width: max-content;
+    justify-content: center;
+    text-align: center;
+    margin: auto;
+
+}
+
+.boxes{
+    padding-right: 30px;
+    height: 10%;
+    justify-content: center;
+    text-align: center;
+    max-width: fit-content;
+    position: relative;
+}
+
+.btnBoxes{
+    padding: 10px;
+    width: 50px;
+    color: white;
+    background-color: black;
+}
+
+.btnBoxes:hover{
+    cursor: pointer;
+    background-color: lightblue;
+}
+
+.battleBottomSection{
+    position: relative;
+}
+
+.algorithmChoiceContainer{
+    position: absolute;
+    right: 0;
+    padding-right: 40px;
+    display: flex;
+    margin-top: -50px;
+    font-weight: 600;
+}
+
+.timeComplexityContainer{
+    position: absolute;
+    bottom: 0;
+    padding: 20px;
+    justify-content: center;
+    text-align: center;
+    max-width: 400px;
+}
+
+.GainPointsT{
+    color: rgb(243, 173, 43);
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1.2rem;
+}
+
+.timeComplexityText{
+    color: #555;
+    font-size: 0.9rem;
+}
+
+.timeComplexityOptionsContainer{
+    justify-content: center;
+    text-align: center;
+    margin-top: 20px;
+    display: flex;
+}
+
+.timeComplexityBtn{
+    margin-right: 10px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.timeComplexityBtn:disabled{
+    transition: 0.7s;
+    cursor: not-allowed;
+}
+
+.resultComplexityAnswerT{
+    font-weight: 600;
+    margin-top: 20px;
+}
+
+.choseText{
+    font-family: 'monospace';
+}
+
+.resultater{
+    text-align: center;
+    justify-content: center;
+}
+
+.scoreText{
+    justify-content: center;
+    margin: auto;
+}
+
+.resultText{
+    margin: auto;
+    text-align: center;
+}
+
+.gameTips{
+    color: #555;
+    padding-top: 20px;
+    font-size: 16px;
+}
+
+.nextBtnContainer{
+    justify-content: end;
+    margin: auto;
+    padding: 30px;
+    display: flex;
+}
+
+.nextBtn{
+    padding: 0.5rem;
+    border-radius: 20px;
+    font-size: 1rem;
+    background-color: transparent;
+    border: solid transparent 0px;
+    cursor: pointer;
+
+}
+
+
+@media screen and (max-width: 1300px) {
+    .ArenaHeadline{
+        font-size: 1.1rem;
+    }
+    .boxesContainer{
+        padding-top: 130px;
+    }
+
+    .elusiveInfo{
+        font-size: 0.8rem;
+    }
+
+    .gameTips{
+        font-size: 0.6rem;
+    }
+
+    .btnBoxes{
+        width: 50px;
+    }
+
+    .battleBottomSection{
+        margin-top: 80px;
+    }
+
+    .timeComplexityContainer{
+        justify-content: baseline;
+        text-align:left;
+    }
+
+    .timeComplexityText{
+        font-size: 0.8rem;
+        width: 80%;
+    }
+
+    .GainPointsT{
+        font-size: 0.8rem;
+    }
+
+    .timeComplexityBtn{
+        font-size: 0.7rem;
+    }
+
+    .resultComplexityAnswerT{
+        font-size: 0.6rem;
+    }
+}

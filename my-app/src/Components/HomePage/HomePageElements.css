@@ -1,0 +1,234 @@
+.HomePageContainer{
+    width: 100vw;
+    height: 100vh;
+    justify-content: center;
+}
+
+.InformationSection{
+    width: 70%;
+    height: 100%;
+    background-color: rgba(35, 9, 186, 0.651);
+    margin: auto;
+    display: block;
+    justify-content: center;
+    align-items: center;
+    z-index: 0;
+}
+
+.topHomePage{
+    top: 30%;
+}
+
+.middleHomePage{
+    height: 70%;
+}
+
+.bottomHomePage{
+    height: 10%;
+    justify-content: center;
+    text-align: center;
+}
+
+.welcomeText{
+    font-size: 2rem;
+    letter-spacing: 0.05rem;
+    font-family: 'Courier New', Courier, monospace;
+    color: aqua;
+    font-weight: 600;
+}
+
+.middleInfoSection{
+    padding: 30px;
+}
+
+.AboutTheGameText{
+    font-size: 1.1rem;
+    font-family: 'Courier New', Courier, monospace;
+    color: rgb(4, 26, 45);   
+    padding-top: 1rem; 
+    line-height: 1.2;
+}
+
+.HvaDetErOmTekst{
+    font-weight: 600;
+}
+
+.NoticeText{
+    padding-top: 40px;
+}
+
+.NoticeT{
+  font-size: 1rem;
+}
+
+.GameStartContainer{
+    margin: auto;
+}
+
+.BtnToOptions{
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.Btn{
+    background-color: yellowgreen;
+    font-weight: 600;
+    border: solid yellow 2px;
+    cursor: pointer;
+}
+
+
+.button-54 {
+  font-family: "Open Sans", sans-serif;
+  font-size: 16px;
+  letter-spacing: 2px;
+  text-decoration: none;
+  text-transform: uppercase;
+  color: #000;
+  cursor: pointer;
+  border: 3px solid;
+  padding: 0.25em 0.5em;
+  box-shadow: 1px 1px 0px 0px, 2px 2px 0px 0px, 3px 3px 0px 0px, 4px 4px 0px 0px, 5px 5px 0px 0px;
+  position: relative;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  background-color: rgb(217, 210, 210);
+}
+
+.button-54:active {
+  box-shadow: 0px 0px 0px 0px;
+  top: 5px;
+  left: 5px;
+}
+
+
+.button-54:disabled{
+  background-color: rgb(111, 108, 108);
+}
+
+@media (min-width: 768px) {
+  .button-54 {
+    padding: 0.25em 0.75em;
+  }
+}
+@media screen and (max-width: 1300px) {
+    .welcomeText{
+      font-size: 1.4rem;
+    }
+
+    .AboutTheGameText{
+      font-size: 0.8rem;
+    }
+
+    .button-49,
+    .button-49:after{
+      max-width: 120px;
+      max-height: 100px;
+      font-size: 9.5px;
+      letter-spacing: 1px;
+    }
+}
+
+
+.button-49,
+.button-49:after {
+  width: 150px;
+  height: 76px;
+  line-height: 78px;
+  
+  font-family: 'Bebas Neue', sans-serif;
+  background: linear-gradient(45deg, transparent 5%, #FF013C 5%);
+  border: 0;
+  color: #fff;
+  letter-spacing: 3px;
+  box-shadow: 6px 0px 0px #00E6F6;
+  outline: transparent;
+  position: relative;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  cursor: pointer;
+}
+
+.button-49:after {
+  --slice-0: inset(50% 50% 50% 50%);
+  --slice-1: inset(80% -6px 0 0);
+  --slice-2: inset(50% -6px 30% 0);
+  --slice-3: inset(10% -6px 85% 0);
+  --slice-4: inset(40% -6px 43% 0);
+  --slice-5: inset(80% -6px 5% 0);
+  
+  content: 'ALTERNATE TEXT';
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, transparent 3%, #00E6F6 3%, #00E6F6 5%, #FF013C 5%);
+  text-shadow: -3px -3px 0px #F8F005, 3px 3px 0px #00E6F6;
+  clip-path: var(--slice-0);
+}
+
+.button-49:hover:after {
+  animation: 1s glitch;
+  animation-timing-function: steps(2, end);
+}
+
+@keyframes glitch {
+  0% {
+    clip-path: var(--slice-1);
+    transform: translate(-20px, -10px);
+  }
+  10% {
+    clip-path: var(--slice-3);
+    transform: translate(10px, 10px);
+  }
+  20% {
+    clip-path: var(--slice-1);
+    transform: translate(-10px, 10px);
+  }
+  30% {
+    clip-path: var(--slice-3);
+    transform: translate(0px, 5px);
+  }
+  40% {
+    clip-path: var(--slice-2);
+    transform: translate(-5px, 0px);
+  }
+  50% {
+    clip-path: var(--slice-3);
+    transform: translate(5px, 0px);
+  }
+  60% {
+    clip-path: var(--slice-4);
+    transform: translate(5px, 10px);
+  }
+  70% {
+    clip-path: var(--slice-2);
+    transform: translate(-10px, 10px);
+  }
+  80% {
+    clip-path: var(--slice-5);
+    transform: translate(20px, -10px);
+  }
+  90% {
+    clip-path: var(--slice-1);
+    transform: translate(-10px, 0px);
+  }
+  100% {
+    clip-path: var(--slice-1);
+    transform: translate(0);
+  }
+}
+
+@media (min-width: 1310px) {
+  .button-49,
+  .button-49:after {
+    width: 200px;
+    height: 86px;
+    line-height: 88px;
+    font-size: 20px;
+  }
+}

@@ -1,0 +1,443 @@
+* {
+    font-family: sans-serif;
+    font-size: 23px;
+    background-blend-mode: darken;
+    margin: 0;
+    padding: 0;
+}
+
+
+.OptionPageContainer{
+    width: 100vw;
+    height: 100vh;
+    justify-content: center;
+}
+
+.mainSectionContainer{
+    width: 70%;
+    height: 100%;
+    background-color: rgba(35, 9, 186, 0.651);
+    margin: auto;
+    display: block;
+    justify-content: center;
+    align-items: center;
+    z-index: 0;
+}
+
+.top{
+    height: 25%;
+    margin: auto;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+}
+
+.middle{
+    height: 33%;
+}
+
+.bottom{
+    height: 33%;
+}
+
+.infoSection{
+    padding-top: 50px;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    font-size: 22px;    
+}
+
+.infoContainer{
+    border: solid 4px black;
+    background-color: white;
+    padding: 110px 303px;
+    margin-right: 170px;
+    margin-top: 30px;
+    position: fixed;
+    transition: 0.2s;
+}
+
+.infoTextContainer{
+    justify-content: start;
+    position: absolute;
+    left: 0;
+    top: 0;
+    padding: 10px;
+}
+
+.infoOptions{
+    font-size: 0.7rem;
+}
+
+.welcometext{
+    padding-right: 30px;
+    font-weight: 600;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1.2rem;
+}
+
+.inputField{
+    margin-top: 70px;
+}
+
+.antallBox{
+    padding: 5px;
+    font-weight: 600;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.antallBoxT{
+    padding-right: 20px;
+
+}
+
+.btnAntallBox{
+    margin-left: 10px;
+}
+
+.algorithmOptions{
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
+.select{
+    text-align: center;
+    padding-bottom: 50px;
+
+}
+
+
+
+.BtnTesla {
+    border: solid red 3px;
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    cursor: pointer;
+    color: aqua;
+    border-radius: 300px;
+    z-index: 1;
+    color: black;
+    width: 300px;
+    height: 300px;
+    margin-right: 50px;
+    /*padding: 20px 0px;
+    padding-bottom: 150px;*/
+    border: solid white 2px;
+  }
+  
+  .BtnTesla::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("../../Images/Tesla.webp") ;
+    background-size: cover;
+    filter: blur(0);
+    transition: filter 0.2s;
+    z-index: -1;
+  }
+
+  
+  .BtnTesla:hover::before {
+    filter: blur(3px);
+  }
+
+.BtnAlan{
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    cursor: pointer;
+    color: aqua;
+    border-radius: 500px;
+    z-index: 2;
+    color: black;
+    width: 300px;
+    height: 300px;
+    margin-right: 50px;
+    margin-left: 50px;
+    border: solid white 2px;
+
+}
+
+.BtnAlan::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("../../Images/Alan.webp");
+    background-size: cover;
+    filter: blur(0);
+    transition: filter 0.2s;
+    z-index: -1;
+}
+
+  
+.BtnAlan:hover::before {
+    filter: blur(3px);
+}
+
+
+.BtnKidy{
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    cursor: pointer;
+    color: aqua;
+    border-radius: 500px;
+    z-index: 2;
+    color: black;
+    width: 300px;
+    height: 300px;
+    margin-right: 50px;
+    margin-left: 50px;
+    border: solid white 2px;
+
+}
+
+.BtnKidy::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("../../Images/Kidy.jpeg");
+    background-size: cover;
+    filter: blur(0);
+    transition: filter 0.2s;
+    z-index: -1;
+}
+
+  
+.BtnKidy:hover::before {
+    filter: blur(3px);
+}
+
+.ImageInfo{
+    color: rgb(158, 158, 158);
+    z-index: 5;
+    overflow: show;
+    margin-left: 35px;
+    padding-top: 46.5px;
+    max-width: 70%;
+    font-size: 16px;
+}
+
+.LockedPicture{
+    opacity: 0.6;
+}
+
+.LockedTextTesla{
+    color: white;
+    margin-top: 100px;
+    letter-spacing: 0.05rem;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.LockedTextAlan{
+    color: white;
+    margin-top: 100px;
+    letter-spacing: 0.05rem;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.LockedTextKidy{
+    color: black;
+    margin-top: 100px;
+    letter-spacing: 0.05rem;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: 600;
+}
+
+.RobotName{
+    margin-top: 100px;
+    color: rgb(203, 201, 201);
+    transition: 0.2s;
+}
+
+.teslaT{
+    margin-top: 60px;    
+}
+
+.AlanT{
+    margin-top: 60px; 
+    color: rgb(217, 214, 214);
+}
+
+.kiddyT{
+    color: black;
+    margin-top: 60px; 
+}
+
+.kiddyHoverText{
+    color: black;
+}
+
+
+.gameoption{
+    justify-content: center;
+    text-align: center;
+    padding-top: 100px;
+    display: flex;
+    position: relative;
+}
+
+.bottomOptionsContainer{
+    margin: 0;
+}
+
+.scoreboardBtn{
+    margin-right: 50px;
+    height: fit-content;
+}
+
+.startGameBtn{
+    height: fit-content;
+}
+
+.wrapPoints{
+    border: solid 5px black;
+    margin-top: 30px;
+    justify-content: center;
+    text-align: center;
+    background-color: rgb(214, 177, 128);
+    filter: blur(50%);
+}
+
+.CurrentPoints{
+    padding: 10px;
+    height: 10%;
+    font-size: 1.5rem;
+    font-weight: 600;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.tableWrapper{
+    left: 0;
+    margin-left: -450px;
+    max-width: 450px;
+    filter: sepia(100%);
+    color: black;
+    z-index: 3;
+}
+
+.noteBugsT{
+    position: absolute;
+    bottom: 0;
+    font-size: 0.5rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+    margin-left: 10px;
+}
+
+@media screen and (max-height: 1200px) {
+    .tableWrapper{
+        height: 310px;
+
+    }
+
+}
+
+@media screen and (max-width: 1300px) {
+    .infoOptions{
+        font-size: 0.5rem;
+    }
+
+    .welcometext{
+        font-size: 1rem;
+    }
+
+    .ImageInfo{
+        font-size: 12px;
+    }
+
+    .infoSection{
+        font-size: 12px;
+    }
+
+    .infoContainer{
+        border: solid 4px black;
+        background-color: white;
+        padding: 90px 260px;
+        margin-right: 170px;
+        margin-top: 30px;
+        position: fixed;
+        transition: 0.2s;
+    }
+
+    .antallBox{
+        padding: 2px;
+        font-weight: 600;
+        font-family: 'Courier New', Courier, monospace;
+    }
+    
+    .antallBoxT{
+        padding-right: 10px;
+        font-size: 0.9rem;
+    }
+
+    .select{
+        font-size: 0.9rem;
+    }
+
+    .teslaT{
+        margin-top: 30px;    
+    }
+    
+    .AlanT{
+        margin-top: 30px; 
+    }
+    
+    .kiddyT{
+        margin-top: 30px; 
+    }
+
+    .BtnAlan{
+        width: 200px;
+        height: 200px;
+    }
+
+    .BtnTesla{
+        width: 200px;
+        height: 200px;
+    }
+
+    .BtnKidy{
+        width: 200px;
+        height: 200px;
+    }
+
+    .wrapPoints{
+        border: solid 5px black;
+        margin-top: 30px;
+        justify-content: center;
+        text-align: center;
+        background-color: rgb(214, 177, 128);
+        filter: blur(50%);
+    }
+    
+    .CurrentPoints{
+        padding: 5px;
+        height: 10%;
+        font-size: 1rem;
+        font-weight: 600;
+        font-family: 'Courier New', Courier, monospace;
+    }
+
+    .noteBugsT{
+        font-size: 0.4rem;
+    }
+    
+    .tableWrapper{
+        max-width: 390px;
+        margin-left: -200px;
+        height: 220px;
+    }
+}
