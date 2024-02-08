@@ -51,34 +51,39 @@ function Arena(){
         try {
           const res = await fetch("/arena?t=" + Date.now());
           const data = await res.json();
-          console.log("data fetched")
+          console.log("Data fetched:", data);
+          
+          if (data.algorithm === '') {
+            console.log("Empty algorithm received, retrying...");
+            setRetryCount(prevRetryCount => prevRetryCount + 1);
+            return; // Exit the function to prevent further processing
+          }
+          
           console.log("Setting up the data");
           setData(data);
-          console.log(data);
           setAnswer(data.answer);
-          console.log(data.answer);
           setmotstanderNavn(data.algorithm);
-          console.log(data.algorithm);
           setAlgoritmeValgteElementer(data.valgte_elementer);
           setEnemiesPlayed(data.enemies_played);
-          setRetryCount(0);
-          setIsLoading(false);
+          setRetryCount(0); // Reset retry count upon successful fetch
         } catch (error) {
-          console.error("Error receiving arena API ", error);
+          console.error("Error receiving arena API:", error);
           if (retryCount < MAX_RETRIES) {
-            console.log("retrying to fetch data")
+            console.log("Retrying to fetch data...");
             setTimeout(fetchData, INITIAL_DELAY * Math.pow(2, retryCount));
-            console.log("Retries connection");
             setRetryCount(prevRetryCount => prevRetryCount + 1);
           } else {
-            setIsLoading(false); // Set loading to false only after all retries fail
+            console.error("Max retries exceeded. Unable to fetch data.");
+            setIsLoading(false); // Set loading to false after all retries fail
           }
+        } finally {
+          setIsLoading(false); // Always set loading to false after fetch attempt
         }
       };
     
       fetchData(); // Fetch data on mount
-    
     }, [retryCount]); // Retry count as dependency
+    
     
     
     
