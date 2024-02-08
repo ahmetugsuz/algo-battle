@@ -57,19 +57,18 @@ function Arena(){
         setAlgoritmeValgteElementer(data.valgte_elementer);
         setEnemiesPlayed(data.enemies_played);
         setRetryCount(0);
-        setIsLoading(false);
       } catch (error) {
         console.error("Error receiving arena API ", error);
         if (retryCount < MAX_RETRIES) {
           setTimeout(fetchData, INITIAL_DELAY * Math.pow(2, retryCount));
-          console.log("Retries connection")
+          console.log("Retries connection");
           setRetryCount(retryCount + 1);
-        } else {
-          setIsLoading(false);
+          return; // Exit the function to prevent setIsLoading(false) from being called
         }
       }
+      setIsLoading(false); // Set isLoading to false only when data is successfully fetched or retry limit is reached
     }, [retryCount]);
-  
+    
     useEffect(() => {
       fetchData();
     }, [fetchData, teller]);
