@@ -54,8 +54,11 @@ function Arena(){
           console.log("data fetched")
           console.log("Setting up the data");
           setData(data);
+          console.log(data);
           setAnswer(data.answer);
+          console.log(data.answer);
           setmotstanderNavn(data.algorithm);
+          console.log(data.algorithm);
           setAlgoritmeValgteElementer(data.valgte_elementer);
           setEnemiesPlayed(data.enemies_played);
           setRetryCount(0);
