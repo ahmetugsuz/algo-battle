@@ -233,7 +233,7 @@ function Arena(){
             <div className='boxesContainer'>
               {typeof data.gameboard === 'undefined' || data.algorithm === "" ? (
                 // Handle the retry count decrement outside JSX
-                <p>Wallahi I dont know</p>
+                <p>I dont know</p>
               ) : (
                 data.gameboard.map((gameboard, i) => (
                   <div className='boxes' key={i}>
