@@ -44,7 +44,7 @@ function Arena(){
     const [isLoading, setIsLoading] = useState(true);
     const [retryCount, setRetryCount] = useState(0);
     const INITIAL_DELAY = 2000; // Specify the initial delay in milliseconds
-    const MAX_RETRIES = 3;
+    const MAX_RETRIES = 5;
     const fetchData = useCallback(async () => {
       setIsLoading(true);
       try {
@@ -234,7 +234,7 @@ function Arena(){
             <div className='boxesContainer'>
               {typeof data.gameboard === 'undefined' || data.algorithm === "" ? (
                 // Handle the retry count decrement outside JSX
-                retryCount > 0 && setRetryCount(retryCount - 1)
+                <p>Wallahi I dont know</p>
               ) : (
                 data.gameboard.map((gameboard, i) => (
                   <div className='boxes' key={i}>
@@ -296,8 +296,9 @@ function Arena(){
       <div className='arenaContainer'>
 
       {isLoading ? (
-        retryCount > 0 && setRetryCount(retryCount - 1), // Update retryCount
-        <p>Loading Data...</p> // Render loading message
+      <div>
+        <p>Loading Data...</p> 
+      </div>
       ) : (
         componentData() // Render component when isLoading is false
       )}
