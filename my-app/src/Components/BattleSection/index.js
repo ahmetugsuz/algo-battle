@@ -51,6 +51,7 @@ function Arena(){
         try {
           const res = await fetch("/arena?t=" + Date.now());
           const data = await res.json();
+          console.log("data fetched")
           console.log("Setting up the data");
           setData(data);
           setAnswer(data.answer);
@@ -58,9 +59,11 @@ function Arena(){
           setAlgoritmeValgteElementer(data.valgte_elementer);
           setEnemiesPlayed(data.enemies_played);
           setRetryCount(0);
+          setIsLoading(false);
         } catch (error) {
           console.error("Error receiving arena API ", error);
           if (retryCount < MAX_RETRIES) {
+            console.log("retrying to fetch data")
             setTimeout(fetchData, INITIAL_DELAY * Math.pow(2, retryCount));
             console.log("Retries connection");
             setRetryCount(prevRetryCount => prevRetryCount + 1);
