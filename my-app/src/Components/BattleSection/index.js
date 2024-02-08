@@ -63,7 +63,7 @@ function Arena(){
         if (retryCount < MAX_RETRIES) {
           setTimeout(fetchData, INITIAL_DELAY * Math.pow(2, retryCount));
           console.log("Retries connection")
-          setRetryCount(prevRetryCount => prevRetryCount + 1);
+          setRetryCount(retryCount + 1);
         } else {
           setIsLoading(false);
         }
@@ -294,15 +294,16 @@ function Arena(){
     }
     return (
       <div className='arenaContainer'>
-    
-        {isLoading ?
-          retryCount > 0 && setRetryCount(retryCount - 1) : // Moved this outside the JSX
-          <p>Loading Data...</p>
-        }
-        
-        {!isLoading && componentData()}
-    
+
+      {isLoading ? (
+        retryCount > 0 && setRetryCount(retryCount - 1), // Update retryCount
+        <p>Loading Data...</p> // Render loading message
+      ) : (
+        componentData() // Render component when isLoading is false
+      )}
+
       </div>
+
     );
     
 }
