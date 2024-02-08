@@ -56,6 +56,8 @@ function Arena(){
         setmotstanderNavn(data.algorithm);
         setAlgoritmeValgteElementer(data.valgte_elementer);
         setEnemiesPlayed(data.enemies_played);
+        setRetryCount(0);
+        setIsLoading(false);
       } catch (error) {
         console.error("Error receiving arena API ", error);
         if (retryCount < MAX_RETRIES) {
@@ -73,34 +75,7 @@ function Arena(){
     }, [fetchData, teller]);
     
     
-    
-  
-/*
-    useEffect(() => {
-      var lastPlayer = enemiesPlayed[enemiesPlayed.length-1]
-      //console.log("Last player: ", lastPlayer, ", all enemies played: ", enemiesPlayed)
 
-      if (motstanderNavn === lastPlayer){ // check whether if the choosen algorithm is right
-        return;
-      }
-
-      if (motstanderNavn !== null) {
-        return; // very important part: if API is fetched, we dont want to try to fetch it more, therefore return, to stay there!
-      }
-    
-      if (motstanderNavn === null) {
-        console.log("API not received, trying to fetch again")
-        if (teller < 5 && teller > 0) {
-          setTeller(teller + 1);
-          if (motstanderNavn === lastPlayer) {
-            setTeller(0); // breaking it
-            return;
-          }
-        }
-      }
-
-    }, [teller, motstanderNavn]); // add motstanderNavn as a dependency
-    */
 
 
     const checkAnswer = (event) => {
@@ -129,27 +104,6 @@ function Arena(){
       
       {maskinTall !== answer ? setSvarFunnet(false) : setSvarFunnet(true)}
       console.log("maskin valgte: ",maskinTall)
-      /*
-      fetch("/robot_valg", {
-        method: "POST",
-        body: JSON.stringify({"valgte_bokser": valgteBokser}),
-        headers: {
-          "Content-Type": "application/json"
-        }
-      }).then((res) => res.json())
-        .then(robotValg => {
-          setRobotValg(robotValg);
-          console.log(robotValg.valg);
-          setMaskinTall(robotValg.valg)
-          const keyPropertyBox = maskinTall - 1;
-          //console.log("key property "+keyPropertyBox + " og robot valg: " + maskinTall)
-          {maskinTall !== answer ? setSvarFunnet(false) : setSvarFunnet(true)}
-         
-        })
-        .catch(error => {
-          console.error("Error receiving API robot_valg",error);
-        });
-        */
     };
     
   
@@ -211,11 +165,14 @@ function Arena(){
     
   
      const reloadFunction = () => {
+      setRetryCount(retryCount--);
+      /*
         setSpamText("Common spam on it!")
         setData([]) // so that it can set new values on it
         setmotstanderNavn(null)
         setTeller(teller +1)
         counterRun = counterRun +1
+      */
      }
   
   
@@ -253,11 +210,11 @@ function Arena(){
       }
       setKompleksitetBesvart(true)
     }
-  
-    return (
-      <div className='arenaContainer'>
-        <div className='battleContainer'>
-          <div className='top'>
+
+    const componentData = () =>{
+    return(
+      <div>
+        <div className='top'>
             <div className='infoBattle'>
               <h2 className='ArenaHeadline'>The Arena</h2>
               {data && (
@@ -275,12 +232,9 @@ function Arena(){
           </div>
           <div className='middle'>
             <div className='boxesContainer'>
-              {(typeof data.gameboard === 'undefined' || data.algorithm == "") ? (
-                <div>
-                  <p>Your enemy is trying to attack you, stay calm and don't let them play any mental tricks on you. Try breaking the wall. </p>
-                  <p style={{fontWeight: 600, color: "#444"}}>{spamText}</p>
-                  <button onClick={() => reloadFunction()} style={{color: "red", fontWeight: 600, backgroundColor: "brown", padding: "5px"}}>BLOCK</button>
-                </div>
+              {typeof data.gameboard === 'undefined' || data.algorithm === "" ? (
+                // Handle the retry count decrement outside JSX
+                retryCount > 0 && setRetryCount(retryCount - 1)
               ) : (
                 data.gameboard.map((gameboard, i) => (
                   <div className='boxes' key={i}>
@@ -290,7 +244,7 @@ function Arena(){
                       type="button" 
                       id={"targetBox" + i} 
                       value={gameboard} 
-                      disabled={svarFunnet || maskinTall == answer} 
+                      disabled={svarFunnet || maskinTall === answer} 
                       style={{backgroundColor: checkMaskin(i)}} 
                     />
                   </div>
@@ -335,6 +289,18 @@ function Arena(){
               <></>
             }
           </div>
+      </div>
+    )
+    }
+    return (
+      <div className='arenaContainer'>
+        <div className='battleContainer'>
+            {isLoading ?
+            <div> <p>Loading Data ...</p> </div>
+          
+          : 
+            componentData()
+        }
         </div>
       </div>
     );
