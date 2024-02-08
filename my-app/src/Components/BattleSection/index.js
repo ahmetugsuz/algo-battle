@@ -43,18 +43,20 @@ function Arena(){
 
     const [isLoading, setIsLoading] = useState(true);
     const [retryCount, setRetryCount] = useState(0);
-    const INITIAL_DELAY = 2000; // Specify the initial delay in milliseconds
+    const INITIAL_DELAY = 2000; //  delay in milliseconds
     const MAX_RETRIES = 5;
+
     useEffect(() => {
       const fetchData = async () => {
-        setIsLoading(true); // Set loading to true when starting fetching data
+        setIsLoading(true); // Setting loading to true when starting fetching data
         try {
           const res = await fetch("/arena?t=" + Date.now());
           const data = await res.json();
           console.log("Data fetched:", data);
           
-          if (data.algorithm === '') {
+          if (data.algorithm === '' && retryCount < 100) {
             console.log("Empty algorithm received, retrying...");
+            console.log("Retry number at: ", retryCount)
             setRetryCount(prevRetryCount => prevRetryCount + 1);
             return; // Exit the function to prevent further processing
           }
@@ -151,19 +153,6 @@ function Arena(){
     
         if (response.status === 200) {
           console.log("Success");
-          /*
-          const data = await response.json();
-    
-          if (data.total_points < score) {
-            await fetch('/round_results', {
-              method: 'POST',
-              body: JSON.stringify(postData),
-              headers: {
-                'Content-Type': 'application/json'
-              }
-            });
-          }
-          */
         } else {
           console.log("Error! ", response);
         }
@@ -173,19 +162,6 @@ function Arena(){
     
       navigate('/optionpage');
     };
-    
-    
-  
-     const reloadFunction = () => {
-      setRetryCount(retryCount--);
-      /*
-        setSpamText("Common spam on it!")
-        setData([]) // so that it can set new values on it
-        setmotstanderNavn(null)
-        setTeller(teller +1)
-        counterRun = counterRun +1
-      */
-     }
   
   
     var targetBoxes = document.getElementsByTagName("input");
@@ -246,7 +222,7 @@ function Arena(){
             <div className='boxesContainer'>
               {typeof data.gameboard === 'undefined' || data.algorithm === "" ? (
                 // Handle the retry count decrement outside JSX
-                <p>I dont know</p>
+                <p>Something happened with fetching data, please try to re-visit the website, and try it again.</p>
               ) : (
                 data.gameboard.map((gameboard, i) => (
                   <div className='boxes' key={i}>
@@ -308,7 +284,7 @@ function Arena(){
       <div className='arenaContainer'>
 
       {isLoading ? (
-      <div>
+      <div className="loadingAttribute">
         <p>Loading Data...</p> 
       </div>
       ) : (
