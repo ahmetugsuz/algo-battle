@@ -213,7 +213,7 @@ function Arena(){
 
     const componentData = () =>{
     return(
-      <div>
+      <div className="battleContainer">
         <div className='top'>
             <div className='infoBattle'>
               <h2 className='ArenaHeadline'>The Arena</h2>
@@ -294,16 +294,17 @@ function Arena(){
     }
     return (
       <div className='arenaContainer'>
-        <div className='battleContainer'>
-            {isLoading ?
-            <div> <p>Loading Data ...</p> </div>
-          
-          : 
-            componentData()
+    
+        {isLoading ?
+          retryCount > 0 && setRetryCount(retryCount - 1) : // Moved this outside the JSX
+          <p>Loading Data...</p>
         }
-        </div>
+        
+        {!isLoading && componentData()}
+    
       </div>
     );
+    
 }
 
 export default Arena;
