@@ -45,33 +45,35 @@ function Arena(){
     const [retryCount, setRetryCount] = useState(0);
     const INITIAL_DELAY = 2000; // Specify the initial delay in milliseconds
     const MAX_RETRIES = 5;
-    const fetchData = useCallback(async () => {
-      setIsLoading(true);
-      try {
-        const res = await fetch("/arena?t=" + Date.now());
-        const data = await res.json();
-        console.log("Setting up the data");
-        setData(data);
-        setAnswer(data.answer);
-        setmotstanderNavn(data.algorithm);
-        setAlgoritmeValgteElementer(data.valgte_elementer);
-        setEnemiesPlayed(data.enemies_played);
-        setRetryCount(0);
-      } catch (error) {
-        console.error("Error receiving arena API ", error);
-        if (retryCount < MAX_RETRIES) {
-          setTimeout(fetchData, INITIAL_DELAY * Math.pow(2, retryCount));
-          console.log("Retries connection");
-          setRetryCount(retryCount + 1);
-          return; // Exit the function to prevent setIsLoading(false) from being called
-        }
-      }
-      setIsLoading(false); // Set isLoading to false only when data is successfully fetched or retry limit is reached
-    }, [retryCount]);
-    
     useEffect(() => {
-      fetchData();
-    }, [fetchData, teller]);
+      const fetchData = async () => {
+        setIsLoading(true); // Set loading to true when starting fetching data
+        try {
+          const res = await fetch("/arena?t=" + Date.now());
+          const data = await res.json();
+          console.log("Setting up the data");
+          setData(data);
+          setAnswer(data.answer);
+          setmotstanderNavn(data.algorithm);
+          setAlgoritmeValgteElementer(data.valgte_elementer);
+          setEnemiesPlayed(data.enemies_played);
+          setRetryCount(0);
+        } catch (error) {
+          console.error("Error receiving arena API ", error);
+          if (retryCount < MAX_RETRIES) {
+            setTimeout(fetchData, INITIAL_DELAY * Math.pow(2, retryCount));
+            console.log("Retries connection");
+            setRetryCount(prevRetryCount => prevRetryCount + 1);
+          } else {
+            setIsLoading(false); // Set loading to false only after all retries fail
+          }
+        }
+      };
+    
+      fetchData(); // Fetch data on mount
+    
+    }, [retryCount]); // Retry count as dependency
+    
     
     
 
