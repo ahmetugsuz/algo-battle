@@ -41,7 +41,7 @@ function Arena(){
     };
 
 
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [retryCount, setRetryCount] = useState(0);
     const INITIAL_DELAY = 2000; // Specify the initial delay in milliseconds
     const MAX_RETRIES = 3;
