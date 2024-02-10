@@ -55,13 +55,13 @@ function Arena(){
           console.log("Data fetched:", data);
           
           if (data.algorithm === '' && retryCount < 100) {
-            console.log("Empty algorithm received, retrying...");
+            console.log("Empty algorithm received, retrying connection...");
             console.log("Retry number at: ", retryCount)
             setRetryCount(prevRetryCount => prevRetryCount + 1);
             return; // Exit the function to prevent further processing
           }
           
-          console.log("Setting up the data");
+          //Setting up data values
           setData(data);
           setAnswer(data.answer);
           setmotstanderNavn(data.algorithm);
@@ -93,32 +93,21 @@ function Arena(){
 
 
     const checkAnswer = (event) => {
-      //console.log("algoritme sine valg kommer til aa vaare: ",algoritmeValgteElementer)
-
-      if (event.target.value == answer) {
+      const selectedValue = parseInt(event.target.value);
+      if (selectedValue === answer) {
         setSvarFunnet(true);
-        setBrukerFantSvar(true)
-        setResultText("You Won!")
+        setBrukerFantSvar(true);
+        setResultText("You Won!");
+        event.target.style.backgroundColor = "green"; // Change color directly here
+        setScore(score + 10);
       } else {
         setSvarFunnet(false);
-        console.log("Wrong");
+        event.target.style.backgroundColor = "red"; // Change color directly here
+        event.target.disabled = true; // Disable incorrect selections
       }
-
-
-      konstantTeller = konstantTeller +1
-      while (alleClickedElements.includes(algoritmeValgteElementer[konstantTeller]) || parseInt(event.target.value) == algoritmeValgteElementer[konstantTeller]){
-        konstantTeller = konstantTeller +1
-        if (konstantTeller > 30){ // taking care of any infinity loops
-          break;
-        }
-      }
-      setMaskinTall(algoritmeValgteElementer[konstantTeller])
-      setAlleClickedElements([...alleClickedElements, algoritmeValgteElementer[konstantTeller], parseInt(event.target.value)])
-      //console.log("alle klikkede elementer: ", alleClickedElements)
-      
-      {maskinTall !== answer ? setSvarFunnet(false) : setSvarFunnet(true)}
-      console.log("maskin valgte: ",maskinTall)
+      setMaskinTall(algoritmeValgteElementer[konstantTeller]); // Ensure this is set correctly
     };
+    
     
   
     function checkMaskin(key){     
@@ -163,7 +152,7 @@ function Arena(){
       navigate('/optionpage');
     };
   
-  
+  /*
     var targetBoxes = document.getElementsByTagName("input");
     for (const element of targetBoxes){
       element.addEventListener("click", function(){
@@ -182,6 +171,7 @@ function Arena(){
         }
       });
     };
+    */
   
     const handleKompleksitet = (props) => {
       const knapp = document.getElementById(props); // henter knappen som blir trykket, så vi kan endre fargen på den
