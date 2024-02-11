@@ -30,6 +30,7 @@ function Arena(){
     const [enemiesPlayed, setEnemiesPlayed] = useState([]);
     const [backtrackingList, setBacktrackingList] = useState([]); // is actually same as enemies played, holding list from frontend side
     const [spamText, setSpamText] = useState(null);
+    const [konstTeller, setKonstTeller] = useState(1);
     var valgteBokser = [];
     let spilteMotstandere = [];
     let konstantTeller = 0;
@@ -60,7 +61,6 @@ function Arena(){
             setRetryCount(prevRetryCount => prevRetryCount + 1);
             return; // Exit the function to prevent further processing
           }
-          
           //Setting up data values
           setData(data);
           setAnswer(data.answer);
@@ -93,21 +93,38 @@ function Arena(){
 
 
     const checkAnswer = (event) => {
-      const selectedValue = parseInt(event.target.value);
-      if (selectedValue === answer) {
-        setSvarFunnet(true);
-        setBrukerFantSvar(true);
+      const selectedUserValue = parseInt(event.target.value);
+      if (selectedUserValue === answer) {
+        //setSvarFunnet(true);
         setResultText("You Won!");
         event.target.style.backgroundColor = "green"; // Change color directly here
         setScore(score + 10);
+        setSvarFunnet(true);
+
       } else {
-        setSvarFunnet(false);
+
         event.target.style.backgroundColor = "red"; // Change color directly here
         event.target.disabled = true; // Disable incorrect selections
+        setSvarFunnet(false);
       }
-      setMaskinTall(algoritmeValgteElementer[konstantTeller]); // Ensure this is set correctly
+      
+      setKonstTeller(prevKonstTeller => prevKonstTeller + 1);
+      let updatedKonstTeller = konstTeller;
+      while (alleClickedElements.includes(algoritmeValgteElementer[updatedKonstTeller]) || algoritmeValgteElementer[updatedKonstTeller] === selectedUserValue){ // ensuring that choosen box by algorithm is not choosen before by neither user or machine.
+        //goes to the next box choice if its already choosen
+        updatedKonstTeller++;
+      }
+      const selectedMachineValue = algoritmeValgteElementer[updatedKonstTeller];
+      setKonstTeller(updatedKonstTeller);
+      
+      setAlleClickedElements([...alleClickedElements, selectedMachineValue, selectedUserValue]);
+      console.log("All clicked elements: ", alleClickedElements);
+      
+      valgteBokser.push(selectedMachineValue);
+      valgteBokser.push(selectedUserValue);
+      setMaskinTall(selectedMachineValue); // Ensure this is set correctly      
     };
-    
+
     
   
     function checkMaskin(key){     
@@ -128,29 +145,6 @@ function Arena(){
       }
     } 
   
-    const nextRound = async () => {
-      const postData = {"poeng": score, "bruker_fant": brukerFantSvar};
-    
-      try {
-        const response = await fetch('/round_results', {
-          method: 'POST',
-          body: JSON.stringify(postData),
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        });
-    
-        if (response.status === 200) {
-          console.log("Success");
-        } else {
-          console.log("Error! ", response);
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    
-      navigate('/optionpage');
-    };
   
   /*
     var targetBoxes = document.getElementsByTagName("input");
@@ -188,6 +182,30 @@ function Arena(){
       }
       setKompleksitetBesvart(true)
     }
+
+    const nextRound = async () => {
+      const postData = {"poeng": score, "bruker_fant": brukerFantSvar};
+    
+      try {
+        const response = await fetch('/round_results', {
+          method: 'POST',
+          body: JSON.stringify(postData),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+    
+        if (response.status === 200) {
+          console.log("Success");
+        } else {
+          console.log("Error! ", response);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    
+      navigate('/optionpage');
+    };
 
     const componentData = () =>{
     return(
@@ -270,6 +288,8 @@ function Arena(){
       </div>
     )
     }
+
+
     return (
       <div className='arenaContainer'>
 
