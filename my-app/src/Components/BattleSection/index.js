@@ -1,8 +1,10 @@
 import React, {useState, useEffect, useCallback} from "react";
 import './BattleSectionElements.css';
-import {NextPageArrow} from "../ButtonElements.js";
+import {NextPageArrow, CloseIcon} from "../ButtonElements.js";
 import { useNavigate } from "react-router-dom";
-
+import TeslaImage from "../../Images/thinkingTesla.avif";
+import AlanImage from "../../Images/thinkingAlan.png";
+import KidyImage from "../../Images/thinkingKidy.png";
 function Arena(){
     const navigate = useNavigate();
 
@@ -31,6 +33,13 @@ function Arena(){
     const [backtrackingList, setBacktrackingList] = useState([]); // is actually same as enemies played, holding list from frontend side
     const [spamText, setSpamText] = useState(null);
     const [konstTeller, setKonstTeller] = useState(1);
+    const [ventPaaMotstander, setVentPaaMotstander] = useState(false);
+    const [algorithmChat, setAlgorithmChat] = useState("You can start to choose a box");
+    const [quizOpen, setQuizOpen] = useState(false);
+    const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+    const [feedback, setFeedback] = useState("");
+    const [correctQuizAnswer, setCorrectQuizAnswer] = useState();
+    const [quizClosed, setQuizClosed] = useState(false);
     var valgteBokser = [];
     let spilteMotstandere = [];
     let konstantTeller = 0;
@@ -38,53 +47,108 @@ function Arena(){
     const AlgorithmOptions = {
       "Tesla": "n",
       "Alan": "log(n)",
-      "Kidy": "n"
+      "Kidy": "n" 
     };
+
+    const AlgorithmUsed = {
+      "Tesla": "Linear",
+      "Alan": "Binary",
+      "Kidy": "Random"
+    }
+
+    const talkingBubble = {
+      "Tesla": {
+        list: ["Think more linearly", "Now im getting closer", "Wait, is the box next to me the right box?"]
+      },
+      "Alan": {
+        list: ["Thinking..", "Try to find before me", "HA HA! Where u going, think smarter, like I do.", "Hmm, this is going to be tough"]
+      },
+      "Kidy":{
+        list: ["The weather looking great today.", "Have u been to Disney Land, the lego there is soo cool"]
+      }
+    };
+
+    const winTalkMachine = {
+      "Tesla": "Yes I Won. By thinking straight forward, slow but secure.",
+      "Alan": "I won HA HA! You need to understand my algorithmic brain to win over me!",
+      "Kidy": "Can we now go to Disneyland?"
+    }
+
+    const bildeAlgoritme = {
+      "Tesla": TeslaImage,
+      "Alan": AlanImage,
+      "Kidy": KidyImage
+    }
+
+
+    const quizQuestions = [
+      {
+        question: "Which Searching Algorithm did "+motstanderNavn+" use against you?",
+        options: ["Linear", "Fibonacci Search", "Binary", "Exponential", "Fibonacci", "Random"],
+        correctAnswer: AlgorithmUsed[motstanderNavn],
+      },
+      {
+        question: "What is the time complexity of the algorithm utilized by " + motstanderNavn + "?",
+        options: ["1", "n", "log(n)", "n*log(n)", "n*m^2", "log(n^2)", "n*log(n^2)", "n^3"],
+        correctAnswer: AlgorithmOptions[motstanderNavn],
+      },
+      {
+        question: "What is the probability that " + motstanderNavn + " hits the right answer on the third try, based on algorithm utilized by Kidy and number of boxes?",
+        options: ["25%", "33%", "50%", "100%"],
+        correctAnswer: "100%", // Provide the correct answer
+      },
+      // Add more questions as needed
+    ];
+    
 
 
     const [isLoading, setIsLoading] = useState(true);
     const [retryCount, setRetryCount] = useState(0);
-    const INITIAL_DELAY = 2000; //  delay in milliseconds
-    const MAX_RETRIES = 5;
-
+    const [error, setError] = useState(null);
+    const INITIAL_DELAY = 2000; // delay in milliseconds
+    const MAX_RETRIES = 100;
+    const MAX_DELAY = 60000; // maximum delay in milliseconds
+    
     useEffect(() => {
+      let isMounted = true; // flag to track component mount status
       const fetchData = async () => {
-        setIsLoading(true); // Setting loading to true when starting fetching data
+        setIsLoading(true);
         try {
           const res = await fetch("/arena?t=" + Date.now());
           const data = await res.json();
-          console.log("Data fetched:", data);
-          
-          if (data.algorithm === '' && retryCount < 100) {
-            console.log("Empty algorithm received, retrying connection...");
-            console.log("Retry number at: ", retryCount)
-            setRetryCount(prevRetryCount => prevRetryCount + 1);
-            return; // Exit the function to prevent further processing
+          if (!isMounted) return; // prevent state update if component unmounted
+          if (data.algorithm === '') {
+            if (retryCount < MAX_RETRIES){
+              setRetryCount(prevRetryCount => prevRetryCount + 1);
+              return;
+            } else {
+              setError("Unable to fetch data, an error occurred. Server error.");
+              setIsLoading(false);
+              return;
+            }
           }
-          //Setting up data values
           setData(data);
           setAnswer(data.answer);
           setmotstanderNavn(data.algorithm);
           setAlgoritmeValgteElementer(data.valgte_elementer);
           setEnemiesPlayed(data.enemies_played);
-          setRetryCount(0); // Reset retry count upon successful fetch
+          setRetryCount(0);
         } catch (error) {
-          console.error("Error receiving arena API:", error);
           if (retryCount < MAX_RETRIES) {
-            console.log("Retrying to fetch data...");
-            setTimeout(fetchData, INITIAL_DELAY * Math.pow(2, retryCount));
+            setTimeout(fetchData, Math.min(INITIAL_DELAY * Math.pow(1.5, retryCount), MAX_DELAY));
             setRetryCount(prevRetryCount => prevRetryCount + 1);
           } else {
-            console.error("Max retries exceeded. Unable to fetch data.");
-            setIsLoading(false); // Set loading to false after all retries fail
+            setError("Max retries exceeded. Unable to fetch data.");
+            setIsLoading(false);
           }
         } finally {
-          setIsLoading(false); // Always set loading to false after fetch attempt
+          if (isMounted) setIsLoading(false);
         }
       };
+      fetchData();
+      return () => { isMounted = false }; // cleanup function
+    }, []); // empty dependency array to fetch data only on mount
     
-      fetchData(); // Fetch data on mount
-    }, [retryCount]); // Retry count as dependency
     
     
     
@@ -100,21 +164,26 @@ function Arena(){
         event.target.style.backgroundColor = "green"; // Change color directly here
         setScore(score + 10);
         setSvarFunnet(true);
-
+        return; // exit if answer found by user
       } else {
 
         event.target.style.backgroundColor = "red"; // Change color directly here
         event.target.disabled = true; // Disable incorrect selections
         setSvarFunnet(false);
+        setVentPaaMotstander(true);
       }
-      
+
       setKonstTeller(prevKonstTeller => prevKonstTeller + 1);
       let updatedKonstTeller = konstTeller;
       while (alleClickedElements.includes(algoritmeValgteElementer[updatedKonstTeller]) || algoritmeValgteElementer[updatedKonstTeller] === selectedUserValue){ // ensuring that choosen box by algorithm is not choosen before by neither user or machine.
         //goes to the next box choice if its already choosen
         updatedKonstTeller++;
       }
+      if (algoritmeValgteElementer[updatedKonstTeller] === "0" || algoritmeValgteElementer[updatedKonstTeller] === 0){
+        updatedKonstTeller++;
+      }
       const selectedMachineValue = algoritmeValgteElementer[updatedKonstTeller];
+      
       setKonstTeller(updatedKonstTeller);
       
       setAlleClickedElements([...alleClickedElements, selectedMachineValue, selectedUserValue]);
@@ -122,7 +191,27 @@ function Arena(){
       
       valgteBokser.push(selectedMachineValue);
       valgteBokser.push(selectedUserValue);
-      setMaskinTall(selectedMachineValue); // Ensure this is set correctly      
+      let delay = 1000;
+      if (motstanderNavn === "Alan"){
+        delay = Math.floor(Math.random() * (3500 - 1000 + 1)) + 1000;
+      } else if(motstanderNavn === "Kidy"){
+        delay = Math.floor(Math.random() * (1200 - 350 + 1)) + 350;
+      } else if(motstanderNavn === "Tesla"){
+        delay = Math.floor(Math.random() * (600 - 50 + 1)) + 50;
+      }
+
+      // Getting a random chat/answer from the algorithm out from the dictionary with a list for each algorithm.
+      const listLength = talkingBubble[motstanderNavn].list.length;
+      let randomChat = Math.floor(Math.random() * listLength);
+      const randomChatMessage = talkingBubble[motstanderNavn].list[randomChat];
+      setAlgorithmChat(randomChatMessage);
+
+      console.log("The Delay is: ", delay);
+      setTimeout(() => {        
+        setMaskinTall(selectedMachineValue); // setter tallat maskinen har valgt.  
+        setVentPaaMotstander(false);
+      }, delay);
+      
     };
 
     
@@ -144,29 +233,7 @@ function Arena(){
         }
       }
     } 
-  
-  
-  /*
-    var targetBoxes = document.getElementsByTagName("input");
-    for (const element of targetBoxes){
-      element.addEventListener("click", function(){
-        var elementValue = this.value;
-        valgteBokser.push(elementValue);
-        if(elementValue == answer){
-          setResultText("You Won!")
-          setScore(score+10)
-          this.style.backgroundColor = "green";
-          setSvarFunnet(true)
-          setBrukerFantSvar(true)
-        }else{
-          this.style.backgroundColor = "red";
-          this.disabled = true; 
-          setSvarFunnet(false)
-        }
-      });
-    };
-    */
-  
+
     const handleKompleksitet = (props) => {
       const knapp = document.getElementById(props); // henter knappen som blir trykket, så vi kan endre fargen på den
       if(AlgorithmOptions[motstanderNavn] == props || (motstanderNavn == "Kidy" && props == "1")){ // Vi godtar også randomly selection til å være 1 og n
@@ -180,9 +247,70 @@ function Arena(){
         setKompleksitetRigktigBesvart("Wrong")
         knapp.style.backgroundColor = "red";
       }
-      setKompleksitetBesvart(true)
+      setKompleksitetBesvart(true);
+      setTimeout(() => {
+        setKompleksitetBesvart(false); // Reset answer state
+        setCurrentQuestionIndex(prevCurrentQuestionIndex => prevCurrentQuestionIndex + 1); // Move to next question
+      }, 1000); // Adjust timing as needed for transition duration
     }
 
+    const handleAnswer = (selectedAnswer) => {
+      // Determine the correct answer based on the current question index
+      const currentQuestion = quizQuestions[currentQuestionIndex];
+      const correctAnswer = currentQuestion.correctAnswer;
+    
+
+      // Check if the selected answer matches the correct answer
+      if (selectedAnswer === correctAnswer) {
+        // Update score and set feedback for correct answer
+        setScore(score + 1);
+        setFeedback("Right Answer");
+        setCorrectQuizAnswer(true);
+      } else {
+        // Set feedback for wrong answer
+        setFeedback("Wrong Answer");
+        setCorrectQuizAnswer(false);
+      }
+
+      
+
+      const buttonElement = document.querySelector(`button[value="${selectedAnswer}"]`);
+
+      if (buttonElement) {
+        // Update button style based on the correctness of the answer
+        buttonElement.style.backgroundColor = selectedAnswer === correctAnswer ? "green" : "red";
+      }
+    
+      // Set state to indicate that an answer has been given
+      setKompleksitetBesvart(true);
+    
+      // Wait for a brief moment before moving to the next question
+      setTimeout(() => {
+        buttonElement.style.backgroundColor = "";
+      }, 550)
+      setTimeout(() => {
+        // Move to the next question
+        if (currentQuestionIndex === quizQuestions.length - 1) {
+          // If it's the last question, close the quiz window
+          setQuizOpen(false);
+          setQuizClosed(true);
+        } else {
+          setCurrentQuestionIndex(prevIndex => prevIndex + 1);
+        }
+        // Reset state for the next question
+        setKompleksitetBesvart(false); // Reset answer state
+        setFeedback(null);
+      }, 1000); // Adjust timing as needed for transition duration
+    };
+    
+    
+
+
+      
+    const startQuiz = () => {
+      
+    }
+  
     const nextRound = async () => {
       const postData = {"poeng": score, "bruker_fant": brukerFantSvar};
     
@@ -240,7 +368,7 @@ function Arena(){
                       type="button" 
                       id={"targetBox" + i} 
                       value={gameboard} 
-                      disabled={svarFunnet || maskinTall === answer} 
+                      disabled={svarFunnet || maskinTall === answer || ventPaaMotstander} 
                       style={{backgroundColor: checkMaskin(i)}} 
                     />
                   </div>
@@ -249,42 +377,97 @@ function Arena(){
             </div>
           </div>
           <div className='bottom battleBottomSection'>
-                {svarFunnet || maskinTall == answer ? 
-                <div className='timeComplexityContainer'>
-                  <h1 className='GainPointsT'>Gain some extra points</h1>
-                  <p className='timeComplexityText'>What is the time complexity of the algorithm utilized by {motstanderNavn}</p>
-                  <div className='timeComplexityOptionsContainer'>
-                    <button className='complexityOption1 timeComplexityBtn' id='1' onClick={() => handleKompleksitet("1")} disabled={KompleksitetBesvart}>1</button>
-                    <button className='complexityOption1 timeComplexityBtn' id='n' onClick={() => handleKompleksitet("n")} disabled={KompleksitetBesvart}>n</button>
-                    <button className='complexityOption1 timeComplexityBtn' id='log(n)' onClick={() => handleKompleksitet("log(n)")} disabled={KompleksitetBesvart}>log(n)</button>
-                    <button className='complexityOption1 timeComplexityBtn' id='n*log(n)' onClick={() => handleKompleksitet("n*log(n)")} disabled={KompleksitetBesvart}>n*log(n)</button>
-                  </div>
-                  <div className='timeComplexityOptionsContainer'>
-                    <button className='complexityOption1 timeComplexityBtn' id='n*m^2' onClick={() => handleKompleksitet("n*m^2")} disabled={KompleksitetBesvart}>n*m^2</button>
-                    <button className='complexityOption1 timeComplexityBtn' id='log(n^2)' onClick={() => handleKompleksitet("log(n^2)")} disabled={KompleksitetBesvart}>log(n^2)</button>
-                    <button className='complexityOption1 timeComplexityBtn' id='n*log(n^2)' onClick={() => handleKompleksitet("n*log(n^2)")} disabled={KompleksitetBesvart}>n*log(n^2)</button>
-                    <button className='complexityOption1 timeComplexityBtn' id='n^3' onClick={() => handleKompleksitet("n^3")} disabled={KompleksitetBesvart}>n^3</button>
-                  </div>
-                  <p className='resultComplexityAnswerT'>{KompleksitetRigktigBesvart}</p>
-                </div>
-                : 
-                <p></p>
-                }
-            <div className='algorithmChoiceContainer'>
-                  {maskinTall == null ? <p></p> : <p className='choseText'>{motstanderNavn} chose box number: {maskinTall}</p>}
+              <div className="containerBildeAlgoritme">
+              {motstanderNavn === "Tesla" &&
+                <img className="bildeAvAlgoritme" src={bildeAlgoritme[motstanderNavn]} alt="image of machine"/>
+              } 
+              {motstanderNavn === "Alan" && 
+                <img className="bildeAvAlgoritme thinkingAlan" src={bildeAlgoritme[motstanderNavn]} alt="image of machine"/>
+              }
+              {motstanderNavn === "Kidy" &&
+                <img className="bildeAvAlgoritme thinkingKidy" src={bildeAlgoritme[motstanderNavn]} alt="image of machine"/>
+              }
+              </div>
+            {svarFunnet ?
+              <div className='algorithmChoiceContainer'> 
+                <p style={{fontWeight: 100}}> <span style={{fontWeight: 400}}>{motstanderNavn}</span>: "You won, for now..."</p>
+              </div>
+                :
+              <div className='algorithmChoiceContainer'>
+                {maskinTall !== null  ?  <p></p> : <p style={{fontWeight: 100}}></p> }
+                {maskinTall === answer && !ventPaaMotstander  ? <p style={{fontWeight: 100, width: 400}}> <span style={{fontWeight: 400}}>{motstanderNavn}:</span> "{winTalkMachine[motstanderNavn]}"</p> : <p style={{fontWeight: 100}}><span style={{fontWeight: 400}}>{motstanderNavn}</span>: "{algorithmChat}"</p> }
+
+              </div>
+            }
+            {maskinTall !== null ?
+            <div className="AlgorithmChooseText">
+                <p style={{fontWeight: 400, marginRight: 30}}>
+                  {motstanderNavn} Choose Box Number: <span style={{fontWeight: 600}}> {maskinTall} </span>
+                </p> 
             </div>
+            : <p></p>
+            }
+
+         
             <div className='resultater'>
-            <h1 className='resultText'>{resultText} {maskinTall == answer ?<div> <p>The Algorithm Won</p><div className='scoreText'><p className='ArenaHeadline'>Points + {score} </p></div></div> 
+            <h1 className='resultText'>{resultText} {maskinTall == answer ?<div> <p style={{fontWeight: 400}}>The Algorithm Won</p><div className='scoreText'><p className='ArenaHeadline'>+{score} <span style={{fontWeight: 400}}> Points</span> </p></div></div> 
             : <p></p>}</h1>
             {svarFunnet ?
             <div className='scoreText'><p className='ArenaHeadline'>Points + {score} </p></div>
             :
             <p></p>}
             </div>
-            {svarFunnet || maskinTall == answer ?  <div className='nextBtnContainer'><button className='nextBtn' onClick={nextRound}>Next <NextPageArrow /> </button></div>:
+            
+            {(maskinTall === answer || svarFunnet) && !quizClosed &&
+
+            <div className="containerMystery">
+              <div className="containerMysteryText">
+                <p className="mysteryText">Are u willing to take a test about your enemy, to get on the top of the leaderboard. This will train you to the next rounds. A high risk high reward quiz. </p>
+              </div>
+              <div className="containerMysteryBtn">
+                <btn className="button-49 mysteryBtn" onClick={() => setQuizOpen(true)}>?</btn>
+              </div>
+            </div>
+            }
+
+            {svarFunnet || maskinTall == answer ?  <div className='nextBtnContainer'><button className='nextBtn' onClick={nextRound}>Continue </button></div>:
               <></>
             }
           </div>
+          {quizOpen && (
+          <div className="quizContainer">
+            <div className="quizWindow">
+              <div style={{}} onClick={() => setQuizOpen(false)}>
+                <CloseIcon />
+              </div>
+              <div className={`quizQuestion `}>
+                <div className="questionHeader">
+                  <h3>Question {currentQuestionIndex + 1}</h3>
+                </div>
+                <div className="questionContent">
+                  <p className='timeComplexityText'>{quizQuestions[currentQuestionIndex].question}</p>
+                  <div className='timeComplexityOptionsContainer'>
+                    {quizQuestions[currentQuestionIndex].options.map((option, optionIndex) => (
+                      <button
+                        key={optionIndex}
+                        value={option} // Set the value attribute to the option value
+                        className={`complexityOption1 timeComplexityBtn `}
+                        onClick={() => handleAnswer(option)}
+                        disabled={KompleksitetBesvart}
+                      >
+                        {option}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <div className="questionContent">
+                  <p className='resultComplexityAnswerT'>{feedback}</p>
+                </div>
+              </div>
+              <div><p className="timeComplexityText">1p per question</p> </div>
+            </div>
+          </div>
+        )}
       </div>
     )
     }

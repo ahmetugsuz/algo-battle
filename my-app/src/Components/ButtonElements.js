@@ -2,6 +2,7 @@ import { MdInfo } from 'react-icons/md';
 import { MdArrowLeft, MdArrowRight } from 'react-icons/md';
 import {HiOutlineRefresh} from 'react-icons/hi';
 import {RiArrowRightLine} from 'react-icons/ri';
+import { AiOutlineClose } from "react-icons/ai";
 import styled from 'styled-components';
 
 export const InfoBtn = styled(MdInfo)`
@@ -46,3 +47,13 @@ export const RefreshArrows = styled(HiOutlineRefresh)`
     }
 `;
 
+
+export const CloseIcon = styled(AiOutlineClose)`
+    font-size: 2rem;
+    position: absolute;
+    right: 0;
+    top: 0;
+    cursor: pointer;
+
+
+`;

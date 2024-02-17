@@ -76,18 +76,18 @@
     position: absolute;
     right: 0;
     padding-right: 40px;
-    display: flex;
+    display: block;
     margin-top: -50px;
     font-weight: 600;
+    text-align: end;
 }
 
 .timeComplexityContainer{
-    position: absolute;
     bottom: 0;
-    padding: 20px;
+
     justify-content: center;
     text-align: center;
-    max-width: 400px;
+
 }
 
 .GainPointsT{
@@ -149,22 +149,132 @@
     font-size: 16px;
 }
 
-.nextBtnContainer{
-    justify-content: end;
+.nextBtnContainer {
+    justify-content: center;
     margin: auto;
-    padding: 30px;
     display: flex;
+    margin-top: calc(3vw);
 }
 
-.nextBtn{
-    padding: 0.5rem;
+.nextBtn {
+    display: flex;
+    justify-content: flex-start; /* Align the text to the start of the button */
     border-radius: 20px;
     font-size: 1rem;
     background-color: transparent;
-    border: solid transparent 0px;
     cursor: pointer;
-
+    border: solid gray 2px;
+    padding: 10px 25px;
 }
+
+.containerMystery{
+    padding-top: 50px;
+    align-items: center;
+    width: 450px;
+    margin: auto;
+    justify-content: center;
+}
+
+.containerMysteryText{
+    text-align: start;
+    width: 500px;
+    margin: auto;
+    padding: 20px;
+    color: #555;
+}
+
+.mysteryText{
+    font-size: large;
+}
+
+.containerMysteryBtn{
+    padding: 0px;
+    cursor: pointer;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    margin: auto;
+    width: 100px;
+    text-align: center;
+}
+
+.mysteryBtn{
+    font-size: 50px;
+    color: aqua;
+}
+
+.quizContainer{
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    display: flex;
+    justify-content: center;
+    margin: auto;
+    text-align: center;
+}
+
+.quizWindow::before{
+    transition: ease-in-out 0.2s;
+}
+
+.quizWindow{
+    position: relative;
+    background-color: white;
+    width: 800px;
+    height: 800px;
+    z-index: 2;
+    border-radius: 18px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    transition: opacity 2.3s ease-in-out; /* Add a transition for opacity */
+}
+
+
+.quizQuestion {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center items horizontally */
+    justify-content: space-between; /* Distribute items evenly along the vertical axis */
+    height: 80%; /* Adjust the height as needed */
+    padding-top: 20px; /* Add some space at the top */
+}
+
+.questionContent{
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center items horizontally */
+    justify-content: space-between; /* Distribute items evenly along the vertical axis */
+    height: 80%; /* Adjust the height as needed */
+    padding-top: 20px; /* Add some space at the top */
+}
+
+.quizQuestion, .questionContent {
+    opacity: 1; /* Ensure questions are initially visible */
+    transition: opacity 0.5s ease-in-out;
+  }
+  
+.quizQuestion.hidden, .questionContent.hidden {
+    opacity: 0.3; /* Fade out when hidden */
+}
+  
+  
+
+.quizQuestion h3 {
+    font-size: 1.2rem; /* Adjust the font size for the question number */
+    margin-bottom: 5px; /* Add some space below the question number */
+}
+  
+.quizQuestion p {
+    font-size: 1.1rem; /* Adjust the font size for the question */
+}
+  
 
 .loadingAttribute {
     position: absolute;
@@ -173,6 +283,39 @@
     transform: translate(-50%, -50%);
 }
 
+.containerBildeAlgoritme{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+
+.bildeAvAlgoritme{
+    width: calc(12vw);
+    background: transparent;
+    margin-right: 50px;
+}
+
+.thinkingAlan{
+    width: calc(13.5vw);
+    margin-bottom: 30px;
+    margin-right: 20px;
+}
+
+.thinkingKidy{
+    width: calc(33vw);
+    margin-right: -150px;
+
+}
+
+.AlgorithmChooseText{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    margin-bottom: -50px;
+    display: flex;
+    flex-direction: row;
+
+}
 
 
 @media screen and (max-width: 1300px) {
@@ -200,8 +343,7 @@
     }
 
     .timeComplexityContainer{
-        justify-content: baseline;
-        text-align:left;
+
     }
 
     .timeComplexityText{

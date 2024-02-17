@@ -205,7 +205,7 @@ function ResultPage(){
               </div>
               <div className='bottomResult'>
                 <div className='BtnWrapper'>
-                  <button className='button-49' onClick={handleTryAgain}>Play Again</button>
+                  <button className='button-54' onClick={handleTryAgain}>Play Again</button>
                 </div>
               </div>
             </div>

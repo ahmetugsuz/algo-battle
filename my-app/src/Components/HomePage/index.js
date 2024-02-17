@@ -63,7 +63,7 @@ function HomePage() {
             
           <div className='bottomHomePage'>
             <div className='GameStartContainer'></div>
-              <button onClick={handleToOptions} className='button-49'>Let's get started</button>
+              <button onClick={handleToOptions} className='button-54'>Let's get started</button>
             </div>
         </div>
       </div>
