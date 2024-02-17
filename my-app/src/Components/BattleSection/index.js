@@ -104,51 +104,55 @@ function Arena(){
 
     const [isLoading, setIsLoading] = useState(true);
     const [retryCount, setRetryCount] = useState(0);
-    const [error, setError] = useState(null);
-    const INITIAL_DELAY = 2000; // delay in milliseconds
-    const MAX_RETRIES = 100;
+    const INITIAL_DELAY = 2000; //  delay in milliseconds
     const MAX_DELAY = 60000; // maximum delay in milliseconds
-    
+    const MAX_RETRIES = 100;
+
     useEffect(() => {
-      let isMounted = true; // flag to track component mount status
       const fetchData = async () => {
-        setIsLoading(true);
+        setIsLoading(true); // Setting loading to true when starting fetching data
         try {
           const res = await fetch("/arena?t=" + Date.now());
           const data = await res.json();
-          if (!isMounted) return; // prevent state update if component unmounted
+          console.log("Data fetched:", data);
+          
           if (data.algorithm === '') {
+            console.log("RetryCount at", retryCount);
             if (retryCount < MAX_RETRIES){
+              console.log("Empty algorithm received, retrying connection...");
+              console.log("Retry number at: ", retryCount)
               setRetryCount(prevRetryCount => prevRetryCount + 1);
-              return;
-            } else {
-              setError("Unable to fetch data, an error occurred. Server error.");
+              return; // Exit the function to prevent further processing
+            }
+            else{
+              console.log("Unable to fetch data, an error occured. Server error.");
               setIsLoading(false);
               return;
             }
           }
+          //Setting up data values
           setData(data);
           setAnswer(data.answer);
           setmotstanderNavn(data.algorithm);
           setAlgoritmeValgteElementer(data.valgte_elementer);
           setEnemiesPlayed(data.enemies_played);
-          setRetryCount(0);
+          setRetryCount(0); // Reset retry count upon successful fetch
         } catch (error) {
           if (retryCount < MAX_RETRIES) {
-            setTimeout(fetchData, Math.min(INITIAL_DELAY * Math.pow(1.5, retryCount), MAX_DELAY));
+            console.log("Retrying to fetch data...");
+            setTimeout(fetchData, INITIAL_DELAY * Math.pow(1.5, retryCount), MAX_DELAY);
             setRetryCount(prevRetryCount => prevRetryCount + 1);
           } else {
-            setError("Max retries exceeded. Unable to fetch data.");
-            setIsLoading(false);
+            console.error("Max retries exceeded. Unable to fetch data.");
+            setIsLoading(false); // Set loading to false after all retries fail
           }
         } finally {
-          if (isMounted) setIsLoading(false);
+          setIsLoading(false); // Always set loading to false after fetch attempt
         }
       };
-      fetchData();
-      return () => { isMounted = false }; // cleanup function
-    }, []); // empty dependency array to fetch data only on mount
     
+      fetchData(); // Fetch data on mount
+    }, [retryCount]); // Retry count as dependency
     
     
     
