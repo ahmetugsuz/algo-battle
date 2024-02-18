@@ -112,8 +112,13 @@ function Arena(){
       const fetchData = async () => {
         setIsLoading(true); // Setting loading to true when starting fetching data
         try {
-          const res = await fetch("/arena?t=" + Date.now());
+          const res = await fetch("/arena?t=" + Date.now(), {
+            headers: {
+              'Cache-Control': 'no-cache'
+            }
+          });
           const data = await res.json();
+
           console.log("Data fetched:", data);
           
           if (data.algorithm === '') {
