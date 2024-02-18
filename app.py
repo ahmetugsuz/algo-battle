@@ -144,8 +144,8 @@ def arena():
 def midlertidig_data():
     response = make_response(jsonify({"total_points": TOTAL_POINTS, "enemies_played": ENEMIES_PLAYED}))
     print("response", response, ", ENEMIES PLAYED: ", ENEMIES_PLAYED)
-    #response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
-    #response.headers["Pragma"] = "no-cache"
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    response.headers["Pragma"] = "no-cache"
     response.headers["Expires"] = "0"
     response.headers["Content-Type"] = "application/json"
     return response

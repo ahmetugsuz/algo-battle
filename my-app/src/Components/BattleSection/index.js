@@ -106,7 +106,7 @@ function Arena(){
     const [retryCount, setRetryCount] = useState(0);
     const INITIAL_DELAY = 2000; //  delay in milliseconds
     const MAX_DELAY = 60000; // maximum delay in milliseconds
-    const MAX_RETRIES = 100;
+    const MAX_RETRIES = 15;
 
     useEffect(() => {
       const fetchData = async () => {
@@ -121,7 +121,6 @@ function Arena(){
             console.log("RetryCount at", retryCount);
             if (retryCount < MAX_RETRIES){
               console.log("Empty algorithm received, retrying connection...");
-              console.log("Retry number at: ", retryCount)
               setRetryCount(prevRetryCount => prevRetryCount + 1);
               return; // Exit the function to prevent further processing
             }
@@ -137,7 +136,7 @@ function Arena(){
           setmotstanderNavn(data.algorithm);
           setAlgoritmeValgteElementer(data.valgte_elementer);
           setEnemiesPlayed(data.enemies_played);
-          setRetryCount(0); // Reset retry count upon successful fetch
+          //setRetryCount(0); // Reset retry count upon successful fetch
         } catch (error) {
           if (retryCount < MAX_RETRIES) {
             console.log("Retrying to fetch data...");
