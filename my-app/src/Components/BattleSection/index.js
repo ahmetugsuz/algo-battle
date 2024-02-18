@@ -140,7 +140,7 @@ function Arena(){
         } catch (error) {
           if (retryCount < MAX_RETRIES) {
             console.log("Retrying to fetch data...");
-            setTimeout(fetchData, INITIAL_DELAY * Math.pow(1.5, retryCount), MAX_DELAY);
+            setTimeout(fetchData, INITIAL_DELAY * Math.pow(2, retryCount), MAX_DELAY);
             setRetryCount(prevRetryCount => prevRetryCount + 1);
           } else {
             console.error("Max retries exceeded. Unable to fetch data.");
@@ -468,7 +468,10 @@ function Arena(){
                   <p className='resultComplexityAnswerT'>{feedback}</p>
                 </div>
               </div>
-              <div><p className="timeComplexityText">1p per question</p> </div>
+              {currentQuestionIndex === 2 && 
+                <div><p className="timeComplexityText" style={{fontSize: 14}}>This question is particularly important for understanding, through statistics, the efficiency and inefficiency of different algorithms in certain circumstances, with more and less boxes to choose between.</p></div>
+              }
+              <div><p className="timeComplexityText" >1p per question</p> </div>
             </div>
           </div>
         )}
