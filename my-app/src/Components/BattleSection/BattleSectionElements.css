@@ -70,6 +70,7 @@
 
 .battleBottomSection{
     position: relative;
+    margin-top: -70px;
 }
 
 .algorithmChoiceContainer{
@@ -96,10 +97,12 @@
     font-size: 1.2rem;
 }
 
-.timeComplexityText{
+.timeComplexityText {
     color: #555;
     font-size: 0.9rem;
+    padding: 10px;
 }
+
 
 .timeComplexityOptionsContainer{
     justify-content: center;
@@ -168,18 +171,20 @@
 }
 
 .containerMystery{
-    padding-top: 50px;
+
     align-items: center;
-    width: 450px;
+    width: 550px;
+    padding-top: 20px;
     margin: auto;
     justify-content: center;
 }
 
 .containerMysteryText{
-    text-align: start;
-    width: 500px;
+    text-align: center;
+    width: 550px;
     margin: auto;
     padding: 20px;
+    margin-left: -15px;
     color: #555;
 }
 

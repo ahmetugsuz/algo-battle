@@ -40,6 +40,21 @@ function Arena(){
     const [feedback, setFeedback] = useState("");
     const [correctQuizAnswer, setCorrectQuizAnswer] = useState();
     const [quizClosed, setQuizClosed] = useState(false);
+    const [forsokNumber, setForsokNumber] = useState(3);
+    const [antallBokser, setAntallBokser] = useState(0);
+    const [likelihood, setLikelihood] = useState();
+    const [fakeAnswer1, setFakeAnswer1] = useState(0);
+    const [fakeAnswer2, setFakeAnswer2] = useState(0);
+    const [fakeAnswer3, setFakeAnswer3] = useState(0);
+    const [numberOfAttempts, setNumberOfAttempts] = useState();
+    const [numberOfAttemptsFake1, setNumberOfAttemptsFake1] = useState();
+    const [numberOfAttemptsFake2, setNumberOfAttemptsFake2] = useState();
+    const [numberOfAttemptsFake3, setNumberOfAttemptsFake3] = useState();
+    const [lastQuestion, setLastQuestion] = useState("What is the average attempts for Tesla to find the correct answer?");
+    const [quickNotesQuiz, setQuickNotesQuiz] = useState("");
+    const [possibleAnswersLikelihood, setPossibleAnswesLikelihood] = useState([]);
+    const [showAverage, setShowAverage] = useState(1);
+
     var valgteBokser = [];
     let spilteMotstandere = [];
     let konstantTeller = 0;
@@ -80,27 +95,51 @@ function Arena(){
       "Kidy": KidyImage
     }
 
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        let j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+  
+  const quizQuestions = [
+    {
+      question: "Which Searching Algorithm did "+motstanderNavn+" use against you?",
+      options: ["Linear", "Fibonacci Search", "Binary", "Exponential", "Fibonacci", "Random"],
+      correctAnswer: AlgorithmUsed[motstanderNavn],
+      difficulty: "easy"
+    },
+    {
+      question: "What is the worst-case time complexity of the algorithm utilized by " + motstanderNavn + "?",
+      options: ["1", "n", "log(n)", "n*log(n)", "n*m^2", "log(n^2)", "n*log(n^2)", "n^3"],
+      correctAnswer: AlgorithmOptions[motstanderNavn],
+      difficulty: "medium",
+    },
+    {
+      question: "What is the probability that " + motstanderNavn + " hits the right answer on the "+ forsokNumber +" try, based on algorithm utilized by "+ motstanderNavn +" and number of boxes ("+antallBokser+")?",
+      options: [fakeAnswer1, fakeAnswer2, fakeAnswer3, likelihood],
+      correctAnswer: likelihood,
+      difficulty: "hard",
+    },
+    {
+      question: lastQuestion,
+      options: [numberOfAttempts, numberOfAttemptsFake1, numberOfAttemptsFake2, numberOfAttemptsFake3],
+      correctAnswer: numberOfAttempts,
+      difficulty: "very hard",
+    }
+  ];
 
-    const quizQuestions = [
-      {
-        question: "Which Searching Algorithm did "+motstanderNavn+" use against you?",
-        options: ["Linear", "Fibonacci Search", "Binary", "Exponential", "Fibonacci", "Random"],
-        correctAnswer: AlgorithmUsed[motstanderNavn],
-      },
-      {
-        question: "What is the time complexity of the algorithm utilized by " + motstanderNavn + "?",
-        options: ["1", "n", "log(n)", "n*log(n)", "n*m^2", "log(n^2)", "n*log(n^2)", "n^3"],
-        correctAnswer: AlgorithmOptions[motstanderNavn],
-      },
-      {
-        question: "What is the probability that " + motstanderNavn + " hits the right answer on the third try, based on algorithm utilized by Kidy and number of boxes?",
-        options: ["25%", "33%", "50%", "100%"],
-        correctAnswer: "100%", // Provide the correct answer
-      },
-      // Add more questions as needed
-    ];
-    
+  const [questions, setQuestions] = useState([]);
+  useEffect(() => {
+    const shuffledQuestions = quizQuestions.map((question) => {
+      return { ...question, options: shuffleArray(question.options.slice()) };
+    });
+    setQuestions(shuffledQuestions);
+    //Last question, randomly choose to show either worst case scenario: n or Average attempts: (n+1)/2
 
+
+  }, [likelihood]);
 
     const [isLoading, setIsLoading] = useState(true);
     const [retryCount, setRetryCount] = useState(0);
@@ -136,6 +175,7 @@ function Arena(){
           setmotstanderNavn(data.algorithm);
           setAlgoritmeValgteElementer(data.valgte_elementer);
           setEnemiesPlayed(data.enemies_played);
+          setAntallBokser(data.gameboard.length);
           //setRetryCount(0); // Reset retry count upon successful fetch
         } catch (error) {
           if (retryCount < MAX_RETRIES) {
@@ -156,7 +196,121 @@ function Arena(){
     
     
     
-    
+    useEffect(() => {
+      let choosenBoxes = Math.floor(Math.random() * 3 )+1;
+      let k = choosenBoxes;
+      if(choosenBoxes===1){
+        setForsokNumber(choosenBoxes+"st");
+      }else if(choosenBoxes===2){
+        setForsokNumber(choosenBoxes+"nd");
+      }else{
+        setForsokNumber(choosenBoxes+"rd");
+      }
+      
+      const n = antallBokser;
+      let probability;
+      let textProbability;
+      const i = choosenBoxes-1
+
+      if(motstanderNavn==="Tesla"){
+          let averageNumber = Math.floor(((antallBokser+1)/2));
+          let averageNumberFakeGjennomsnitt = Math.ceil(((antallBokser-1)/3));
+          let averageNumberFakeGjennomsnitt2 = Math.ceil((antallBokser/4));
+          setLastQuestion("What is the average attempts for "+motstanderNavn+" to find the correct answer?");
+          setNumberOfAttempts("(n+1)/2 = "+averageNumber+"");
+          setNumberOfAttemptsFake1("(n-1)/3 = "+averageNumberFakeGjennomsnitt+"");
+          setNumberOfAttemptsFake2("n/4 = "+averageNumberFakeGjennomsnitt2+"");
+          setNumberOfAttemptsFake3("n = "+antallBokser);
+      }else{
+        setLastQuestion("Considering the algorithm "+motstanderNavn+" uses and the number of boxes ("+antallBokser+"), what is the worst-case scenario for the 'Number of Attempts' it would take to find the correct answer?")
+      }
+
+
+      if(motstanderNavn==="Kidy"){
+        probability=1/(n-i);
+        let fakeProb = ((probability*2)*100).toFixed(1)+"%";
+        if (choosenBoxes===1){
+          textProbability = "P(X=" + i + ") = 1/(n-x) = 1/n";
+          setFakeAnswer1("P(X=" + i + ") = 1/(n-x) = 1/n-2");
+          setFakeAnswer2(fakeProb);
+          setFakeAnswer3("P(X=" + i + ") = 1/(n-x) = n/x")
+        }else{
+          textProbability = "P(X=" + i + ") = 1/(n-x) = 1/(n-"+i+")";
+          setFakeAnswer1("P(X=" + i + ") = 1/(n-x) = 1/n");
+          setFakeAnswer2(fakeProb);
+          setFakeAnswer3("P(X=" + i + ") = 1/(n-x) = n/x")
+        }
+        //Last question about worst case scenario
+        setNumberOfAttempts("n");
+        setNumberOfAttemptsFake1("Depends on chance");
+        setNumberOfAttemptsFake2("n/2");
+        setNumberOfAttemptsFake3("Depends on precision");
+      }
+      else if(motstanderNavn==="Tesla"){
+        probability=1/n;
+        let fakeProb = ((probability*2)*100).toFixed(1)+"%";
+        let fakeProb2 = ((probability/2)*100).toFixed(1)+"%";
+        setFakeAnswer1(fakeProb2);
+        setFakeAnswer2(fakeProb);
+        setFakeAnswer3("P(X=" + i + ") = n/" + n*2)
+        textProbability = "P(X=" + i + ") = 1/" + n;
+        
+      }
+      else if(motstanderNavn==="Alan"){ //mark that we assume the worst case scenario here, and that we elimate the other half we dont choose in binary nature 
+
+        probability = 1 / Math.ceil(n / Math.pow(2, k - 1));
+        let fakeProb = ((probability*2)*100).toFixed(1)+"%";
+        let fakeProb2 = ((probability/2)*100).toFixed(1)+"%";
+        
+        textProbability="n / 2^(k-1)";
+        setFakeAnswer1(fakeProb2);
+        setFakeAnswer2(fakeProb);
+        setFakeAnswer3("P(X=" + i + ") = 3/2n = 3/"+2*n+"");
+        // if(choosenBoxes===3){
+        //   probability=4/n;
+
+        //   textProbability="P(X=" + i + ") = 4/n = 4/"+n+"";
+        //   setFakeAnswer1(fakeProb2);
+        //   setFakeAnswer2(fakeProb);
+        //   setFakeAnswer3("P(X=" + i + ") = 3/2n = 3/"+2*n+"");
+
+        // }else if(choosenBoxes===2){ //if i = 1 or i = 2. We have that, when i=1; 1/n, and when i=2; 2/n
+        //   probability=2/n;
+        //   let fakeProb = ((probability*2)*100).toFixed(1)+"%";
+        //   let fakeProb2 = ((probability/2)*100).toFixed(1)+"%";
+        //   textProbability=2+"/"+n+"";
+        //   setFakeAnswer1(fakeProb2);
+        //   setFakeAnswer2(fakeProb);
+        //   setFakeAnswer3("P(X=" + i + ") = 6/4n = 3/"+2*n+"");
+        // }
+        // else{
+        //   probability=1/n;
+        //   let fakeProb = ((probability*2)*100).toFixed(1)+"%";
+        //   let fakeProb2 = ((probability/2)*100).toFixed(1)+"%";
+        //   textProbability=1+"/"+n+"";
+        //   setFakeAnswer1(fakeProb2);
+        //   setFakeAnswer2(fakeProb);                                                                     
+        //   setFakeAnswer3("P(X=" + i + ") = 9/2n = 9/"+2*n+"");
+        // }
+        let binaryAttempts = Math.floor(Math.log2(n)+1);
+        let binaryAttemptsFake1 = Math.floor((n-2)/2);
+        let binaryAttemptsFake2 = Math.ceil(Math.log10(n));
+        setNumberOfAttempts("log2("+n+") = "+binaryAttempts);
+        setNumberOfAttemptsFake2("(n-2)/2 = "+binaryAttemptsFake1);
+        setNumberOfAttemptsFake1("log10("+n+") = "+binaryAttemptsFake2);
+        setNumberOfAttemptsFake3("n = "+n);
+      }
+
+      let showLikelihood = Math.floor(Math.random() * 2) +1;
+      if (showLikelihood === 1){
+        setLikelihood((probability*100).toFixed(1)+"%");
+      }
+      else{
+        setLikelihood(textProbability);
+      }
+      
+
+    }, [motstanderNavn, forsokNumber]); //re-renders each time mostanderNavn changes, a dependency who to say, when the enemy known; calculate probability
 
 
 
@@ -274,9 +428,11 @@ function Arena(){
         // Set feedback for wrong answer
         setFeedback("Wrong Answer");
         setCorrectQuizAnswer(false);
+        setTimeout(() => {
+          setQuizOpen(false);
+          setQuizClosed(true);
+        }, 1000)
       }
-
-      
 
       const buttonElement = document.querySelector(`button[value="${selectedAnswer}"]`);
 
@@ -306,14 +462,6 @@ function Arena(){
         setFeedback(null);
       }, 1000); // Adjust timing as needed for transition duration
     };
-    
-    
-
-
-      
-    const startQuiz = () => {
-      
-    }
   
     const nextRound = async () => {
       const postData = {"poeng": score, "bruker_fant": brukerFantSvar};
@@ -417,7 +565,7 @@ function Arena(){
             <h1 className='resultText'>{resultText} {maskinTall == answer ?<div> <p style={{fontWeight: 400}}>The Algorithm Won</p><div className='scoreText'><p className='ArenaHeadline'>+{score} <span style={{fontWeight: 400}}> Points</span> </p></div></div> 
             : <p></p>}</h1>
             {svarFunnet ?
-            <div className='scoreText'><p className='ArenaHeadline'>Points + {score} </p></div>
+            <div className='scoreText'><p className='ArenaHeadline'>+{score} Points Earned</p></div>
             :
             <p></p>}
             </div>
@@ -426,7 +574,8 @@ function Arena(){
 
             <div className="containerMystery">
               <div className="containerMysteryText">
-                <p className="mysteryText">Are u willing to take a test about your enemy, to get on the top of the leaderboard. This will train you to the next rounds. A high risk high reward quiz. </p>
+                <p className="mysteryText">Are you willing to take a test about your enemy to climb to the top of the leaderboard? This will prepare you for the next rounds. 
+                Remember, if you fail a question, the quiz will end, and you will only keep the points you've earned so far. It's a high-risk, high-reward opportunity. </p>
               </div>
               <div className="containerMysteryBtn">
                 <btn className="button-49 mysteryBtn" onClick={() => setQuizOpen(true)}>?</btn>
@@ -451,7 +600,7 @@ function Arena(){
                 <div className="questionContent">
                   <p className='timeComplexityText'>{quizQuestions[currentQuestionIndex].question}</p>
                   <div className='timeComplexityOptionsContainer'>
-                    {quizQuestions[currentQuestionIndex].options.map((option, optionIndex) => (
+                    {questions[currentQuestionIndex].options.map((option, optionIndex) => (
                       <button
                         key={optionIndex}
                         value={option} // Set the value attribute to the option value
@@ -469,9 +618,10 @@ function Arena(){
                 </div>
               </div>
               {currentQuestionIndex === 2 && 
-                <div><p className="timeComplexityText" style={{fontSize: 14}}>This question is particularly important for understanding, through statistics, the efficiency and inefficiency of different algorithms in certain circumstances, with more and less boxes to choose between.</p></div>
+                <div><p className="timeComplexityText" style={{fontSize: 14}}>This question is especially important for understanding the efficiency and inefficiency of different algorithms in various circumstances, depending on the number of boxes. 
+                Remember, the answer is placed randomly among n boxes. To clarify the equations, it's important to note that only Alan receives signals about the green box's location, which means he knows which side to "cut" in each attempt. </p></div>
               }
-              <div><p className="timeComplexityText" >1p per question</p> </div>
+              <div><p className="timeComplexityText" >1p per question. Difficulty: {quizQuestions[currentQuestionIndex].difficulty} </p> </div>
             </div>
           </div>
         )}
