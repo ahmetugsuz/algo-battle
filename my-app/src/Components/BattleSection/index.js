@@ -619,7 +619,11 @@ function Arena(){
               </div>
               {currentQuestionIndex === 2 && 
                 <div><p className="timeComplexityText" style={{fontSize: 14}}>This question is especially important for understanding the efficiency and inefficiency of different algorithms in various circumstances, depending on the number of boxes. 
-                Remember, the answer is placed randomly among n boxes. To clarify the equations, it's important to note that only Alan receives signals about the green box's location, which means he knows which side to "cut" in each attempt. </p></div>
+                Remember, the answer is placed randomly among n boxes and independent from user choice. To clarify the equations, it's important to note that only Alan receives signals about the green box's location, which means he knows which side to "cut" in each attempt. </p></div>
+              }
+              {currentQuestionIndex === 3 && 
+                <div><p className="timeComplexityText" style={{fontSize: 14}}>This question is especially important for understanding the efficiency and inefficiency of different algorithms in various circumstances, depending on the number of boxes. 
+                Remember, the answer is placed randomly among n boxes and independent from user choice. To clarify the equations, it's important to note that only Alan receives signals about the green box's location, which means he knows which side to "cut" in each attempt. </p></div>
               }
               <div><p className="timeComplexityText" >1p per question. Difficulty: {quizQuestions[currentQuestionIndex].difficulty} </p> </div>
             </div>
