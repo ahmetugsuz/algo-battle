@@ -257,6 +257,7 @@
     align-items: center; /* Center items horizontally */
     justify-content: space-between; /* Distribute items evenly along the vertical axis */
     height: 80%; /* Adjust the height as needed */
+    width: 92%;
     padding-top: 20px; /* Add some space at the top */
 }
 

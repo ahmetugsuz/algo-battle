@@ -10,28 +10,17 @@ function Arena(){
 
     const [data, setData] = useState([]);
     const [motstanderNavn, setmotstanderNavn] = useState(null);
-    const [motstanderBilde, setMotstanderBilde] = useState(null);
     const [answer, setAnswer] = useState(null);
     const [svarFunnet, setSvarFunnet] = useState(false);
     const [resultText, setResultText] = useState("");
-    const [robotValg, setRobotValg] = useState([]);
     const [maskinTall, setMaskinTall] = useState(null)
-    const [keyPropertyBox, setKeyPropertyBox] = useState(null);
-    const [maskinFarge, setMaskinFarge] = useState("black");
-    const [maskinValg, setMaksinValg] = useState(null);
     const [brukerFantSvar, setBrukerFantSvar] = useState(false)
     const [score, setScore] = useState(0)
     const [KompleksitetBesvart, setKompleksitetBesvart] = useState(false);
-    const [KompleksitetRigktigBesvart, setKompleksitetRigktigBesvart] = useState();
-    const [kompleksitetColor, setKompleksitetColor] = useState();
-    const [counter, setCounter] = useState(0);
-    const [teller, setTeller] = useState(0);
     const [alleClickedElements, setAlleClickedElements] = useState([]);
     const [valgteElementer, setValgteElementer] = useState([]);
     const [algoritmeValgteElementer, setAlgoritmeValgteElementer] = useState([]);
-    const [enemiesPlayed, setEnemiesPlayed] = useState([]);
-    const [backtrackingList, setBacktrackingList] = useState([]); // is actually same as enemies played, holding list from frontend side
-    const [spamText, setSpamText] = useState(null);
+    const [enemiesPlayed, setEnemiesPlayed] = useState([]); // can be used
     const [konstTeller, setKonstTeller] = useState(1);
     const [ventPaaMotstander, setVentPaaMotstander] = useState(false);
     const [algorithmChat, setAlgorithmChat] = useState("You can start to choose a box");
@@ -51,14 +40,9 @@ function Arena(){
     const [numberOfAttemptsFake2, setNumberOfAttemptsFake2] = useState();
     const [numberOfAttemptsFake3, setNumberOfAttemptsFake3] = useState();
     const [lastQuestion, setLastQuestion] = useState("What is the average attempts for Tesla to find the correct answer?");
-    const [quickNotesQuiz, setQuickNotesQuiz] = useState("");
-    const [possibleAnswersLikelihood, setPossibleAnswesLikelihood] = useState([]);
-    const [showAverage, setShowAverage] = useState(1);
 
     var valgteBokser = [];
-    let spilteMotstandere = [];
-    let konstantTeller = 0;
-    let counterRun = 0;
+
     const AlgorithmOptions = {
       "Tesla": "n",
       "Alan": "log(n)",
@@ -117,7 +101,7 @@ function Arena(){
       difficulty: "medium",
     },
     {
-      question: "What is the probability that " + motstanderNavn + " hits the right answer on the "+ forsokNumber +" try, based on algorithm utilized by "+ motstanderNavn +" and number of boxes ("+antallBokser+")?",
+      question: "What is the probability that " + motstanderNavn + " hits the right answer on the (k+1) = "+ forsokNumber +" try, based on algorithm utilized by "+ motstanderNavn +" and number of boxes ("+antallBokser+")?",
       options: [fakeAnswer1, fakeAnswer2, fakeAnswer3, likelihood],
       correctAnswer: likelihood,
       difficulty: "hard",
@@ -153,8 +137,6 @@ function Arena(){
         try {
           const res = await fetch("/arena?t=" + Date.now());
           const data = await res.json();
-
-          console.log("Data fetched:", data);
           
           if (data.algorithm === '') {
             console.log("RetryCount at", retryCount);
@@ -194,8 +176,6 @@ function Arena(){
       fetchData(); // Fetch data on mount
     }, [retryCount]); // Retry count as dependency
     
-    
-    
     useEffect(() => {
       let choosenBoxes = Math.floor(Math.random() * 3 )+1;
       let k = choosenBoxes;
@@ -225,20 +205,21 @@ function Arena(){
         setLastQuestion("Considering the algorithm "+motstanderNavn+" uses and the number of boxes ("+antallBokser+"), what is the worst-case scenario for the 'Number of Attempts' it would take to find the correct answer?")
       }
 
-
       if(motstanderNavn==="Kidy"){
         probability=1/(n-i);
         let fakeProb = ((probability*2)*100).toFixed(1)+"%";
+        let fakeProb2 = fakeProb*2;
         if (choosenBoxes===1){
-          textProbability = "P(X=" + i + ") = 1/(n-x) = 1/n";
-          setFakeAnswer1("P(X=" + i + ") = 1/(n-x) = 1/n-2");
+          let fakeBeregning = n-i;
+          textProbability = "P(K=" + i + ") = 1/n";
+          setFakeAnswer1("P(K=" + i + ") = 1/n-2");
           setFakeAnswer2(fakeProb);
-          setFakeAnswer3("P(X=" + i + ") = 1/(n-x) = n/x")
+          setFakeAnswer3(fakeProb2);
         }else{
-          textProbability = "P(X=" + i + ") = 1/(n-x) = 1/(n-"+i+")";
-          setFakeAnswer1("P(X=" + i + ") = 1/(n-x) = 1/n");
+          textProbability = "P(K=" + i + ") = 1/(n-k) = 1/(n-"+i+")";
+          setFakeAnswer1("P(K=" + i + ") = 1/(2n-k)");
           setFakeAnswer2(fakeProb);
-          setFakeAnswer3("P(X=" + i + ") = 1/(n-x) = n/x")
+          setFakeAnswer3(fakeProb2);
         }
         //Last question about worst case scenario
         setNumberOfAttempts("n");
@@ -250,22 +231,21 @@ function Arena(){
         probability=1/n;
         let fakeProb = ((probability*2)*100).toFixed(1)+"%";
         let fakeProb2 = ((probability/2)*100).toFixed(1)+"%";
+        let n2 = n*2;
         setFakeAnswer1(fakeProb2);
         setFakeAnswer2(fakeProb);
-        setFakeAnswer3("P(X=" + i + ") = n/" + n*2)
-        textProbability = "P(X=" + i + ") = 1/" + n;
-        
+        setFakeAnswer3("n/" + n*2 +" = "+n+"/"+n2+"")
+        textProbability = "1/n = 1/" + n;
       }
       else if(motstanderNavn==="Alan"){ //mark that we assume the worst case scenario here, and that we elimate the other half we dont choose in binary nature 
-
         probability = 1 / Math.ceil(n / Math.pow(2, k - 1));
         let fakeProb = ((probability*2)*100).toFixed(1)+"%";
         let fakeProb2 = ((probability/2)*100).toFixed(1)+"%";
         
-        textProbability="n / 2^(k-1)";
+        textProbability="P(K = "+i+") = 1 / (n / 2^(k-1))";
         setFakeAnswer1(fakeProb2);
         setFakeAnswer2(fakeProb);
-        setFakeAnswer3("P(X=" + i + ") = 3/2n = 3/"+2*n+"");
+        setFakeAnswer3("P(K = "+i+") = 2/(n-k)");
         // if(choosenBoxes===3){
         //   probability=4/n;
 
@@ -308,11 +288,7 @@ function Arena(){
       else{
         setLikelihood(textProbability);
       }
-      
-
     }, [motstanderNavn, forsokNumber]); //re-renders each time mostanderNavn changes, a dependency who to say, when the enemy known; calculate probability
-
-
 
     const checkAnswer = (event) => {
       const selectedUserValue = parseInt(event.target.value);
@@ -324,7 +300,6 @@ function Arena(){
         setSvarFunnet(true);
         return; // exit if answer found by user
       } else {
-
         event.target.style.backgroundColor = "red"; // Change color directly here
         event.target.disabled = true; // Disable incorrect selections
         setSvarFunnet(false);
@@ -345,26 +320,32 @@ function Arena(){
       setKonstTeller(updatedKonstTeller);
       
       setAlleClickedElements([...alleClickedElements, selectedMachineValue, selectedUserValue]);
-      console.log("All clicked elements: ", alleClickedElements);
       
       valgteBokser.push(selectedMachineValue);
       valgteBokser.push(selectedUserValue);
       let delay = 1000;
+      let delayUserClick = 500;
       if (motstanderNavn === "Alan"){
         delay = Math.floor(Math.random() * (3500 - 1000 + 1)) + 1000;
+        delayUserClick = 800;
       } else if(motstanderNavn === "Kidy"){
-        delay = Math.floor(Math.random() * (1200 - 350 + 1)) + 350;
+        delay = Math.floor(Math.random() * (800 - 450 + 1)) + 450;
+        delayUserClick = 370;
       } else if(motstanderNavn === "Tesla"){
-        delay = Math.floor(Math.random() * (600 - 50 + 1)) + 50;
+        delay = Math.floor(Math.random() * (600 - 350 + 1)) + 350;
+        delayUserClick = 300;
       }
+
+      // delay and function for when user click on btn will be brown red, NOT MACHINE.
+      setTimeout(() => {
+        event.target.style.backgroundColor = "brown";
+      }, delayUserClick);
 
       // Getting a random chat/answer from the algorithm out from the dictionary with a list for each algorithm.
       const listLength = talkingBubble[motstanderNavn].list.length;
       let randomChat = Math.floor(Math.random() * listLength);
       const randomChatMessage = talkingBubble[motstanderNavn].list[randomChat];
       setAlgorithmChat(randomChatMessage);
-
-      console.log("The Delay is: ", delay);
       setTimeout(() => {        
         setMaskinTall(selectedMachineValue); // setter tallat maskinen har valgt.  
         setVentPaaMotstander(false);
@@ -372,52 +353,28 @@ function Arena(){
       
     };
 
-    
-  
-    function checkMaskin(key){     
+    function checkMaskin(key){   
       if(key === maskinTall-1){
         valgteElementer.push(key)
         if(maskinTall == answer){
           return "green";
         }
-        //console.log(maskinValg)
         return "red"
-        
+
       }else{
         for (let i = 0; i < valgteElementer.length; i++){
           if (valgteElementer[i] == key){
-            return "red";
+            return "brown";
           }
         }
       }
     } 
-
-    const handleKompleksitet = (props) => {
-      const knapp = document.getElementById(props); // henter knappen som blir trykket, så vi kan endre fargen på den
-      if(AlgorithmOptions[motstanderNavn] == props || (motstanderNavn == "Kidy" && props == "1")){ // Vi godtar også randomly selection til å være 1 og n
-        //console.log("Right")
-        setScore(score+5)
-        setKompleksitetRigktigBesvart("Right Answer")
-        knapp.style.backgroundColor = "green";
-      }else{
-        //console.log("Wrong")
-        setScore(score+0)
-        setKompleksitetRigktigBesvart("Wrong")
-        knapp.style.backgroundColor = "red";
-      }
-      setKompleksitetBesvart(true);
-      setTimeout(() => {
-        setKompleksitetBesvart(false); // Reset answer state
-        setCurrentQuestionIndex(prevCurrentQuestionIndex => prevCurrentQuestionIndex + 1); // Move to next question
-      }, 1000); // Adjust timing as needed for transition duration
-    }
 
     const handleAnswer = (selectedAnswer) => {
       // Determine the correct answer based on the current question index
       const currentQuestion = quizQuestions[currentQuestionIndex];
       const correctAnswer = currentQuestion.correctAnswer;
     
-
       // Check if the selected answer matches the correct answer
       if (selectedAnswer === correctAnswer) {
         // Update score and set feedback for correct answer
@@ -474,16 +431,12 @@ function Arena(){
             'Content-Type': 'application/json'
           }
         });
-    
-        if (response.status === 200) {
-          console.log("Success");
-        } else {
+        if (response.status !== 200) {
           console.log("Error! ", response);
         }
       } catch (error) {
         console.error(error);
       }
-    
       navigate('/optionpage');
     };
 
@@ -501,7 +454,6 @@ function Arena(){
                 <p className='gameTips'>Some robots receive signals indicating the location of a hidden green box every time they reveal a box. 
                   To increase your chances of success, it may be beneficial to crack the algorithm beforehand.</p>
                 <p className='gameTips'>Click on any box to start the game. It is randomly determined who will start.</p>
-                <img src={motstanderBilde} />
               </div>
               )}
             </div>
@@ -558,95 +510,88 @@ function Arena(){
                 </p> 
             </div>
             : <p></p>
-            }
+            }         
 
-         
             <div className='resultater'>
-            <h1 className='resultText'>{resultText} {maskinTall == answer ?<div> <p style={{fontWeight: 400}}>The Algorithm Won</p><div className='scoreText'><p className='ArenaHeadline'>+{score} <span style={{fontWeight: 400}}> Points</span> </p></div></div> 
-            : <p></p>}</h1>
-            {svarFunnet ?
-            <div className='scoreText'><p className='ArenaHeadline'>+{score} Points Earned</p></div>
-            :
-            <p></p>}
+              <h1 className='resultText'>{resultText} {maskinTall == answer ?<div> <p style={{fontWeight: 400}}>The Algorithm Won</p><div className='scoreText'><p className='ArenaHeadline'>+{score} <span style={{fontWeight: 400}}> Points</span> </p></div></div> 
+              : <p></p>}</h1>
+              {svarFunnet ?
+              <div className='scoreText'><p className='ArenaHeadline'>+{score} Points Earned</p></div>
+              :
+              <p></p>}
             </div>
-            
-            {(maskinTall === answer || svarFunnet) && !quizClosed &&
 
-            <div className="containerMystery">
-              <div className="containerMysteryText">
-                <p className="mysteryText">Are you willing to take a test about your enemy to climb to the top of the leaderboard? This will prepare you for the next rounds. 
-                Remember, if you fail a question, the quiz will end, and you will only keep the points you've earned so far. It's a high-risk, high-reward opportunity. </p>
+            {(maskinTall === answer || svarFunnet) && !quizClosed &&
+              <div className="containerMystery">
+                <div className="containerMysteryText">
+                  <p className="mysteryText">Are you willing to take a test about your enemy to climb to the top of the leaderboard? This will prepare you for the next rounds. 
+                  Remember, if you fail a question, the quiz will end, and you will only keep the points you've earned so far. It's a high-risk, high-reward opportunity. </p>
+                </div>
+                <div className="containerMysteryBtn">
+                  <btn className="button-49 mysteryBtn" onClick={() => setQuizOpen(true)}>?</btn>
+                </div>
               </div>
-              <div className="containerMysteryBtn">
-                <btn className="button-49 mysteryBtn" onClick={() => setQuizOpen(true)}>?</btn>
-              </div>
-            </div>
             }
 
             {svarFunnet || maskinTall == answer ?  <div className='nextBtnContainer'><button className='nextBtn' onClick={nextRound}>Continue </button></div>:
               <></>
             }
+
           </div>
+
           {quizOpen && (
-          <div className="quizContainer">
-            <div className="quizWindow">
-              <div style={{}} onClick={() => setQuizOpen(false)}>
-                <CloseIcon />
-              </div>
-              <div className={`quizQuestion `}>
-                <div className="questionHeader">
-                  <h3>Question {currentQuestionIndex + 1}</h3>
+            <div className="quizContainer">
+              <div className="quizWindow">
+                <div style={{}} onClick={() => setQuizOpen(false)}>
+                  <CloseIcon />
                 </div>
-                <div className="questionContent">
-                  <p className='timeComplexityText'>{quizQuestions[currentQuestionIndex].question}</p>
-                  <div className='timeComplexityOptionsContainer'>
-                    {questions[currentQuestionIndex].options.map((option, optionIndex) => (
-                      <button
-                        key={optionIndex}
-                        value={option} // Set the value attribute to the option value
-                        className={`complexityOption1 timeComplexityBtn `}
-                        onClick={() => handleAnswer(option)}
-                        disabled={KompleksitetBesvart}
-                      >
-                        {option}
-                      </button>
-                    ))}
+                <div className={`quizQuestion `}>
+                  <div className="questionHeader">
+                    <h3>Question {currentQuestionIndex + 1}</h3>
                   </div>
-                </div>
-                <div className="questionContent">
-                  <p className='resultComplexityAnswerT'>{feedback}</p>
-                </div>
+                  <div className="questionContent">
+                    <p className='timeComplexityText'>{quizQuestions[currentQuestionIndex].question}</p>
+                    <div className='timeComplexityOptionsContainer'>
+                      {questions[currentQuestionIndex].options.map((option, optionIndex) => (
+                        <button
+                          key={optionIndex}
+                          value={option} // Set the value attribute to the option value
+                          className={`complexityOption1 timeComplexityBtn `}
+                          onClick={() => handleAnswer(option)}
+                          disabled={KompleksitetBesvart}
+                        >
+                          {option}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="questionContent">
+                    <p className='resultComplexityAnswerT'>{feedback}</p>
+                  </div>
               </div>
-              {currentQuestionIndex === 2 && 
+              {(currentQuestionIndex === 2 || currentQuestionIndex === 3) && 
                 <div><p className="timeComplexityText" style={{fontSize: 14}}>This question is especially important for understanding the efficiency and inefficiency of different algorithms in various circumstances, depending on the number of boxes. 
-                Remember, the answer is placed randomly among n boxes and independent from user choice. To clarify the equations, it's important to note that only Alan receives signals about the green box's location, which means he knows which side to "cut" in each attempt. </p></div>
-              }
-              {currentQuestionIndex === 3 && 
-                <div><p className="timeComplexityText" style={{fontSize: 14}}>This question is especially important for understanding the efficiency and inefficiency of different algorithms in various circumstances, depending on the number of boxes. 
-                Remember, the answer is placed randomly among n boxes and independent from user choice. To clarify the equations, it's important to note that only Alan receives signals about the green box's location, which means he knows which side to "cut" in each attempt. </p></div>
+                Remember, the answer the green box is placed randomly among n boxes, and the quiz does not take into account user choices. Therefore, the quiz answer is independent of your choices. To clarify the equations, it's important to note that only Alan receives signals about the green box's location, which means he knows which side to "cut" in each attempt. </p></div>
               }
               <div><p className="timeComplexityText" >1p per question. Difficulty: {quizQuestions[currentQuestionIndex].difficulty} </p> </div>
             </div>
           </div>
         )}
+
       </div>
     )
     }
 
-
     return (
       <div className='arenaContainer'>
-
-      {isLoading ? (
-      <div className="loadingAttribute">
-        <p>Loading Data...</p> 
+        {isLoading ? (
+        <div className="loadingAttribute">
+          <p>Loading Data...</p> 
+        </div>
+        ) : (
+          componentData() // Render component when isLoading is false
+        )}
       </div>
-      ) : (
-        componentData() // Render component when isLoading is false
-      )}
-
-      </div>
-
     );
     
 }
