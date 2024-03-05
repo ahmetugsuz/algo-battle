@@ -6,7 +6,7 @@
 
 
 .battleContainer{
-    width: 70%;
+    width: 80%;
     height: 100%;
     background-color: rgba(105, 109, 115, 0.214);
     margin: auto;
@@ -59,13 +59,13 @@
 .btnBoxes{
     padding: 10px;
     width: 50px;
-    color: white;
-    background-color: black;
+    font-weight: 600;
+
 }
 
 .btnBoxes:hover{
     cursor: pointer;
-    background-color: lightblue;
+
 }
 
 .battleBottomSection{
@@ -171,7 +171,6 @@
 }
 
 .containerMystery{
-
     align-items: center;
     width: 550px;
     padding-top: 20px;
@@ -199,13 +198,14 @@
     align-items: center;
     display: flex;
     margin: auto;
-    width: 100px;
+    width: 98px;
     text-align: center;
 }
 
 .mysteryBtn{
     font-size: 50px;
     color: aqua;
+    margin-left: -10px;
 }
 
 .quizContainer{
@@ -257,7 +257,7 @@
     align-items: center; /* Center items horizontally */
     justify-content: space-between; /* Distribute items evenly along the vertical axis */
     height: 80%; /* Adjust the height as needed */
-    width: 92%;
+    width: 88%;
     padding-top: 20px; /* Add some space at the top */
 }
 
@@ -321,6 +321,52 @@
     display: flex;
     flex-direction: row;
 
+}
+
+@media screen and (max-width: 1600px) {
+
+    .infoBattle{
+        padding-top: 10px;
+    }
+
+    .boxesContainer{
+        padding-top: 5px;
+    }
+
+    .battleBottomSection{
+        margin-top: -80px;
+    }
+
+    .infoContainerArena{
+        padding-top: 20px;
+    }
+
+    .resultText{
+        font-size: 15px;
+    }
+
+    .algorithmChoiceContainer{
+        margin-top: -20px;
+        font-size: calc(1vw);
+        
+    }
+
+    .AlgorithmChooseText{
+        margin-bottom: -20px;
+    }
+
+    .algorithmBubbleChat{
+        font-size: calc(1.1vw);
+    }
+
+    .quizContainer{
+        padding-top: 50px;
+    }
+
+    .quizWindow{
+        width: 800px;
+        height: 770px;
+    }
 }
 
 

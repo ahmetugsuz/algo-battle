@@ -49,7 +49,6 @@ function ResultPage(){
       .then((res) => res.json())
       .then((data) => {
         setUserData(data)
-        console.log(data)
       })
     }, [nyttDataCounter]);
 
@@ -102,8 +101,7 @@ function ResultPage(){
               .then((res) => res.json())
               .then(data => {
                 // do something with the data returned from the server
-                //console.log("mottat")
-                //console.log(data.feedback)
+
                 //setFeedback(data.feedback)
               })
               .catch(error => {
@@ -146,7 +144,6 @@ function ResultPage(){
               }
             })
           }
-          console.log(data.enemies_played)
         })
       .catch(error => {
           // handle any errors that may occur

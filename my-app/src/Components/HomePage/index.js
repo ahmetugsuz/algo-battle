@@ -26,7 +26,7 @@ function HomePage() {
               }
             })
           }
-          console.log(data.enemies_played)
+          //console.log(data.enemies_played) // it should be empty
           navigate('/optionpage')
         })
       .catch(error => {

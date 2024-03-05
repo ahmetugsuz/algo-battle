@@ -33,7 +33,6 @@
     font-size: 2rem;
     letter-spacing: 0.05rem;
     font-family: 'Courier New', Courier, monospace;
-    color: aqua;
     font-weight: 600;
 }
 
@@ -63,6 +62,7 @@
 
 .GameStartContainer{
     margin: auto;
+    margin-top: 50px;
 }
 
 .BtnToOptions{
@@ -226,7 +226,7 @@
 @media (min-width: 1310px) {
   .button-49,
   .button-49:after {
-    width: 130px;
+    width: 105px;
     height: 86px;
     line-height: 88px;
     font-size: 20px;

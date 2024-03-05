@@ -41,10 +41,8 @@ function OptionPage(){
           }
         }).then((res) => res.json())
         .then(response => {
-          if (response.status === 200) {
-            console.log("Success")
-          } else {
-            // do something with the data returned from the server
+          if (response.status !== 200) {
+            // Some issue from the server
             console.log(response)
           }
           }).then(() => {
@@ -73,10 +71,9 @@ function OptionPage(){
             if (data.enemies_played.length > enemiesPlayed.length){
               setEnemiesPlayed(data.enemies_played);
             }
-            console.log("previos: ",previousTotalScore)
             if (previousTotalScore > data.total_points) {
               // previous TotalScore was higher
-              console.log('Previous TotalScore was higher');
+              //console.log('Previous TotalScore was higher');
             }
             if (data.total_points > TotalScore){
               setTotalScore(data.total_points);
@@ -112,10 +109,10 @@ function OptionPage(){
         teller++
       }
       if(teller >= 3){
-        console.log("Showing final rusults")
+        //console.log("Showing final rusults")
         setFinalResults(true);
         setShowResults(true);
-        console.log("YES the showResult is now true -- DEBUG 2")
+        //console.log("YES the showResult is now true -- DEBUG 2")
       }
 
       // Check for disabled states here, after the state updates have been applied
@@ -166,17 +163,17 @@ function OptionPage(){
         setAlgorimte(props)
         setValidAlgoritme(false);
         if(props === "Tesla"){
-          setColorTesla(colorTesla === 'white' ? 'green' : 'white');
+          setColorTesla(colorTesla === 'white' ? 'rgba(203, 26, 26, 0.931)' : 'white');
           setColorAlan("white");
           setColorKidy("white");
         }
         else if(props === "Alan"){
-          setColorAlan(colorAlan === 'white' ? 'green' : 'white');
+          setColorAlan(colorAlan === 'white' ? 'rgba(203, 26, 26, 0.931)' : 'white');
           setColorTesla("white");
           setColorKidy("white");
         }
         else if(props === "Kidy"){
-          setColorKidy(colorKidy === 'white' ? 'green' : 'white');
+          setColorKidy(colorKidy === 'white' ? 'rgba(203, 26, 26, 0.931)' : 'white');
           setColorAlan("white");
           setColorTesla("white");
         }
@@ -336,7 +333,6 @@ function OptionPage(){
               </div>
             </div>
             }
-          <p className='noteBugsT'>There may be some issues with the API call when retrieving data from the server. To resolve this, try refreshing the browser or switching to a different one (such as Google Chrome). </p>
           </div>
         </div>
       </div>

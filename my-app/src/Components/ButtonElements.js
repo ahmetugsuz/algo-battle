@@ -36,6 +36,14 @@ export const NextPageArrow = styled(RiArrowRightLine)`
     margin-top: 2px;
 `;
 
+export const RightSideArrow = styled(RiArrowRightLine)`
+    width: 25px;  // Set width for horizontal size
+    height: 25px; // Set height for vertical size
+    margin-left: -20px;
+    padding-right:14px;
+    color: #555;
+`;
+
 export const RefreshArrows = styled(HiOutlineRefresh)`
     transition: transform 0.5s ease;
     cursor: pointer;

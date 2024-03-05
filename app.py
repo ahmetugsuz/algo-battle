@@ -87,7 +87,7 @@ def start_game():
 
     for enemie in data["enemies_played"]:
         if enemie not in ENEMIES_PLAYED:
-            print("Error at ENEMIES PLAYED!! the enemies played doesent match")
+            print("--DEBUG-- Error at ENEMIES PLAYED!! the enemies played doesent match")
             ENEMIES_PLAYED.append(enemie)
 
     """
@@ -120,7 +120,7 @@ def arena():
     valgte_elementer = []
 
     if ALGORITME == "Tesla":
-        [valgte_elementer.append(i) for i in range(0, len(GAME_BOARD))]
+        [valgte_elementer.append(i) for i in range(0, len(GAME_BOARD)+1)]
     elif ALGORITME == "Alan":
         valgte_elementer = lag_binary_list()
     elif ALGORITME == "Kidy":
@@ -208,7 +208,7 @@ def get_users_db():
 
 
 def lag_game_board():
-    print("DEBUG: making game board")
+    print("--DEBUG-- Creating game board")
     global GAME_BOARD
     global ANSWER 
     global MIDLERTIDIG_TALL
@@ -310,15 +310,13 @@ def Kidy():
                 return Kidy()
             else:
                 return None
-    #print("Valgte tall fra Kidy er: ", tilfeldig_tall)
     control_receives()
     return tilfeldig_tall
 
 def double_check(valgte_tall):
     for i in ALL_CLICKED:
         if int(i) == int(valgte_tall):
-            print("Algoritme har valgt samme element")
-            return True
+            return True #Algoritme har valgt samme element
     return False
 
 def control_receives():
