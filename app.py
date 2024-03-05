@@ -5,17 +5,30 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 import random, time
 import os
+from sqlalchemy import create_engine
+
 
 
 app = Flask(__name__, static_folder='my-app/build', static_url_path='/')
 CORS(app)
-
+db_uri = 'mysql+pymysql://b9de329fa96869:edb01807@us-cdbr-east-06.cleardb.net/heroku_131b1afcdbd2c42?'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://b9de329fa96869:edb01807@us-cdbr-east-06.cleardb.net/heroku_131b1afcdbd2c42?'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'algobattle'
 app.config['CORS_HEADERS'] = 'Content-Type'
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
+
+engine = create_engine(db_uri)
+
+try:
+    # Try to connect to the database
+    with engine.connect():
+        print("Connection successful!")
+except Exception as e:
+    # If connection fails, print the error
+    print("Connection failed:")
+    print(e)
 
 
 
