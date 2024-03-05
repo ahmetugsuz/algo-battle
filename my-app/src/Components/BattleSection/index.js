@@ -71,7 +71,7 @@ function Arena(){
     };
 
     const winTalkMachine = {
-      "Tesla": "Yes I Won. By thinking straight forward, slow but secure.",
+      "Tesla": "I Won. By thinking straight forward, slow but secure.",
       "Alan": "I won HA HA! You need to understand my algorithmic brain to win over me!",
       "Kidy": "Can we now go to Disneyland?"
     }

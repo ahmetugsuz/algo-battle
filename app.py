@@ -4,6 +4,7 @@ from flask_cors import CORS, cross_origin # deploy
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 import random, time
+import os
 """
 app = Flask(__name__, static_folder='my-app/build', static_url_path='/static')
 CORS(app)
@@ -16,6 +17,9 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 """
 
+
+
+"""
 # Create Flask app
 app = Flask(__name__, static_folder='my-app/build', static_url_path='/')
 
@@ -26,8 +30,19 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # Configure local MySQL database
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:mysql@localhost/algobattle'
 
+"""
 
+app = Flask(__name__, static_folder='my-app/build', static_url_path='/')
+CORS(app)
 
+app.config['SECRET_KEY'] = 'algobattle'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+# Configure Heroku PostgreSQL database
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
+
+db = SQLAlchemy(app)
+migrate = Migrate(app, db)
 
 
 # Initialize SQLAlchemy and migration
