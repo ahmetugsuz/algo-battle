@@ -5,6 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 import random, time
 import os
+
 """
 app = Flask(__name__, static_folder='my-app/build', static_url_path='/static')
 CORS(app)
@@ -39,11 +40,7 @@ app.config['SECRET_KEY'] = 'algobattle'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Configure Heroku PostgreSQL database
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
-
-db = SQLAlchemy(app)
-migrate = Migrate(app, db)
-
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://b9de329fa96869:edb01807@us-cdbr-east-06.cleardb.net/heroku_131b1afcdbd2c42?'
 
 # Initialize SQLAlchemy and migration
 db = SQLAlchemy(app)
