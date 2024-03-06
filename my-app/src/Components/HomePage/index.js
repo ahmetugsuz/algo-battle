@@ -42,7 +42,7 @@ function HomePage() {
         <div className='InformationSection'>
           <div className='topHomePage'>
             <div className='infoSection'>
-              <p className='welcomeText'>Welcome To AlgoBattle</p>
+              <p className='welcomeText'> Welcome To AlgoBattle </p>
             </div>
           </div>
           
