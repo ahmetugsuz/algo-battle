@@ -20,3 +20,4 @@ SQLAlchemy
 typing_extensions
 Werkzeug==2.2.2
 zipp==3.13.0
+psycopg2-binary==2.9.7
