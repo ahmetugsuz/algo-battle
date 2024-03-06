@@ -65,7 +65,7 @@ migrate = Migrate(app, db)
 
 
 # Create Flask app
-app = Flask(__name__, static_folder='my-app/build', static_url_path='/static')
+app = Flask(__name__, static_folder='my-app/build', static_url_path='/')
 CORS(app)
 
 app.config['SECRET_KEY'] = 'mysql'
