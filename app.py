@@ -72,7 +72,7 @@ app.config['SECRET_KEY'] = 'mysql'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Heroku Postgres URI
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://u60sb86l93kiv6:pec990bfdd7e77fa388db7b43850d46d1f6f0d5dd11f60266e69e4fb6458b7452@cdgn4ufq38ipd0.cluster-czz5s0kz4scl.eu-west-1.rds.amazonaws.com:5432/dfn1js36r6tq3f'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://u60sb86l93kiv6:pec990bfdd7e77fa388db7b43850d46d1f6f0d5dd11f60266e69e4fb6458b7452@cdgn4ufq38ipd0.cluster-czz5s0kz4scl.eu-west-1.rds.amazonaws.com:5432/dfn1js36r6tq3f?sslmode=require'
 
 # Initialize SQLAlchemy and migration
 db = SQLAlchemy(app)
