@@ -2,17 +2,19 @@
     width: 100vw;
     height: 100vh;
     justify-content: center;
+    background-color:#f7f7f7;
 }
 
 .InformationSection{
-    width: 70%;
+    width: 80%;
     height: 100%;
-    background-color: rgba(35, 9, 186, 0.651);
+    background: linear-gradient(to top, rgb(142, 102, 210) 30%, rgb(174, 151, 201) 100%);
     margin: auto;
     display: block;
     justify-content: center;
     align-items: center;
     z-index: 0;
+    color: #333;
 }
 
 .topHomePage{
@@ -138,11 +140,11 @@
   line-height: 78px;
   
   font-family: 'Bebas Neue', sans-serif;
-  background: linear-gradient(45deg, transparent 5%, #FF013C 5%);
+  background: linear-gradient(45deg, transparent 5%, #f71046 5%);
   border: 0;
   color: #fff;
   letter-spacing: 3px;
-  box-shadow: 6px 0px 0px #00E6F6;
+  box-shadow: 6px 0px 0px #0ec0cd;
   outline: transparent;
   position: relative;
   user-select: none;
@@ -167,7 +169,7 @@
   right: 0;
   bottom: 0;
   background: linear-gradient(45deg, transparent 3%, #00E6F6 3%, #00E6F6 5%, #FF013C 5%);
-  text-shadow: -3px -3px 0px #F8F005, 3px 3px 0px #00E6F6;
+  text-shadow: -3px -3px 0px #F8F005, 3px 3px 0px #0ec0cd;
   clip-path: var(--slice-0);
 }
 

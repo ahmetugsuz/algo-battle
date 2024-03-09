@@ -37,7 +37,7 @@ function ResultPage(){
       setCounterChanges(counterChanges+1)
       settNyttDataCounter(nyttDataCounter +1)
 
-      setRefreshText("Refreshing. Collecting data points...")
+      setRefreshText("Refreshing. Updating table and Collecting data points...")
       const timeout = setTimeout(() => {
         setRefreshText('');
       }, 3000);
@@ -86,10 +86,9 @@ function ResultPage(){
         .then((data) => {
           if (data.includes(username.toLowerCase())) {
             setFeedback("Username Exists")
-            console.log("username exists")
           } else {
             setFeedback("SUCCESS")
-            console.log("Success on adding on new user")
+            //console.log("Success on adding on new user")
             setSuccess(true)
             fetch('/register_user_points', {
               method: 'POST',
@@ -168,6 +167,7 @@ function ResultPage(){
                 </div>
               </div>
               <div className='midResult'>
+                <div className='tableAndPContainer'>
                 <p className='LeaderboardHeadline'>Leaderboard</p>
                 <div className='tableContainer'>
                   <table className="table">
@@ -191,9 +191,10 @@ function ResultPage(){
                       </tbody>
                     </table>
                   </div>
+                  </div>
                   <div className='registerPointsContainer'>
                     <form className='inputUsernameContainer' onSubmit={handleNewUser}>
-                      <label className='registerTekst'>Register your points</label>
+                      <label className='registerTekst'>Register Your Points</label>
                       <input className='inputUsername' type="text" id='username' placeholder='Username' onChange={handleNewUserName}/> 
                       <button className='usernameBtn' type="submit" disabled={success}>Submit</button>
                     </form>

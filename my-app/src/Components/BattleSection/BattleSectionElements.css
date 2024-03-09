@@ -2,18 +2,20 @@
     width: 100vw;
     height: 100vh;
     justify-content: center;
+    background-color: rgba(105, 109, 115, 0.214);
 }
 
 
 .battleContainer{
-    width: 80%;
+    width: 90%;
     height: 100%;
-    background-color: rgba(105, 109, 115, 0.214);
+
     margin: auto;
     display: block;
     justify-content: center;
     align-items: center;
     z-index: 0;
+    overflow: hidden;
 }
 
 .ArenaHeadline{
@@ -23,28 +25,27 @@
 }
 
 .infoBattle{
-    padding-top: 100px;
+    padding-top: 70px;
 }
 
 .infoContainerArena{
-    padding-top: 40px;
+    padding-top:20px;
     text-align: center;
     justify-content: center;
-    max-width: 80%;
+    max-width: 70%;
     margin: auto;
 }
 
 .boxesContainer{
     display: flex;
     flex-wrap: wrap;
-    padding-top: 100px;
+    padding-top: 55px;
     height: 60%;
     max-width: fit-content;
-    max-width: max-content;
+    max-width: 80%;
     justify-content: center;
     text-align: center;
     margin: auto;
-
 }
 
 .boxes{
@@ -60,7 +61,6 @@
     padding: 10px;
     width: 50px;
     font-weight: 600;
-
 }
 
 .btnBoxes:hover{
@@ -70,17 +70,7 @@
 
 .battleBottomSection{
     position: relative;
-    margin-top: -70px;
-}
-
-.algorithmChoiceContainer{
-    position: absolute;
-    right: 0;
-    padding-right: 40px;
-    display: block;
     margin-top: -50px;
-    font-weight: 600;
-    text-align: end;
 }
 
 .timeComplexityContainer{
@@ -167,13 +157,35 @@
     background-color: transparent;
     cursor: pointer;
     border: solid gray 2px;
-    padding: 10px 25px;
+    padding: 11px 21px;
+    color: #222;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.button-detail{
+    background-color: transparent;
+    border: transparent;
+    letter-spacing: 0.1px;
+    color: #555;
+    font-size: 26px;
+    margin-left: 50px;
+    cursor: pointer;
+    text-transform: uppercase;
+    display: flex;
+    padding-bottom: 5px;
+    font-weight: 100;
+}
+
+.moreDetailIcon{
+    margin: auto;
+    display: flex;
+    padding-left: 4px;
 }
 
 .containerMystery{
     align-items: center;
     width: 550px;
-    padding-top: 20px;
+    padding-top: 10px;
     margin: auto;
     justify-content: center;
 }
@@ -210,7 +222,7 @@
 
 .quizContainer{
     position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
+    z-index: 999; /* Sit on top */
     padding-top: 100px; /* Location of the box */
     left: 0;
     top: 0;
@@ -270,7 +282,6 @@
     opacity: 0.3; /* Fade out when hidden */
 }
   
-  
 
 .quizQuestion h3 {
     font-size: 1.2rem; /* Adjust the font size for the question number */
@@ -281,7 +292,6 @@
     font-size: 1.1rem; /* Adjust the font size for the question */
 }
   
-
 .loadingAttribute {
     position: absolute;
     top: 50%;
@@ -289,52 +299,216 @@
     transform: translate(-50%, -50%);
 }
 
-.containerBildeAlgoritme{
+.rightSideContainer{
     position: absolute;
     right: 0;
-    bottom: 0;
+    display: block;
+    width: 300px;
+    margin-top: -150px;
+    display: block;
+    text-align: center;
+    justify-content: center;
+}
+
+.rightSideRowContainer{
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.BubleChatContainer{
+    position: absolute;
+    left: 0;
+
+}
+
+.ChatContainer{
+    width: 200px;
+    height: 100px;
+    position: absolute;
+    z-index: 10;
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    margin-top: 50px;
+    padding: 30px;
+    margin-left: 100px;
+}
+
+
+
+.algorithmImageContainer{
+    overflow: visible;
+}
+
+.algorithmChoiceContainer{
+    text-align: center;
+    position: relative;
+    font-size: 12px;
+    z-index: 900;
+}
+
+
+.containerBildeAlgoritme{
+    position: relative;
 }
 
 .bildeAvAlgoritme{
     width: calc(12vw);
     background: transparent;
-    margin-right: 50px;
 }
 
 .thinkingAlan{
-    width: calc(13.5vw);
+    width: calc(12vw);
     margin-bottom: 30px;
     margin-right: 20px;
 }
 
+.thinkingTesla{
+    margin-top: -60px;
+}
+
 .thinkingKidy{
     width: calc(33vw);
-    margin-right: -150px;
+    margin-left: 0px;
+}
 
+.algorithmBubbleChat{
+    font-size: 0.7rem;
+    overflow: auto;
+    max-width: 100%;
+    margin: auto;
+    height: 160px;
+    margin: auto;
+    padding: 20px;
+    color: #666;
 }
 
 .AlgorithmChooseText{
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    margin-bottom: -50px;
     display: flex;
     flex-direction: row;
-
+    background-color: transparent;
+    border: transparent;
+    letter-spacing: 0.1px;
+    color: #555;
+    font-size: 26px;
+    margin-left: 50px;
+    text-transform: uppercase;
+    padding-bottom: 5px;
+    font-weight: 100;
 }
 
+.testP{
+    background-color: transparent;
+    border: transparent;
+    letter-spacing: 0.1px;
+    color: #444;
+    font-size: 26px;
+    text-transform: uppercase;
+    padding-bottom: 10px;
+    font-weight: 100;
+}
+
+.selectionP{
+    font-size: 20px;
+}
+/* Styles for the container */
+.table-container {
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.max-height {
+    max-height: 300px; /* Adjust the height as needed */
+    overflow-y: auto; /* Enable vertical scrolling */
+}
+  
+#myTable {
+    border-collapse: collapse;
+    width: 100%;
+    max-width: calc(25vw); /* Limit the width to 500px */
+    position: absolute;
+}
+  
+  #myTable th, #myTable td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+  }
+  
+  #myTable th {
+    background-color: #f2f2f2;
+  }
+  
+  #myTable th:first-child, #myTable td:first-child {
+    border-right: none;
+  }
+  
+  #myTable tbody tr:nth-child(odd) {
+    background-color: #f2f2f2;
+  }
+  
+  #myTable tbody tr:nth-child(even) {
+    background-color: #fff;
+  }
+
+@media screen and (max-width: 2100px) {
+
+    .infoBattle{
+        padding-top: 30px;
+    }
+    .battleBottomSection{
+        margin-top: -120px;
+    }
+    .boxesContainer{
+        padding-top: 10px;
+    }
+
+    .thinkingTesla{
+        width: 90%;
+    }
+
+    .infoContainerArena{
+        padding-top: 10px;
+    }
+
+    .ChatContainer{
+        height: 120px;
+    }
+
+    .rightSideContainer{
+        margin-top: -10px;
+    }
+
+    .containerMysteryText{
+        width: 450px;
+        margin-left: 40px;
+    }
+
+}
+  
+
 @media screen and (max-width: 1600px) {
+
+    #myTable{
+        max-width: 400px;
+    }
 
     .infoBattle{
         padding-top: 10px;
     }
 
+    .ArenaHeadline{
+        font-size: 1.1rem;
+    }
+
     .boxesContainer{
-        padding-top: 5px;
+        padding-top: 0px;
     }
 
     .battleBottomSection{
-        margin-top: -80px;
+        margin-top: -115px;
     }
 
     .infoContainerArena{
@@ -345,18 +519,66 @@
         font-size: 15px;
     }
 
+    .rightSideRowContainer{
+        margin-top: 0px;
+    }
+
+    .timeComplexityOptionsContainer{
+
+    }
+
+    .ChatContainer{
+        width: 170px;
+        height: 100px;
+    }
+
+    .rightSideContainer{
+        margin-top: -10px;
+    }
+    
+
+    .thinkingAlan{
+        width: calc(12.5vw);
+        margin-bottom: 30px;
+        margin-right: 20px;
+    }
+    
+    .thinkingTesla{
+        margin-top: -30px;
+    }
+    
+    .thinkingKidy{
+        width: calc(30vw);
+    }
+
+    .containerMystery{
+        padding-top: 0px;
+    }
+
+    .containerMysteryText{
+        padding: 15px;
+        width: 400px;
+        margin-left: 70px;
+    }
+
+    .mysteryText{
+        font-size: 15px;
+    }
+    
     .algorithmChoiceContainer{
-        margin-top: -20px;
-        font-size: calc(1vw);
-        
+        padding: 12px;
     }
 
     .AlgorithmChooseText{
-        margin-bottom: -20px;
+        margin-bottom: 0px;
+    }
+
+    .selectionP{
+        font-size: 16px;
     }
 
     .algorithmBubbleChat{
-        font-size: calc(1.1vw);
+        font-size: calc(1vw);
     }
 
     .quizContainer{
@@ -367,51 +589,36 @@
         width: 800px;
         height: 770px;
     }
+
+    .nextBtnContainer {
+        margin-top: calc(2vw);
+    }
 }
 
 
 @media screen and (max-width: 1300px) {
-    .ArenaHeadline{
-        font-size: 1.1rem;
-    }
-    .boxesContainer{
-        padding-top: 130px;
-    }
+
 
     .elusiveInfo{
         font-size: 0.8rem;
     }
 
-    .gameTips{
-        font-size: 0.6rem;
+    .boxesContainer{
+        height: 60%;
+        max-width: 95%;
     }
 
-    .btnBoxes{
-        width: 50px;
+    .infoBattle{
+        padding-top: 20px;
+    }
+
+    .infoContainerArena{
+        padding-top: 10px;
     }
 
     .battleBottomSection{
-        margin-top: 80px;
+        margin-top: -70px;
     }
 
-    .timeComplexityContainer{
 
-    }
-
-    .timeComplexityText{
-        font-size: 0.8rem;
-        width: 80%;
-    }
-
-    .GainPointsT{
-        font-size: 0.8rem;
-    }
-
-    .timeComplexityBtn{
-        font-size: 0.7rem;
-    }
-
-    .resultComplexityAnswerT{
-        font-size: 0.6rem;
-    }
 }

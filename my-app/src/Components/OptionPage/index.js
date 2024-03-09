@@ -1,7 +1,10 @@
 import React, {useEffect, useState} from 'react'
 import { useNavigate } from "react-router-dom";
 import './OptionPageElements.css';
-import {InfoBtn, LeftArrow, RightArrow} from "../ButtonElements.js";
+import {InfoBtn, RestartBtn, LeftArrow, RightArrow} from "../ButtonElements.js";
+import { MdInfo, MdOutlineClosedCaption } from 'react-icons/md';
+import { RiListSettingsFill } from 'react-icons/ri';
+import { PiArrowElbowRightDownBold } from "react-icons/pi";
 
 
 function OptionPage(){
@@ -150,6 +153,10 @@ function OptionPage(){
       const handleInfoBtn = () => {
         {InfoVisible ? setInfoVisible(false) : setInfoVisible(true)}
       }
+
+      const handleRestartBtn = () => {
+        navigate('/');
+      }
     
       const handlePageClick = () => {
         if (InfoVisible){
@@ -163,17 +170,17 @@ function OptionPage(){
         setAlgorimte(props)
         setValidAlgoritme(false);
         if(props === "Tesla"){
-          setColorTesla(colorTesla === 'white' ? 'rgba(203, 26, 26, 0.931)' : 'white');
+          setColorTesla(colorTesla === 'white' ? 'rgb(163, 20, 163)' : 'white');
           setColorAlan("white");
           setColorKidy("white");
         }
         else if(props === "Alan"){
-          setColorAlan(colorAlan === 'white' ? 'rgba(203, 26, 26, 0.931)' : 'white');
+          setColorAlan(colorAlan === 'white' ? 'rgb(163, 20, 163)' : 'white');
           setColorTesla("white");
           setColorKidy("white");
         }
         else if(props === "Kidy"){
-          setColorKidy(colorKidy === 'white' ? 'rgba(203, 26, 26, 0.931)' : 'white');
+          setColorKidy(colorKidy === 'white' ? 'rgb(163, 20, 163)' : 'white');
           setColorAlan("white");
           setColorTesla("white");
         }
@@ -208,9 +215,21 @@ function OptionPage(){
         <div id="optionpage" className='OptionPageContainer' onClick={handlePageClick}>
         <div className='mainSectionContainer'>
           <div className='top'>
+            <div className='TopRightContainer'>
+              <div className='menuContainer'>
+                <div className='menuRow'>
+                  <span style={{paddingLeft: 37.5}}>Info</span> <InfoBtn onClick={handleInfoBtn} className='infoBtn' />
+                </div>
+                <span style={{border: "solid 1.5px #222", display: 'flex'}}></span>
+                <div className='menuRow'>
+                  Restart <RestartBtn onClick={handleRestartBtn} className='infoBtn ' />
+                </div>
+
+                
+              </div>
+            </div>
             <div className='infoSection'>
-              <p className='welcometext'>Welcome To The Game Options</p>
-              <InfoBtn onClick={handleInfoBtn} className='infoBtn '>info</InfoBtn>
+              <p className='welcometext'>Game Options <RiListSettingsFill style={{marginLeft: 15}}/></p>
               {InfoVisible ?
               <div className='infoContainer'>
                 <div className='infoTextContainer'>
@@ -229,12 +248,12 @@ function OptionPage(){
               }
             </div>
             <form className='inputField' >
-              <label className='antallBoxT'>Number of boxes</label>
+              <label className='antallBoxT'>Number of Boxes: </label>
               <input className='antallBox' type="number" placeholder='Boxes' onChange={handleAntallBokser} />
             </form>
           </div> 
           <div className='middle'>
-            <p className='select'>Select an algorithm</p>
+            <p className='select' style={{fontWeight: 600, letterSpacing: 0.3}}>Select an Algorithm </p>
             <div className='algorithmOptions'>
   
               {TeslaDisabled ? 

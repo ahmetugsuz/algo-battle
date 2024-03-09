@@ -4,65 +4,17 @@ from flask_cors import CORS, cross_origin # deploy
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 import random, time
-import os
 from sqlalchemy import create_engine
 from os import environ
 
-"""
-app = Flask(__name__, static_folder='my-app/build', static_url_path='/')
-CORS(app)
-db_uri = 'mysql+pymysql://b9de329fa96869:edb01807@us-cdbr-east-06.cleardb.net/heroku_131b1afcdbd2c42?'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://b9de329fa96869:edb01807@us-cdbr-east-06.cleardb.net/heroku_131b1afcdbd2c42?'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SECRET_KEY'] = 'algobattle'
-app.config['CORS_HEADERS'] = 'Content-Type'
-db = SQLAlchemy(app)
-migrate = Migrate(app, db)
+#Configure (old) secret key
+#app.config['SECRET_KEY'] = 'algobattle'
 
-engine = create_engine(db_uri)
-
-try:
-    # Try to connect to the database
-    with engine.connect():
-        print("Connection successful!")
-except Exception as e:
-    # If connection fails, print the error
-    print("Connection failed:")
-    print(e)
-
-
-"""
-
-"""
-# Create Flask app
-app = Flask(__name__, static_folder='my-app/build', static_url_path='/')
-
-CORS(app)
-app.config['SECRET_KEY'] = 'algobattle'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+# Configure ClearDB MySQL database
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://b9de329fa96869:edb01807@us-cdbr-east-06.cleardb.net/heroku_131b1afcdbd2c42?'
 
 # Configure local MySQL database
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:mysql@localhost/algobattle'
-
-"""
-
-"""
-
-app = Flask(__name__, static_folder='my-app/build', static_url_path='/')
-CORS(app)
-
-app.config['SECRET_KEY'] = 'algobattle'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-# Configure Heroku PostgreSQL database
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://b9de329fa96869:edb01807@us-cdbr-east-06.cleardb.net/heroku_131b1afcdbd2c42?'
-
-
-# Initialize SQLAlchemy and migration
-db = SQLAlchemy(app)
-migrate = Migrate(app, db)
-"""
-
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:mysql@localhost/algobattle'
 
 # Create Flask app
 app = Flask(__name__, static_folder='my-app/build', static_url_path='/')
@@ -71,13 +23,12 @@ CORS(app)
 app.config['SECRET_KEY'] = 'mysql'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-# Heroku Postgres URI
+# Heroku Postgres URI (latest one)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://u60sb86l93kiv6:pec990bfdd7e77fa388db7b43850d46d1f6f0d5dd11f60266e69e4fb6458b7452@cdgn4ufq38ipd0.cluster-czz5s0kz4scl.eu-west-1.rds.amazonaws.com:5432/dfn1js36r6tq3f?sslmode=require'
 
 # Initialize SQLAlchemy and migration
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
-
 
 ENEMIES_PLAYED = []
 GAME_BOARD = []
@@ -300,7 +251,7 @@ def restart():
 
 
 def lag_binary_list():
-    low = 0
+    low = 1
     high = len(GAME_BOARD)
     binary_list = [0] # first element is 0 because its starting from inedex 1
     while low <= high:

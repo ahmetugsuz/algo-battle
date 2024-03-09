@@ -1,12 +1,21 @@
 import React, {useState, useEffect, useCallback} from "react";
 import './BattleSectionElements.css';
-import {NextPageArrow, CloseIcon, RightArrow, RightSideArrow} from "../ButtonElements.js";
+import {ChatBuble, ChatBuble2, NextPageArrow, CloseIcon, RightArrow, RightSideArrow, RightArrowBattleSection} from "../ButtonElements.js";
+import { GrExpand } from "react-icons/gr";
+import { TfiClose } from "react-icons/tfi";
+import { VscChromeClose } from "react-icons/vsc";
 import { useNavigate } from "react-router-dom";
 import { InlineMath, BlockMath } from 'react-katex';
 import 'katex/dist/katex.min.css';
 import TeslaImage from "../../Images/thinkingTesla.avif";
 import AlanImage from "../../Images/thinkingAlan.png";
 import KidyImage from "../../Images/thinkingKidy.png";
+import { TbPageBreak } from "react-icons/tb";
+import { MdClose, MdCloseFullscreen, MdClosedCaption, MdExpand, MdExpandLess, MdExpandMore, MdPageview, MdTableRows, MdVerticalShadesClosed } from "react-icons/md";
+import { BsArrowsAngleExpand } from "react-icons/bs";
+import { AiOutlineExpandAlt } from "react-icons/ai";
+import { RiEyeCloseFill } from "react-icons/ri";
+
 function Arena(){
     const navigate = useNavigate();
 
@@ -43,6 +52,9 @@ function Arena(){
     const [numberOfAttemptsFake2, setNumberOfAttemptsFake2] = useState();
     const [numberOfAttemptsFake3, setNumberOfAttemptsFake3] = useState();
     const [lastQuestion, setLastQuestion] = useState("What is the average attempts for Tesla to find the correct answer?");
+    const [roundNumber, setRoundNumber] = useState(1);
+    const [moreDetail, SetMoreDetail] = useState(false);
+    const [tableRows, setTableRows] = useState([]);
 
     var valgteBokser = [];
 
@@ -60,13 +72,13 @@ function Arena(){
 
     const talkingBubble = {
       "Tesla": {
-        list: ["Think more linearly", "Now im getting closer", "Wait, is the box next to me the right box?"]
+        list: ["Think more linearly.", "Now im getting closer.", "Wait, is the box next to me the right box?"]
       },
       "Alan": {
-        list: ["Thinking..", "Try to find before me", "HA HA! Where u going, think smarter, like I do.", "Hmm, this is going to be tough"]
+        list: ["Hmm, let me think...", "Try to find before me", "HA HA! Where are you going? Think smarter, like I do.", "Hmm, this is going to be tough."]
       },
       "Kidy":{
-        list: ["The weather looking great today.", "Have u been to Disney Land, the lego there is soo cool"]
+        list: ["The weather looks great today.", "Have u been to Disney Land? The lego there is soo cool.", "My dad always told me to keep a distance from the color red."]
       }
     };
 
@@ -81,6 +93,14 @@ function Arena(){
       "Alan": AlanImage,
       "Kidy": KidyImage
     }
+
+
+  
+
+    // Table to show box choice for every round, both for machine and user
+    const selectedValueTable = (
+      <p></p>
+    );
 
     const config = {
       autoRender: true,
@@ -145,9 +165,9 @@ function Arena(){
           const data = await res.json();
           
           if (data.algorithm === '') {
-            console.log("RetryCount at", retryCount);
+            //console.log("RetryCount at", retryCount);
             if (retryCount < MAX_RETRIES){
-              console.log("Empty algorithm received, retrying connection...");
+              console.log("Empty data pack received, retrying connection...");
               setRetryCount(prevRetryCount => prevRetryCount + 1);
               return; // Exit the function to prevent further processing
             }
@@ -284,9 +304,10 @@ function Arena(){
         setScore(score + 10);
         event.target.disabled = false;
         setSvarFunnet(true);
+        appendRow(selectedUserValue, '');
         return; // exit if answer found by user
       } else {
-        event.target.style.backgroundColor = "#f71046"; // Change color directly here
+        event.target.style.backgroundColor = "#f71046"; // Change color directly here for USER
         event.target.disabled = true; // Disable incorrect selections
 
         setSvarFunnet(false);
@@ -338,7 +359,10 @@ function Arena(){
       setTimeout(() => {        
         setMaskinTall(selectedMachineValue); // setter tallat maskinen har valgt.  
         setVentPaaMotstander(false);
+        // appending data to table for user and machine
+        appendRow(selectedUserValue, selectedMachineValue);
       }, delay);
+
     };
 
     function checkMaskin(key){   
@@ -378,6 +402,7 @@ function Arena(){
           setQuizClosed(true);
         }, 1000)
       }
+
       let buttonElement;
 
       buttonElement = document.querySelector(`button[data-index="${selectedAnsweIndex}"]`); // getting the button DOM
@@ -407,7 +432,28 @@ function Arena(){
         setKompleksitetBesvart(false); // Reset answer state
         setFeedback(null);
       }, 1000); // Adjust timing as needed for transition duration
+      
     };
+
+    const handleShowDetail = () => {
+      {moreDetail ? SetMoreDetail(false) : SetMoreDetail(true)}
+
+    }
+
+        // Function to append a new row to the table
+    const appendRow = (data1, data2) => {
+      setTableRows(prevRows => [...prevRows, { data1, data2 }]);
+    };
+
+    // JSX for the table rows
+    const tableBody = tableRows.map((row, index) => (
+      <tr key={index}>
+        <td>{index + 1}</td>
+        <td style={{color: row.data1 === answer ? 'rgb(16, 179, 16)' : 'inherit'}}>{row.data1}</td>
+        <td>{index + 1}</td>
+        <td style={{color: row.data2 === answer ? 'rgb(16, 179, 16)' : 'inherit'}}>{row.data2}</td>
+      </tr>
+    ));
   
     const nextRound = async () => {
       const postData = {"poeng": score, "bruker_fant": brukerFantSvar};
@@ -442,7 +488,7 @@ function Arena(){
                 <p className='gameTips'>Some robots receive signals indicating the location of a hidden green box every time they reveal a box. 
                   To increase your chances of success, it may be beneficial to crack the algorithm beforehand.</p>
                   {gameStarted === false ?
-                  <p className='gameTips'>Click on any box to start the game. It is randomly determined who will start.</p>
+                  <p className='gameTips'>Click on any box to reveal its color and start the game.</p>
                   :
                   <p></p>
                    }
@@ -474,42 +520,81 @@ function Arena(){
             </div>
           </div>
           <div className='bottom battleBottomSection'>
-              <div className="containerBildeAlgoritme">
-              {motstanderNavn === "Tesla" &&
-                <img className="bildeAvAlgoritme" src={bildeAlgoritme[motstanderNavn]} alt="image of machine"/>
-              } 
-              {motstanderNavn === "Alan" && 
-                <img className="bildeAvAlgoritme thinkingAlan" src={bildeAlgoritme[motstanderNavn]} alt="image of machine"/>
-              }
-              {motstanderNavn === "Kidy" &&
-                <img className="bildeAvAlgoritme thinkingKidy" src={bildeAlgoritme[motstanderNavn]} alt="image of machine"/>
-              }
-              </div>
-            {svarFunnet ?
-              <div className='algorithmChoiceContainer'> 
-                <p className="algorithmBubbleChat" style={{fontWeight: 100}}> <span style={{fontWeight: 400}} className="algorithmBubbleChat">{motstanderNavn}</span>: "You won, for now..."</p>
-              </div>
-                :
-              <div className='algorithmChoiceContainer'>
-                {maskinTall !== null  ?  <p></p> : <p style={{fontWeight: 100}}></p> }
-                {maskinTall === answer && !ventPaaMotstander  ? <p className="algorithmBubbleChat" style={{fontWeight: 100, width: 400}}> <span style={{fontWeight: 400}} className="algorithmBubbleChat">{motstanderNavn}:</span> "{winTalkMachine[motstanderNavn]}"</p> : <p style={{fontWeight: 100}}><span style={{fontWeight: 400}}>{motstanderNavn}</span>: "{algorithmChat}"</p> }
+            <div className="rightSideContainer">
 
+                <div className="rightSideRowContainer" >
+                  <ChatBuble2 />
+                  <div className="ChatContainer">
+                  {svarFunnet ?
+                    <div className='algorithmChoiceContainer'> 
+                      <p className="algorithmBubbleChat" style={{fontWeight: 100}}> "You won, for now..."</p>
+                    </div>
+                      :
+                    <div className='algorithmChoiceContainer'>
+                      {maskinTall !== null  ?  <p></p> : <p style={{fontWeight: 100}}></p> }
+                      {maskinTall === answer && !ventPaaMotstander  ? <p className="algorithmBubbleChat" style={{fontWeight: 100}}> "{winTalkMachine[motstanderNavn]}"</p> 
+                      :
+                      <p style={{fontWeight: 100}} className="algorithmBubbleChat">"{algorithmChat}"</p> }
+                    </div>
+                  }
+                  </div>
+                </div>
+
+
+                <div className="rightSideRowContainer algorithmImageContainer">
+                  <div className="containerBildeAlgoritme">
+                    {motstanderNavn === "Tesla" &&
+                      <img className="bildeAvAlgoritme thinkingTesla" src={bildeAlgoritme[motstanderNavn]} alt="image of machine"/>
+                    } 
+                    {motstanderNavn === "Alan" && 
+                      <img className="bildeAvAlgoritme thinkingAlan" src={bildeAlgoritme[motstanderNavn]} alt="image of machine"/>
+                    }
+                    {motstanderNavn === "Kidy" &&
+                      <img className="bildeAvAlgoritme thinkingKidy" src={bildeAlgoritme[motstanderNavn]} alt="image of machine"/>
+                    }
+                  </div>
+                </div>
               </div>
-            }
+
             {maskinTall !== null ?
-            <div className="AlgorithmChooseText">
-                <p style={{fontWeight: 400, marginRight: 30}} className="algorithmBubbleChat">
-                  {motstanderNavn} Choose Box Number: <span style={{fontWeight: 600}} className="algorithmBubbleChat"> {maskinTall} </span>
-                </p> 
-            </div>
-            : <p></p>
-            }         
+                <div className="AlgorithmChooseText">
+                  <p style={{fontWeight: 400, marginRight: 30}} className="selectionP">
+                    {motstanderNavn} Choose Box Number: <span style={{fontWeight: 600}} className="selectionP"> {maskinTall} </span>
+                  </p> 
+                </div>
+                  :
+                <p></p>
+            }     
 
+            <button className="button-detail" onClick={handleShowDetail}>
+              {!moreDetail ? 'More' : 'Less'} Details <span className="moreDetailIcon">{moreDetail ? <MdCloseFullscreen className="moreDetailIcon" /> : <MdTableRows className="moreDetailIcon"/>}</span>
+            </button>
+            {moreDetail && (
+                    <div className={moreDetail ? "table-container max-height" : "table-container"}>
+                    <table id="myTable">
+                      <thead>
+                        <tr >
+                          <th colSpan="2" style={{fontWeight: 400, borderBottomWidth: '2px'}}>You</th>
+                          <th colSpan="2" style={{fontWeight: 400, borderBottomWidth: '2px'}}>{motstanderNavn}</th>
+                        </tr>
+                        <tr>
+                          <th style={{fontWeight: 100}}>Round</th>
+                          <th style={{fontWeight: 400}}>Box</th>
+                          <th style={{fontWeight: 100}}>Round</th>
+                          <th style={{fontWeight: 400}}>Box</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {tableBody.slice().reverse()}
+                      </tbody>
+                    </table>
+                  </div>
+            )}
             <div className='resultater'>
-              <h1 className='resultText'>{resultText} {maskinTall == answer ?<div> <p style={{fontWeight: 400}}>The Algorithm Won</p><div className='scoreText'><p className='ArenaHeadline'>+{score} <span style={{fontWeight: 400}}> Points</span> </p></div></div> 
-              : <p></p>}</h1>
+              <p className='resultText testP'>{resultText} {maskinTall == answer ?<div> <p className="resultText testP">The Algorithm Won</p><div className='scoreText'><p className='ArenaHeadline testP'><span style={{fontWeight: 600}}>+{score}</span> <span style={{fontWeight: 400}} className="ArenaHeadline testP"> Points Earned</span> </p></div></div> 
+              : <p></p>}</p>
               {svarFunnet ?
-              <div className='scoreText'><p className='ArenaHeadline'>+{score} Points Earned</p></div>
+              <div className='scoreText testP'><p className='ArenaHeadline testP'><span style={{fontWeight: 600}}>+{score}</span> Points Earned</p></div>
               :
               <p></p>}
             </div>
@@ -518,7 +603,7 @@ function Arena(){
               <div className="containerMystery">
                 <div className="containerMysteryText">
                   <p className="mysteryText">Are you willing to take a test about your enemy to climb to the top of the leaderboard? This will prepare you for the next rounds. 
-                  Remember, if you fail a question, the quiz will end, and you will only keep the points you've earned so far. It's a high-risk, high-reward opportunity. </p>
+                  Remember, if you fail a question, the quiz will end, and you will only keep the points you've earned so far. </p>
                 </div>
                 <div className="containerMysteryBtn">
                 <div><RightSideArrow /></div>
@@ -527,7 +612,7 @@ function Arena(){
               </div>
             }
 
-            {svarFunnet || maskinTall == answer ?  <div className='nextBtnContainer'><button className='nextBtn button-54' onClick={nextRound}>Continue</button></div>:
+            {svarFunnet || maskinTall == answer ?  <div className='nextBtnContainer'><button className='nextBtn button-54' onClick={nextRound}>Continue <RightArrowBattleSection/></button></div>:
               <></>
             }
 
