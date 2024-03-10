@@ -109,15 +109,24 @@ function OptionPage(){
 
       const [loading, setLoading] = useState(false);
       // new function for GET data for '/last_standing': KeyWords: await, async, if motstander spilt mot (liste av spilte algoritmer) er tom og points er > 0, await for update.
+
+      const maksForsok = 3;
+      const [forsok, setForsok] = useState(0);
       useEffect(() => {
         const fetchData = async () => {
           setLoading(true);
           try{
-            const res = await fetch('/last_standing?t=' + Date.now());
+            const res = await fetch(`/last_standing?t=${Date.now()}`);
             const data = await res.json();
 
             // data fetched, allocating values:
             console.log("data fetched, allocating values. The data fetched: ", data);
+
+            if((data.enemies_played.length === 0 || data.total_points === 0) && forsok < maksForsok){
+              console.log("Forsok number ", forsok);
+              setForsok(prevForsok => prevForsok + 1); // Increment the retry counter
+              return;
+            }
 
             setEnemiesPlayed(data.enemies_played);
             setTotalScore(data.total_points);
@@ -130,17 +139,26 @@ function OptionPage(){
             if (data.enemies_played.includes(names[2])){
               setKidyDisabled(true);
             }
+
           }
           catch (error){
             console.log("Couldnt fetch data, u should try again..");
             console.log("error received: ", error);
           }
-          finally{
-            setLoading(false);
-          }
         }
+
+        setLoading(false);
         fetchData()
-      }, []);
+      }, [forsok]);
+
+      useEffect(() => {
+        if(AlanDisabled && TeslaDisabled && KidyDisabled){
+          setShowResults(true);
+          setAlanDisabled(false);
+          setTeslaDisabled(false);
+          setKidyDisabled(false);
+        }
+      },[AlanDisabled, KidyDisabled, TeslaDisabled])
 
 
     useEffect(() => {
