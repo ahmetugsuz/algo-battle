@@ -121,7 +121,9 @@ function OptionPage(){
             const res = await fetch(`/last_standing?t=${Date.now()}`);
             const data = await res.json();
 
-            
+            console.log("Enemies played: ", enemiesPlayed);
+            console.log("total points: ", TotalScore);
+                        
             if (fetchSuccess === false){
               if ((data.enemies_played.length === 0 || data.total_points === 0) && forsok < maksForsok) {
                 console.log("Forsok number ", forsok);
@@ -144,6 +146,7 @@ function OptionPage(){
                 setKidyDisabled(true);
               }
             }
+
       
 
             if(forsok >= maksForsok){
@@ -190,9 +193,6 @@ function OptionPage(){
       useEffect(() => {
         if(AlanDisabled && TeslaDisabled && KidyDisabled){
           setShowResults(true);
-          setAlanDisabled(false);
-          setTeslaDisabled(false);
-          setKidyDisabled(false);
         }
       },[AlanDisabled, KidyDisabled, TeslaDisabled])
 
