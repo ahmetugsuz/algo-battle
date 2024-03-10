@@ -112,6 +112,7 @@ function OptionPage(){
 
       const maksForsok = 3;
       const [forsok, setForsok] = useState(0);
+      const [tidligereData, setTidligereData] = useState();
       useEffect(() => {
         const fetchData = async () => {
           setLoading(true);
@@ -119,15 +120,14 @@ function OptionPage(){
             const res = await fetch(`/last_standing?t=${Date.now()}`);
             const data = await res.json();
 
-            // data fetched, allocating values:
-            console.log("data fetched, allocating values. The data fetched: ", data);
-
+            console.log("tidligere data: ", tidligereData);
             if((data.enemies_played.length === 0 || data.total_points === 0) && forsok < maksForsok){
               console.log("Forsok number ", forsok);
               setForsok(prevForsok => prevForsok + 1); // Increment the retry counter
               return;
             }
 
+            setTidligereData(data);
             setEnemiesPlayed(data.enemies_played);
             setTotalScore(data.total_points);
             if (data.enemies_played.includes(names[0])){
@@ -139,11 +139,16 @@ function OptionPage(){
             if (data.enemies_played.includes(names[2])){
               setKidyDisabled(true);
             }
+            setForsok(0);
+            console.log("Nye data: ", data)
 
           }
           catch (error){
             console.log("Couldnt fetch data, u should try again..");
             console.log("error received: ", error);
+            if(forsok < maksForsok){
+              setForsok(prevForsok => prevForsok + 1); // Increment the retry counter
+            }
           }
         }
 
