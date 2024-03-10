@@ -139,6 +139,10 @@ def arena():
 @app.route('/last_standing')
 @cross_origin()
 def midlertidig_data():
+    global ENEMIES_PLAYED
+    global TOTAL_POINTS
+    control_receives()
+    
     response = make_response(jsonify({"total_points": TOTAL_POINTS, "enemies_played": ENEMIES_PLAYED}))
     print("response", response, ", ENEMIES PLAYED: ", ENEMIES_PLAYED)
     response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
