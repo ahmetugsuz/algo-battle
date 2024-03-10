@@ -427,8 +427,9 @@
 #myTable {
     border-collapse: collapse;
     width: 100%;
-    max-width: calc(25vw); /* Limit the width to 500px */
+    max-width: calc(23vw); /* Limit the width to 500px */
     position: absolute;
+    margin-left: 45px;
 }
   
   #myTable th, #myTable td {
@@ -496,7 +497,7 @@
     }
 
     .infoBattle{
-        padding-top: 10px;
+        padding-top: 20px;
     }
 
     .ArenaHeadline{

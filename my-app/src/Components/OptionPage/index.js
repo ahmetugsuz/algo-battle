@@ -29,12 +29,13 @@ function OptionPage(){
     const [showLeaderboard, setShowLeaderboard] = useState(false);
     const [UserData, setUserData] = useState();
     const [InfoVisible, setInfoVisible] = useState(false);
-    const names = ["Alan", "Tesla", "Kidy"]
     const [konstantOppdateringer, setKonstantOppdateringer] = useState(0);
     const [counter, setCounter] = useState(0);
     const [counterChanges, setCounterChanges] = useState(0);
     const [kallAPI, setKallAPI] = useState(0);
     const [previousTotalScore, setPreviousTotalScore] = useState(0);
+    const names = ["Alan", "Tesla", "Kidy"]
+
     const handleClick = () =>{  
         fetch('/algoritme_data', {
           method: 'POST',
@@ -60,7 +61,7 @@ function OptionPage(){
 
       //mottar data for hvem som har blitt spilt mot
       const [dataFetched, setDataFetched] = useState(false);
-
+      /*
       useEffect(() => {
 
           fetch("/last_standing", {
@@ -104,6 +105,42 @@ function OptionPage(){
         }
 
       }, [counterChanges, dataFetched]);
+      */
+
+      const [loading, setLoading] = useState(false);
+      // new function for GET data for '/last_standing': KeyWords: await, async, if motstander spilt mot (liste av spilte algoritmer) er tom og points er > 0, await for update.
+      useEffect(() => {
+        const fetchData = async () => {
+          setLoading(true);
+          try{
+            const res = await fetch('/last_standing?t=' + Date.now());
+            const data = await res.json();
+
+            // data fetched, allocating values:
+            console.log("data fetched, allocating values. The data fetched: ", data);
+
+            setEnemiesPlayed(data.enemies_played);
+            setTotalScore(data.total_points);
+            if (data.enemies_played.includes(names[0])){
+              setAlanDisabled(true);
+            }
+            if (data.enemies_played.includes(names[1])){
+              setTeslaDisabled(true);
+            }
+            if (data.enemies_played.includes(names[2])){
+              setKidyDisabled(true);
+            }
+          }
+          catch (error){
+            console.log("Couldnt fetch data, u should try again..");
+            console.log("error received: ", error);
+          }
+          finally{
+            setLoading(false);
+          }
+        }
+        fetchData()
+      }, []);
 
 
     useEffect(() => {
@@ -122,7 +159,7 @@ function OptionPage(){
       if (AlanDisabled === true && TeslaDisabled === true && KidyDisabled === true){
         setShowResults(true);
       }
-    }, [konstantOppdateringer]);
+    }, [konstantOppdateringer, AlanDisabled, TeslaDisabled, KidyDisabled]);
 
 
       useEffect(() => {
@@ -224,8 +261,6 @@ function OptionPage(){
                 <div className='menuRow'>
                   Restart <RestartBtn onClick={handleRestartBtn} className='infoBtn ' />
                 </div>
-
-                
               </div>
             </div>
             <div className='infoSection'>

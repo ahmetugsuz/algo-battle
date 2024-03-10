@@ -3,18 +3,18 @@
     height: 100vh;
     justify-content: center;
     background-color:#f7f7f7;
-}
+    background: linear-gradient(to top, #444 0%, rgba(10, 23, 43, 0.941) 76%);
 
-.InformationSection{
+  }
+  
+  .InformationSection{
     width: 80%;
     height: 100%;
-    background: linear-gradient(to top, rgb(142, 102, 210) 30%, rgb(174, 151, 201) 100%);
     margin: auto;
     display: block;
     justify-content: center;
     align-items: center;
-    z-index: 0;
-    color: #333;
+    color: white;
 }
 
 .topHomePage{
@@ -36,6 +36,7 @@
     letter-spacing: 0.05rem;
     font-family: 'Courier New', Courier, monospace;
     font-weight: 600;
+    color: white;
 }
 
 .middleInfoSection{
@@ -45,7 +46,7 @@
 .AboutTheGameText{
     font-size: 1.1rem;
     font-family: 'Courier New', Courier, monospace;
-    color: rgb(4, 26, 45);   
+    color: white;   
     padding-top: 1rem; 
     line-height: 1.2;
 }

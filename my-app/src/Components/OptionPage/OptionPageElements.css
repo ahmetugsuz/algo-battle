@@ -11,7 +11,18 @@
     width: 100vw;
     height: 100vh;
     justify-content: center;
-    background: linear-gradient(to top, rgb(142, 102, 210) 30%, rgb(174, 151, 201) 100%);
+    
+    /*background: linear-gradient(to top, #444 0%, rgba(10, 23, 43, 0.941) 76%);*/
+    /*background: linear-gradient(to top, #5e4e4e 0%, rgba(40, 40, 72, 0.997) 45%);*/
+    /*background: linear-gradient(to top, #777 0%, rgba(39, 39, 46, 0.997) 50%);*/
+    /*background: linear-gradient(to top, #777 0%, rgba(50, 74, 112, 0.941) 40%);*/
+    /*background: linear-gradient(to top, #777 0%, rgba(56, 85, 131, 0.941) 76%);*/
+    /*background: linear-gradient(to top, #444 0%, rgba(10, 23, 43, 0.941) 76%);*/
+    
+    /*background: linear-gradient(to top, rgba(7, 3, 24, 0.622) 0%, rgba(10, 23, 43, 0.941) 36%);*/
+    /*background: linear-gradient(to top, rgb(175, 148, 114) 0%, rgba(10, 23, 43, 0.941) 38%);*/
+    /*background: linear-gradient(to top, rgba(74, 60, 14, 0.669) 0%, rgb(19, 17, 12) 35%);*/
+    background: linear-gradient(to top, rgba(98, 81, 24, 0.669) 0%, rgb(17, 16, 14) 35%);
 }
 
 .mainSectionContainer{
@@ -101,7 +112,7 @@
     font-family: 'Courier New', Courier, monospace;
     font-size: 1.4rem;
     margin-top: -10px;
-    color: #111;
+    color: white;
 
 }
 
@@ -119,7 +130,7 @@
     padding-right: 20px;
     font-weight: 600;
     font-family: 'Courier New', Courier, monospace;
-    color: #222;
+    color: #d9d9d9;
 }   
 
 .btnAntallBox{
@@ -136,7 +147,7 @@
     text-align: center;
     padding-bottom: 50px;
     font-family: 'Courier New', Courier, monospace;
-    color: #222;
+    color: #d9d9d9;
 }
 
 .BtnTesla {

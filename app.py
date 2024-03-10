@@ -13,8 +13,6 @@ from os import environ
 # Configure ClearDB MySQL database
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://b9de329fa96869:edb01807@us-cdbr-east-06.cleardb.net/heroku_131b1afcdbd2c42?'
 
-# Configure local MySQL database
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:mysql@localhost/algobattle'
 
 # Create Flask app
 app = Flask(__name__, static_folder='my-app/build', static_url_path='/')
@@ -22,6 +20,9 @@ CORS(app)
 
 app.config['SECRET_KEY'] = 'mysql'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+# Configure local MySQL database
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:mysql@localhost/algobattle'
 
 # Heroku Postgres URI (latest one)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://u60sb86l93kiv6:pec990bfdd7e77fa388db7b43850d46d1f6f0d5dd11f60266e69e4fb6458b7452@cdgn4ufq38ipd0.cluster-czz5s0kz4scl.eu-west-1.rds.amazonaws.com:5432/dfn1js36r6tq3f?sslmode=require'
