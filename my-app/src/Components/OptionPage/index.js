@@ -113,48 +113,79 @@ function OptionPage(){
       const maksForsok = 3;
       const [forsok, setForsok] = useState(0);
       const [tidligereData, setTidligereData] = useState();
+      const [fetchSuccess, setFetchSuccess] = useState(false); 
       useEffect(() => {
         const fetchData = async () => {
           setLoading(true);
-          try{
+          try {
             const res = await fetch(`/last_standing?t=${Date.now()}`);
             const data = await res.json();
 
-            console.log("tidligere data: ", tidligereData);
-            if((data.enemies_played.length === 0 || data.total_points === 0) && forsok < maksForsok){
-              console.log("Forsok number ", forsok);
-              setForsok(prevForsok => prevForsok + 1); // Increment the retry counter
+            
+            if (fetchSuccess === false){
+              if ((data.enemies_played.length === 0 || data.total_points === 0) && forsok < maksForsok) {
+                console.log("Forsok number ", forsok);
+                setForsok(prevForsok => prevForsok + 1); // Increment the retry counter
+                return;
+              }
+
+              console.log("Setting up data")
+              
+              setTidligereData(data);
+              setEnemiesPlayed(data.enemies_played);
+              setTotalScore(data.total_points);
+              if (data.enemies_played.includes(names[0])){
+                setAlanDisabled(true);
+              }
+              if (data.enemies_played.includes(names[1])){
+                setTeslaDisabled(true);
+              }
+              if (data.enemies_played.includes(names[2])){
+                setKidyDisabled(true);
+              }
+            }
+      
+
+            if(forsok >= maksForsok){
+              setFetchSuccess(true); // Set fetch success to true
+
+              // Reset forsok to 0 when data is fetched successfully
+              setForsok(0);
               return;
             }
-
-            setTidligereData(data);
-            setEnemiesPlayed(data.enemies_played);
-            setTotalScore(data.total_points);
-            if (data.enemies_played.includes(names[0])){
-              setAlanDisabled(true);
-            }
-            if (data.enemies_played.includes(names[1])){
-              setTeslaDisabled(true);
-            }
-            if (data.enemies_played.includes(names[2])){
-              setKidyDisabled(true);
-            }
-            setForsok(0);
-            console.log("Nye data: ", data)
-
-          }
-          catch (error){
+      
+          } catch (error) {
             console.log("Couldnt fetch data, u should try again..");
             console.log("error received: ", error);
-            if(forsok < maksForsok){
+            if (forsok < maksForsok) {
               setForsok(prevForsok => prevForsok + 1); // Increment the retry counter
             }
+            setFetchSuccess(false); // Set fetch success to false
+          } finally {
+            setLoading(false);
           }
+        };
+
+        console.log("Fetch data is: ", fetchSuccess);
+        console.log("Forsoks number is ", forsok)
+
+        if(forsok === 0 && !fetchSuccess){
+          console.log("Tidligere data ", tidligereData);
+        }else{
+          console.log("Nyere data ", tidligereData);
+        }
+      
+        if (!fetchSuccess) { // Only fetch if previous fetch wasn't successful
+          setFetchSuccess(false);
+          fetchData();
         }
 
-        setLoading(false);
-        fetchData()
-      }, [forsok]);
+        // last thing we do before leaving this useEffect - for next iterations
+        if(fetchSuccess && forsok === 0){
+          console.log("The last thing we do is to set fetchSuccess to false");
+          setFetchSuccess(false);
+        }
+      }, [forsok]); 
 
       useEffect(() => {
         if(AlanDisabled && TeslaDisabled && KidyDisabled){
