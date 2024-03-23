@@ -4,14 +4,8 @@ from flask_cors import CORS, cross_origin # deploy
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 import random, time
-from sqlalchemy import create_engine
-from os import environ
-
-#Configure (old) secret key
-#app.config['SECRET_KEY'] = 'algobattle'
-
-# Configure ClearDB MySQL database
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://b9de329fa96869:edb01807@us-cdbr-east-06.cleardb.net/heroku_131b1afcdbd2c42?'
+import redis
+import os
 
 
 # Create Flask app
@@ -31,7 +25,13 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://u60sb86l93kiv6:pec990bfdd7
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
-ENEMIES_PLAYED = []
+
+# Initialize Redis client
+redis_url = 'rediss://:p77275872e8dc6a1296ed70f2379a3d2e7816ed21d638c976c767e714f6cab944@ec2-52-211-82-36.eu-west-1.compute.amazonaws.com:30480'
+
+redis_client = redis.StrictRedis.from_url(redis_url)
+
+
 GAME_BOARD = []
 ALL_CLICKED = []
 ALGORITME = ""
@@ -51,18 +51,49 @@ class User(db.Model):
     self.username = username
     self.points = points
 
+def add_enemies_played(enemy_played):
+    # Add enemies played to the list in Redis
+    redis_client.rpush("enemies_played", enemy_played)
+
+def get_enemies_played():
+    # Retrieve all enemies played from the list in Redis
+    return redis_client.lrange("enemies_played", 0, -1)
+
+def clean_enemies_played():
+    # Check if the list exists before attempting to delete it
+    if redis_client.exists("enemies_played"):
+        # Clean all values in redis list, it deletes the whole list
+        redis_client.delete("enemies_played")
+        return True
+    else:
+        return False
 
 @app.route("/")
 @cross_origin()
 def serve():
     return send_from_directory(app.static_folder, 'index.html')
 
+
 @app.route("/lets_begin", methods=['POST'])
 @cross_origin()
-def restart_and_to_optionpage():   
-    restart()
-    control_receives()
-    return jsonify({"enemies_played":ENEMIES_PLAYED})
+def restart_and_to_optionpage():
+    try:
+        # Restart and control functions
+        restart()
+
+        #cleaning up the redis list by deleting it
+        clean_result = clean_enemies_played()
+        if clean_result != True:
+            print("DEBUG: The Redis list ENEMIES_PLAYED is not empty")
+
+        # controlling the values if it is correctly handled
+        control_receives()
+
+        # Retrieve enemies played from Redis
+        enemies_played = get_enemies_played()
+        return jsonify(enemies_played), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 
 @app.route("/algoritme_data", methods=['POST'])
@@ -72,7 +103,6 @@ def start_game():
 
     global ALGORITME
     global ANTALL_BOKS
-    global ENEMIES_PLAYED
     global GAME_BOARD
     global TOTAL_POINTS
     GAME_BOARD.clear()
@@ -80,23 +110,20 @@ def start_game():
 
     ANTALL_BOKS = data["antall"]
     ALGORITME = str(data["algoritme"])
-    ENEMIES_PLAYED.append(data["algoritme"]) 
 
+    # Adding algorithme played to Redis list
+    add_enemies_played(data["algoritme"])
+
+    """
     for enemie in data["enemies_played"]:
         if enemie not in ENEMIES_PLAYED:
             print("--DEBUG-- Error at ENEMIES PLAYED!! the enemies played doesent match")
             ENEMIES_PLAYED.append(enemie)
-
-    """
-    if data["total_points"] != TOTAL_POINTS:
-        print("Error at POINTS!! the points doesent match")
-        print("Points received from client: ", data["total_points"])
-        print("Points received from server: ", TOTAL_POINTS)
-        TOTAL_POINTS = int(data["total_points"])
-    """
-
+    
     if (len(data["enemies_played"]) == 3):
         ENEMIES_PLAYED.clear()
+    """
+
     #control_receives() # kontrollerer om data har blitt satt fra API - client side
     lag_game_board() # Lager game board som det skal bli spilt på
 
@@ -110,7 +137,6 @@ def start_game():
 @cross_origin()
 def arena():
     global ALGORITME
-    global ENEMIES_PLAYED
 
     game_board = []
     [game_board.append(i) for i in range(1, int(ANTALL_BOKS)+1)]
@@ -128,7 +154,7 @@ def arena():
 
     control_receives()
 
-    response = make_response(jsonify({"gameboard": game_board, "algorithm": ALGORITME, "answer": ANSWER, "valgte_elementer": valgte_elementer, "enemies_played": ENEMIES_PLAYED}))
+    response = make_response(jsonify({"gameboard": game_board, "algorithm": ALGORITME, "answer": ANSWER, "valgte_elementer": valgte_elementer, "enemies_played": get_enemies_played()}))
     response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
     response.headers["Pragma"] = "no-cache"
     response.headers["Expires"] = "0"
@@ -139,12 +165,11 @@ def arena():
 @app.route('/last_standing')
 @cross_origin()
 def midlertidig_data():
-    global ENEMIES_PLAYED
     global TOTAL_POINTS
     control_receives()
     
-    response = make_response(jsonify({"total_points": TOTAL_POINTS, "enemies_played": ENEMIES_PLAYED}))
-    print("response", response, ", ENEMIES PLAYED: ", ENEMIES_PLAYED)
+    response = make_response(jsonify({"total_points": TOTAL_POINTS, "enemies_played": get_enemies_played()}))
+    print("response", response, ", ENEMIES PLAYED: ", get_enemies_played())
     response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
     response.headers["Pragma"] = "no-cache"
     response.headers["Expires"] = "0"
@@ -237,7 +262,6 @@ def reset_to_new_game():
     KONSTANT_VALG = 1
 
 def restart():
-    global ENEMIES_PLAYED
     global ALGORITME
     global ANTALL_BOKS
     global TOTAL_POINTS
@@ -245,8 +269,6 @@ def restart():
     global ALL_CLICKED
     global GAME_BOARD
 
-
-    ENEMIES_PLAYED.clear()
     ALGORITME = ""
     ANTALL_BOKS = 0
     TOTAL_POINTS = 0
@@ -321,7 +343,7 @@ def double_check(valgte_tall):
     return False
 
 def control_receives():
-    print("Control API DEBUG: ENEMIES_PLAYED: ", ENEMIES_PLAYED, ", ALGORITME: ", ALGORITME,
+    print("Control API DEBUG: ENEMIES_PLAYED: ", get_enemies_played(), ", ALGORITME: ", ALGORITME,
     ", ANTALL_BOKS: ",ANTALL_BOKS, "TOTAL_POINTS: ",TOTAL_POINTS, ", ALL_CLICKED: ", ALL_CLICKED, "ANSWER:", ANSWER)
 
 

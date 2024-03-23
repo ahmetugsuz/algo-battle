@@ -114,6 +114,7 @@ function OptionPage(){
       const [forsok, setForsok] = useState(0);
       const [tidligereData, setTidligereData] = useState();
       const [fetchSuccess, setFetchSuccess] = useState(false); 
+      /*
       useEffect(() => {
         const fetchData = async () => {
           setLoading(true);
@@ -123,15 +124,13 @@ function OptionPage(){
 
             console.log("Enemies played: ", enemiesPlayed);
             console.log("total points: ", TotalScore);
-                        
+
             if (fetchSuccess === false){
               if ((data.enemies_played.length === 0 || data.total_points === 0) && forsok < maksForsok) {
                 console.log("Forsok number ", forsok);
                 setForsok(prevForsok => prevForsok + 1); // Increment the retry counter
                 return;
               }
-
-              console.log("Setting up data")
               
               setTidligereData(data);
               setEnemiesPlayed(data.enemies_played);
@@ -168,27 +167,80 @@ function OptionPage(){
             setLoading(false);
           }
         };
-
+        
         console.log("Fetch data is: ", fetchSuccess);
         console.log("Forsoks number is ", forsok)
-
+        
         if(forsok === 0 && !fetchSuccess){
           console.log("Tidligere data ", tidligereData);
         }else{
           console.log("Nyere data ", tidligereData);
         }
-      
+        
         if (!fetchSuccess) { // Only fetch if previous fetch wasn't successful
           setFetchSuccess(false);
           fetchData();
         }
-
+        
         // last thing we do before leaving this useEffect - for next iterations
         if(fetchSuccess && forsok === 0){
           console.log("The last thing we do is to set fetchSuccess to false");
           setFetchSuccess(false);
         }
       }, [forsok]); 
+      */
+     
+      useEffect(() => {
+        const fetchData = async () => {
+          setLoading(true);
+          try {
+            const res = await fetch(`/last_standing?t=${Date.now()}`);
+            const data = await res.json();
+
+
+            
+              if ((data.enemies_played.length === 0 || data.total_points === 0) && forsok < maksForsok) {
+                console.log("Forsok number ", forsok);
+                setForsok(prevForsok => prevForsok + 1); // Increment the retry counter
+                return;
+              }
+              
+              setTidligereData(data);
+              setEnemiesPlayed(data.enemies_played);
+              setTotalScore(data.total_points);
+              if (data.enemies_played.includes(names[0])){
+                setAlanDisabled(true);
+              }
+              if (data.enemies_played.includes(names[1])){
+                setTeslaDisabled(true);
+              }
+              if (data.enemies_played.includes(names[2])){
+                setKidyDisabled(true);
+              }
+              
+              console.log("Enemies played: ", enemiesPlayed);
+              console.log("total points: ", TotalScore);
+              console.log("Enemies played from server: ", data.enemies_played);
+              console.log("total points: ", data.total_points);
+
+
+          } catch (error) {
+            console.log("Couldnt fetch data, u should try again..");
+            console.log("error received: ", error);
+            setFetchSuccess(false); // Set fetch success to false so it can retry
+          } finally {
+            setLoading(false);
+          }
+        };
+        
+        console.log("Fetch data is: ", fetchSuccess);
+        console.log("Forsoks number is ", forsok)
+        
+        if (!fetchSuccess) { // Only fetch if previous fetch wasn't successful
+          fetchData();
+        }
+
+      }, [fetchSuccess]); 
 
       useEffect(() => {
         if(AlanDisabled && TeslaDisabled && KidyDisabled){
@@ -261,17 +313,17 @@ function OptionPage(){
         setAlgorimte(props)
         setValidAlgoritme(false);
         if(props === "Tesla"){
-          setColorTesla(colorTesla === 'white' ? 'rgb(163, 20, 163)' : 'white');
+          setColorTesla(colorTesla === 'white' ? 'rgb(242, 206, 162)' : 'white');
           setColorAlan("white");
           setColorKidy("white");
         }
         else if(props === "Alan"){
-          setColorAlan(colorAlan === 'white' ? 'rgb(163, 20, 163)' : 'white');
+          setColorAlan(colorAlan === 'white' ? 'rgb(242, 206, 162)' : 'white');
           setColorTesla("white");
           setColorKidy("white");
         }
         else if(props === "Kidy"){
-          setColorKidy(colorKidy === 'white' ? 'rgb(163, 20, 163)' : 'white');
+          setColorKidy(colorKidy === 'white' ? 'rgb(228, 190, 145)' : 'white');
           setColorAlan("white");
           setColorTesla("white");
         }
@@ -311,14 +363,14 @@ function OptionPage(){
                 <div className='menuRow'>
                   <span style={{paddingLeft: 37.5}}>Info</span> <InfoBtn onClick={handleInfoBtn} className='infoBtn' />
                 </div>
-                <span style={{border: "solid 1.5px #222", display: 'flex'}}></span>
+                <span style={{border: "solid 1.5px #ebdabab9", display: 'flex'}}></span>
                 <div className='menuRow'>
                   Restart <RestartBtn onClick={handleRestartBtn} className='infoBtn ' />
                 </div>
               </div>
             </div>
             <div className='infoSection'>
-              <p className='welcometext'>Game Options <RiListSettingsFill style={{marginLeft: 15}}/></p>
+              <p className='welcometext'>Game Options <RiListSettingsFill style={{marginLeft: 15, color: "#d9d9d9"}}/></p>
               {InfoVisible ?
               <div className='infoContainer'>
                 <div className='infoTextContainer'>

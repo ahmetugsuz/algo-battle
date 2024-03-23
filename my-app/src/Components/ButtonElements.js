@@ -65,7 +65,7 @@ export const InfoBtn = styled(TbInfoCircle)`
     cursor: pointer;
     position: absolute;
     right: 0;
-    color: #111;
+    color: #ebdaba;
 `;
 
 
@@ -76,7 +76,7 @@ export const RestartBtn = styled(TbHomeMove)`
     cursor: pointer;
     position: absolute;
     right: 0;
-    color: #111;
+    color: #ebdaba;
 `;
 
 export const LeftArrow = styled(MdArrowLeft)`
