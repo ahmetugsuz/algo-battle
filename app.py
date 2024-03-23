@@ -5,7 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 import random, time
 import redis
-
+import os
 # Create Flask app
 app = Flask(__name__, static_folder='my-app/build', static_url_path='/')
 CORS(app)
@@ -27,9 +27,9 @@ migrate = Migrate(app, db)
 ssl_ca_certs = '/Users/ahmettugsuz/Documents/GitHub/algorithmbattle/redis.crt'
 
 # Initialize Redis client with SSL/TLS parameters
-redis_url = 'rediss://:p77275872e8dc6a1296ed70f2379a3d2e7816ed21d638c976c767e714f6cab944@ec2-52-211-82-36.eu-west-1.compute.amazonaws.com:30480'
+redis_url = os.environ.get('REDIS_URL')  # or REDIS_TLS_URL
 
-redis_client = redis.StrictRedis.from_url(redis_url, ssl=True, ssl_ca_certs=ssl_ca_certs)
+redis_client = redis.StrictRedis.from_url(redis_url, ssl=True)
 
 
 GAME_BOARD = []
