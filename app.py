@@ -29,7 +29,7 @@ ssl_ca_certs = '/Users/ahmettugsuz/Documents/GitHub/algorithmbattle/redis.crt'
 # Initialize Redis client with SSL/TLS parameters
 redis_url = os.environ.get('REDIS_URL')  # or REDIS_TLS_URL
 
-redis_client = redis.StrictRedis.from_url(redis_url, ssl=True)
+redis_client = redis.StrictRedis.from_url(redis_url)
 
 
 GAME_BOARD = []
