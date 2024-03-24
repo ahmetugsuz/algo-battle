@@ -195,14 +195,13 @@ function OptionPage(){
             const res = await fetch(`/last_standing?t=${Date.now()}`);
             const data = await res.json();
 
-              if ((data.enemies_played.length === 0 || data.total_points === 0) && forsok < maksForsok) {
-                if (maksForsok <= 10){
-                  maksForsok = maksForsok + 1;
-                }
-                console.log("Forsok number ", forsok);
-                setForsok(prevForsok => prevForsok + 1); // Increment the retry counter
-                return;
+            if (!data || !data.enemies_played || !data.total_points) {
+              if (forsok < maksForsok) {
+                  console.log("Forsok number ", forsok);
+                  setForsok(prevForsok => prevForsok + 1); // Increment the retry counter
+                  return;
               }
+            }
               
               setTidligereData(data);
               setEnemiesPlayed(data.enemies_played);
@@ -216,6 +215,7 @@ function OptionPage(){
               if (data.enemies_played.includes(names[2])){
                 setKidyDisabled(true);
               }
+              maksForsok = maksForsok * 2;
               
               console.log("Enemies played: ", enemiesPlayed);
               console.log("total points: ", TotalScore);
