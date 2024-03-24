@@ -202,6 +202,7 @@ function OptionPage(){
                   return;
               }
             }
+            else{
               
               setTidligereData(data);
               setEnemiesPlayed(data.enemies_played);
@@ -215,18 +216,24 @@ function OptionPage(){
               if (data.enemies_played.includes(names[2])){
                 setKidyDisabled(true);
               }
-
-              
+              setFetchSuccess(true);
               console.log("Enemies played: ", enemiesPlayed);
               console.log("total points: ", TotalScore);
-              console.log("Enemies played from server: ", data.enemies_played);
-              console.log("total points: ", data.total_points);
-
+              //console.log("Enemies played from server: ", data.enemies_played);
+              //console.log("total points: ", data.total_points);
+              return;
+            }
+              
 
           } catch (error) {
             console.log("Couldnt fetch data, u should try again..");
             console.log("error received: ", error);
             setFetchSuccess(false); // Set fetch success to false so it can retry
+            if (forsok < maksForsok) {
+              console.log("Forsok number ", forsok);
+              setForsok(prevForsok => prevForsok + 1); // Increment the retry counter
+              return;
+            }
           } finally {
             setLoading(false);
           }
@@ -239,7 +246,7 @@ function OptionPage(){
           fetchData();
         }
 
-      }, [fetchSuccess, forsok]); 
+      }, [forsok]); 
       
       useEffect(() => {
         if(AlanDisabled && TeslaDisabled && KidyDisabled){
