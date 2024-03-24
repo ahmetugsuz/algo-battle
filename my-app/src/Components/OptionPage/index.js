@@ -61,7 +61,7 @@ function OptionPage(){
 
       //mottar data for hvem som har blitt spilt mot
       const [dataFetched, setDataFetched] = useState(false);
-      
+      /*
       useEffect(() => {
 
           fetch("/last_standing", {
@@ -105,8 +105,8 @@ function OptionPage(){
         }
 
       }, [counterChanges, dataFetched]);
-      
-      /*
+      */
+
       const [loading, setLoading] = useState(false);
       // new function for GET data for '/last_standing': KeyWords: await, async, if motstander spilt mot (liste av spilte algoritmer) er tom og points er > 0, await for update.
 
@@ -114,7 +114,7 @@ function OptionPage(){
       const [forsok, setForsok] = useState(0);
       const [tidligereData, setTidligereData] = useState();
       const [fetchSuccess, setFetchSuccess] = useState(false); 
-
+      /*
       useEffect(() => {
         const fetchData = async () => {
           setLoading(true);
@@ -144,7 +144,7 @@ function OptionPage(){
               if (data.enemies_played.includes(names[2])){
                 setKidyDisabled(true);
               }
-            }      
+            }
 
             if(forsok >= maksForsok){
               setFetchSuccess(true); // Set fetch success to true
@@ -187,8 +187,7 @@ function OptionPage(){
         }
       }, [forsok]); 
       */
-
-     /*
+     
       useEffect(() => {
         const fetchData = async () => {
           setLoading(true);
@@ -196,8 +195,6 @@ function OptionPage(){
             const res = await fetch(`/last_standing?t=${Date.now()}`);
             const data = await res.json();
 
-
-            
               if ((data.enemies_played.length === 0 || data.total_points === 0) && forsok < maksForsok) {
                 console.log("Forsok number ", forsok);
                 setForsok(prevForsok => prevForsok + 1); // Increment the retry counter
@@ -240,7 +237,7 @@ function OptionPage(){
         }
 
       }, [fetchSuccess]); 
-      */
+      
       useEffect(() => {
         if(AlanDisabled && TeslaDisabled && KidyDisabled){
           setShowResults(true);
@@ -344,6 +341,7 @@ function OptionPage(){
             }
         }
       }
+
     
       const handleShowLeaderboard = () =>{
         {showLeaderboard ? setShowLeaderboard(!showLeaderboard) : setShowLeaderboard(!showLeaderboard)}
@@ -394,8 +392,9 @@ function OptionPage(){
           </div> 
           <div className='middle'>
             <p className='select' style={{fontWeight: 600, letterSpacing: 0.3}}>Select an Algorithm </p>
+            {fetchSuccess === true ? 
             <div className='algorithmOptions'>
-  
+            
               {TeslaDisabled ? 
               <div className='BtnTesla LockedPicture' onMouseEnter={handleHoverTesla} onMouseLeave={handleHoverTesla}>
                 {imageHoverTesla ? 
@@ -451,6 +450,9 @@ function OptionPage(){
               </div>
               }
             </div>
+              : 
+              <p>Loading ...</p>
+            }
           </div>
           <div className='bottom'>
             {ShowResults ?
