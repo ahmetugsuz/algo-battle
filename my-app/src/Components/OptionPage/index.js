@@ -61,7 +61,7 @@ function OptionPage(){
 
       //mottar data for hvem som har blitt spilt mot
       const [dataFetched, setDataFetched] = useState(false);
-      /*
+      
       useEffect(() => {
 
           fetch("/last_standing", {
@@ -105,8 +105,8 @@ function OptionPage(){
         }
 
       }, [counterChanges, dataFetched]);
-      */
-
+      
+      /*
       const [loading, setLoading] = useState(false);
       // new function for GET data for '/last_standing': KeyWords: await, async, if motstander spilt mot (liste av spilte algoritmer) er tom og points er > 0, await for update.
 
@@ -144,9 +144,7 @@ function OptionPage(){
               if (data.enemies_played.includes(names[2])){
                 setKidyDisabled(true);
               }
-            }
-
-      
+            }      
 
             if(forsok >= maksForsok){
               setFetchSuccess(true); // Set fetch success to true
@@ -188,6 +186,7 @@ function OptionPage(){
           setFetchSuccess(false);
         }
       }, [forsok]); 
+      */
 
      /*
       useEffect(() => {
