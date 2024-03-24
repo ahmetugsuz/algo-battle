@@ -110,7 +110,7 @@ function OptionPage(){
       const [loading, setLoading] = useState(false);
       // new function for GET data for '/last_standing': KeyWords: await, async, if motstander spilt mot (liste av spilte algoritmer) er tom og points er > 0, await for update.
 
-      const maksForsok = 3;
+      let maksForsok = 3;
       const [forsok, setForsok] = useState(0);
       const [tidligereData, setTidligereData] = useState();
       const [fetchSuccess, setFetchSuccess] = useState(false); 
@@ -196,6 +196,9 @@ function OptionPage(){
             const data = await res.json();
 
               if ((data.enemies_played.length === 0 || data.total_points === 0) && forsok < maksForsok) {
+                if (maksForsok <= 10){
+                  maksForsok = maksForsok + 1;
+                }
                 console.log("Forsok number ", forsok);
                 setForsok(prevForsok => prevForsok + 1); // Increment the retry counter
                 return;
@@ -236,7 +239,7 @@ function OptionPage(){
           fetchData();
         }
 
-      }, [fetchSuccess, loading]); 
+      }, [fetchSuccess, loading, forsok]); 
       
       useEffect(() => {
         if(AlanDisabled && TeslaDisabled && KidyDisabled){
@@ -458,7 +461,7 @@ function OptionPage(){
               : 
               <>
                 <p>Loading ...</p>
-                {handleFetchSuccess()}
+
               </>
             }
           </div>
