@@ -236,7 +236,7 @@ function OptionPage(){
           fetchData();
         }
 
-      }, [fetchSuccess]); 
+      }, [fetchSuccess, loading]); 
       
       useEffect(() => {
         if(AlanDisabled && TeslaDisabled && KidyDisabled){
@@ -340,6 +340,11 @@ function OptionPage(){
               setAntallBokser(event.target.value);
             }
         }
+      }
+
+      const handleFetchSuccess = () => {
+        setFetchSuccess(false);
+        setLoading(true);
       }
 
     
@@ -451,7 +456,10 @@ function OptionPage(){
               }
             </div>
               : 
-              <p>Loading ...</p>
+              <>
+                <p>Loading ...</p>
+                {handleFetchSuccess()}
+              </>
             }
           </div>
           <div className='bottom'>
