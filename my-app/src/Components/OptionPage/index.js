@@ -215,7 +215,7 @@ function OptionPage(){
               if (data.enemies_played.includes(names[2])){
                 setKidyDisabled(true);
               }
-              maksForsok = maksForsok * 2;
+
               
               console.log("Enemies played: ", enemiesPlayed);
               console.log("total points: ", TotalScore);
@@ -239,7 +239,7 @@ function OptionPage(){
           fetchData();
         }
 
-      }, [fetchSuccess, loading, forsok]); 
+      }, [fetchSuccess, forsok]); 
       
       useEffect(() => {
         if(AlanDisabled && TeslaDisabled && KidyDisabled){
