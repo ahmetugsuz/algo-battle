@@ -56,8 +56,9 @@ def add_enemies_played(enemy_played):
     redis_client.rpush("enemies_played", enemy_played)
 
 def get_enemies_played():
-    # Retrieve all enemies played from the list in Redis
-    return redis_client.lrange("enemies_played", 0, -1)
+    # Retrieve all enemies played from the list in Redis and decode them
+    return [enemy.decode('utf-8') for enemy in redis_client.lrange("enemies_played", 0, -1)]
+
 
 def clean_enemies_played():
     # Check if the list exists before attempting to delete it
@@ -154,7 +155,7 @@ def arena():
 
     control_receives()
 
-    response = make_response(jsonify({"gameboard": game_board, "algorithm": ALGORITME, "answer": ANSWER, "valgte_elementer": valgte_elementer, "enemies_played": get_enemies_played()}))
+    response = make_response(jsonify({"gameboard": game_board, "algorithm": ALGORITME, "answer": ANSWER, "valgte_elementer": valgte_elementer}))
     response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
     response.headers["Pragma"] = "no-cache"
     response.headers["Expires"] = "0"

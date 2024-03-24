@@ -32,7 +32,6 @@ function Arena(){
     const [alleClickedElements, setAlleClickedElements] = useState([]);
     const [valgteElementer, setValgteElementer] = useState([]);
     const [algoritmeValgteElementer, setAlgoritmeValgteElementer] = useState([]);
-    const [enemiesPlayed, setEnemiesPlayed] = useState([]); // can be used
     const [konstTeller, setKonstTeller] = useState(1);
     const [ventPaaMotstander, setVentPaaMotstander] = useState(false);
     const [algorithmChat, setAlgorithmChat] = useState("You can start to choose a box");
@@ -182,7 +181,7 @@ function Arena(){
           setAnswer(data.answer);
           setmotstanderNavn(data.algorithm);
           setAlgoritmeValgteElementer(data.valgte_elementer);
-          setEnemiesPlayed(data.enemies_played);
+
           setAntallBokser(data.gameboard.length);
           //setRetryCount(0); // Reset retry count upon successful fetch
         } catch (error) {
