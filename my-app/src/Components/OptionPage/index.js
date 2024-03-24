@@ -195,7 +195,7 @@ function OptionPage(){
             const res = await fetch(`/last_standing?t=${Date.now()}`);
             const data = await res.json();
 
-            if (!data || !data.enemies_played || !data.total_points) {
+            if (!data ) {
               if (forsok < maksForsok) {
                   console.log("Forsok number ", forsok);
                   setForsok(prevForsok => prevForsok + 1); // Increment the retry counter
