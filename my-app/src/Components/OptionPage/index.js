@@ -114,7 +114,7 @@ function OptionPage(){
       const [forsok, setForsok] = useState(0);
       const [tidligereData, setTidligereData] = useState();
       const [fetchSuccess, setFetchSuccess] = useState(false); 
-      /*
+
       useEffect(() => {
         const fetchData = async () => {
           setLoading(true);
@@ -188,8 +188,8 @@ function OptionPage(){
           setFetchSuccess(false);
         }
       }, [forsok]); 
-      */
-     
+
+     /*
       useEffect(() => {
         const fetchData = async () => {
           setLoading(true);
@@ -241,7 +241,7 @@ function OptionPage(){
         }
 
       }, [fetchSuccess]); 
-
+      */
       useEffect(() => {
         if(AlanDisabled && TeslaDisabled && KidyDisabled){
           setShowResults(true);

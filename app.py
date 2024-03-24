@@ -83,9 +83,7 @@ def restart_and_to_optionpage():
         restart()
 
         #cleaning up the redis list by deleting it
-        clean_result = clean_enemies_played()
-        if clean_result != True:
-            print("DEBUG: The Redis list ENEMIES_PLAYED is not empty")
+        clean_enemies_played()
 
         # controlling the values if it is correctly handled
         control_receives()
