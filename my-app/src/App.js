@@ -7,8 +7,6 @@ import "./App.css";
 import ResultPage from './Components/ResultPage';
 
 
-
-
 export default function App() {
   return (
     <BrowserRouter>

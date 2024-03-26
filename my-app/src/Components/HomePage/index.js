@@ -35,7 +35,6 @@ function HomePage() {
       });
       
     };
-    
 
     return(
         <div id="homepage" className='HomePageContainer'>

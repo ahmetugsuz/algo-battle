@@ -1,11 +1,8 @@
-import { MdInfo } from 'react-icons/md';
 import { MdArrowLeft, MdArrowRight } from 'react-icons/md';
 import {HiOutlineRefresh} from 'react-icons/hi';
 import {RiArrowRightLine} from 'react-icons/ri';
 import { AiOutlineClose } from "react-icons/ai";
 import { TbHomeMove } from "react-icons/tb";
-import { BsInfoCircle } from "react-icons/bs";
-import { HiOutlineInformationCircle } from "react-icons/hi2";
 import { TbInfoCircle } from "react-icons/tb";
 import { BsFillChatSquareFill } from "react-icons/bs";
 import { IoChatboxSharp } from "react-icons/io5";
@@ -50,7 +47,6 @@ export const ChatBuble2 = styled(IoChatboxSharp)`
     text-align: center;
     margin: auto;
     margin-left: 100px;
-
 
     @media screen and (max-width: 1600px){
         height: 200px;

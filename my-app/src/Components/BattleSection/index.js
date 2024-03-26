@@ -1,20 +1,13 @@
 import React, {useState, useEffect, useCallback} from "react";
 import './BattleSectionElements.css';
-import {ChatBuble, ChatBuble2, NextPageArrow, CloseIcon, RightArrow, RightSideArrow, RightArrowBattleSection} from "../ButtonElements.js";
-import { GrExpand } from "react-icons/gr";
-import { TfiClose } from "react-icons/tfi";
-import { VscChromeClose } from "react-icons/vsc";
+import {ChatBuble2, CloseIcon, RightSideArrow, RightArrowBattleSection} from "../ButtonElements.js";
 import { useNavigate } from "react-router-dom";
-import { InlineMath, BlockMath } from 'react-katex';
+import { BlockMath } from 'react-katex';
 import 'katex/dist/katex.min.css';
 import TeslaImage from "../../Images/thinkingTesla.avif";
 import AlanImage from "../../Images/thinkingAlan.png";
 import KidyImage from "../../Images/thinkingKidy.png";
-import { TbPageBreak } from "react-icons/tb";
-import { MdClose, MdCloseFullscreen, MdClosedCaption, MdExpand, MdExpandLess, MdExpandMore, MdPageview, MdTableRows, MdVerticalShadesClosed } from "react-icons/md";
-import { BsArrowsAngleExpand } from "react-icons/bs";
-import { AiOutlineExpandAlt } from "react-icons/ai";
-import { RiEyeCloseFill } from "react-icons/ri";
+import { MdCloseFullscreen, MdTableRows } from "react-icons/md";
 
 function Arena(){
     const navigate = useNavigate();
@@ -51,7 +44,6 @@ function Arena(){
     const [numberOfAttemptsFake2, setNumberOfAttemptsFake2] = useState();
     const [numberOfAttemptsFake3, setNumberOfAttemptsFake3] = useState();
     const [lastQuestion, setLastQuestion] = useState("What is the average attempts for Tesla to find the correct answer?");
-    const [roundNumber, setRoundNumber] = useState(1);
     const [moreDetail, SetMoreDetail] = useState(false);
     const [tableRows, setTableRows] = useState([]);
 
@@ -92,9 +84,6 @@ function Arena(){
       "Alan": AlanImage,
       "Kidy": KidyImage
     }
-
-
-  
 
     // Table to show box choice for every round, both for machine and user
     const selectedValueTable = (
@@ -181,7 +170,6 @@ function Arena(){
           setAnswer(data.answer);
           setmotstanderNavn(data.algorithm);
           setAlgoritmeValgteElementer(data.valgte_elementer);
-
           setAntallBokser(data.gameboard.length);
           //setRetryCount(0); // Reset retry count upon successful fetch
         } catch (error) {
@@ -538,7 +526,6 @@ function Arena(){
                   }
                   </div>
                 </div>
-
 
                 <div className="rightSideRowContainer algorithmImageContainer">
                   <div className="containerBildeAlgoritme">

@@ -30,10 +30,6 @@ function OptionPage(){
     const [UserData, setUserData] = useState();
     const [InfoVisible, setInfoVisible] = useState(false);
     const [konstantOppdateringer, setKonstantOppdateringer] = useState(0);
-    const [counter, setCounter] = useState(0);
-    const [counterChanges, setCounterChanges] = useState(0);
-    const [kallAPI, setKallAPI] = useState(0);
-    const [previousTotalScore, setPreviousTotalScore] = useState(0);
     const names = ["Alan", "Tesla", "Kidy"]
 
     const handleClick = () =>{  
@@ -47,11 +43,8 @@ function OptionPage(){
         .then(response => {
           if (response.status !== 200) {
             // Some issue from the server
-            console.log(response)
           }
-          }).then(() => {
-            
-          })
+          }).then(() => {})
           .catch(error => {
             // handle any errors that may occur
             console.error("Error at receiving ACK from algoritmeData ",error);
@@ -60,8 +53,8 @@ function OptionPage(){
       };
 
       //mottar data for hvem som har blitt spilt mot
-      const [dataFetched, setDataFetched] = useState(false);
       /*
+      const [dataFetched, setDataFetched] = useState(false);
       useEffect(() => {
 
           fetch("/last_standing", {
@@ -107,73 +100,72 @@ function OptionPage(){
       }, [counterChanges, dataFetched]);
       */
 
-      const [loading, setLoading] = useState(false);
-      // new function for GET data for '/last_standing': KeyWords: await, async, if motstander spilt mot (liste av spilte algoritmer) er tom og points er > 0, await for update.
+     /*
+     useEffect(() => {
+       const fetchData = async () => {
+         setLoading(true);
+         try {
+           const res = await fetch(`/last_standing?t=${Date.now()}`);
+           const data = await res.json();
 
+           if (fetchSuccess === false){
+             if ((data.enemies_played.length === 0 || data.total_points === 0) && forsok < maksForsok) {
+               console.log("Forsok number ", forsok);
+               setForsok(prevForsok => prevForsok + 1); // Increment the retry counter
+               return;
+             }
+             
+             setTidligereData(data);
+             setEnemiesPlayed(data.enemies_played);
+             setTotalScore(data.total_points);
+             if (data.enemies_played.includes(names[0])){
+               setAlanDisabled(true);
+             }
+             if (data.enemies_played.includes(names[1])){
+               setTeslaDisabled(true);
+             }
+             if (data.enemies_played.includes(names[2])){
+               setKidyDisabled(true);
+             }
+           }
+
+           if(forsok >= maksForsok){
+             setFetchSuccess(true); // Set fetch success to true
+
+             // Reset forsok to 0 when data is fetched successfully
+             setForsok(0);
+             return;
+           }
+     
+         } catch (error) {
+           console.log("Couldnt fetch data, u should try again..");
+           console.log("error received: ", error);
+           if (forsok < maksForsok) {
+             setForsok(prevForsok => prevForsok + 1); // Increment the retry counter
+           }
+           setFetchSuccess(false); // Set fetch success to false
+         } finally {
+           setLoading(false);
+         }
+       };
+       
+       if (!fetchSuccess) { // Only fetch if previous fetch wasn't successful
+         setFetchSuccess(false);
+         fetchData();
+       }
+       
+       // last thing we do before leaving this useEffect - for next iterations
+       if(fetchSuccess && forsok === 0){
+         setFetchSuccess(false);
+       }
+     }, [forsok]); 
+     */
+
+      const [loading, setLoading] = useState(false);
       let maksForsok = 3;
       const [forsok, setForsok] = useState(0);
       const [tidligereData, setTidligereData] = useState();
       const [fetchSuccess, setFetchSuccess] = useState(false); 
-      /*
-      useEffect(() => {
-        const fetchData = async () => {
-          setLoading(true);
-          try {
-            const res = await fetch(`/last_standing?t=${Date.now()}`);
-            const data = await res.json();
-
-            if (fetchSuccess === false){
-              if ((data.enemies_played.length === 0 || data.total_points === 0) && forsok < maksForsok) {
-                console.log("Forsok number ", forsok);
-                setForsok(prevForsok => prevForsok + 1); // Increment the retry counter
-                return;
-              }
-              
-              setTidligereData(data);
-              setEnemiesPlayed(data.enemies_played);
-              setTotalScore(data.total_points);
-              if (data.enemies_played.includes(names[0])){
-                setAlanDisabled(true);
-              }
-              if (data.enemies_played.includes(names[1])){
-                setTeslaDisabled(true);
-              }
-              if (data.enemies_played.includes(names[2])){
-                setKidyDisabled(true);
-              }
-            }
-
-            if(forsok >= maksForsok){
-              setFetchSuccess(true); // Set fetch success to true
-
-              // Reset forsok to 0 when data is fetched successfully
-              setForsok(0);
-              return;
-            }
-      
-          } catch (error) {
-            console.log("Couldnt fetch data, u should try again..");
-            console.log("error received: ", error);
-            if (forsok < maksForsok) {
-              setForsok(prevForsok => prevForsok + 1); // Increment the retry counter
-            }
-            setFetchSuccess(false); // Set fetch success to false
-          } finally {
-            setLoading(false);
-          }
-        };
-        
-        if (!fetchSuccess) { // Only fetch if previous fetch wasn't successful
-          setFetchSuccess(false);
-          fetchData();
-        }
-        
-        // last thing we do before leaving this useEffect - for next iterations
-        if(fetchSuccess && forsok === 0){
-          setFetchSuccess(false);
-        }
-      }, [forsok]); 
-      */
      
       useEffect(() => {
         const fetchData = async () => {
@@ -204,8 +196,7 @@ function OptionPage(){
               }
               setFetchSuccess(true);
               return;
-            }
-              
+            } 
 
           } catch (error) {
             console.log("error received: ", error);
@@ -328,12 +319,6 @@ function OptionPage(){
             }
         }
       }
-
-      const handleFetchSuccess = () => {
-        setFetchSuccess(false);
-        setLoading(true);
-      }
-
     
       const handleShowLeaderboard = () =>{
         {showLeaderboard ? setShowLeaderboard(!showLeaderboard) : setShowLeaderboard(!showLeaderboard)}
@@ -445,7 +430,6 @@ function OptionPage(){
               : 
               <>
                 <p>Loading ...</p>
-
               </>
             }
           </div>

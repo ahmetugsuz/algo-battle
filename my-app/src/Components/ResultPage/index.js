@@ -12,7 +12,6 @@ function ResultPage(){
     const [success, setSuccess] = useState(false);
     const [nyttDataCounter, settNyttDataCounter] = useState(0);
     const [teller, setTeller] = useState(0);
-    const [dataFetched, setDataFetched] = useState(false);
     const [refreshText, setRefreshText] = useState('');
     //mottar data for poeng brukeren har samlet
     useEffect(() => {
@@ -150,7 +149,6 @@ function ResultPage(){
       });
       navigate('/')
     }
-
 
     return (
         <div className='ResultPageContainer' id="resultpage">
