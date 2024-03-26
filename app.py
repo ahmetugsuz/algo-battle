@@ -6,6 +6,7 @@ from flask_migrate import Migrate
 import random, time
 import redis
 import os
+import json
 # Create Flask app
 app = Flask(__name__, static_folder='my-app/build', static_url_path='/')
 CORS(app)
@@ -148,7 +149,7 @@ def create_game_board():
 
 
         # Store the initial game board in Redis
-        set_variable("game_board", game_board)
+        set_variable("game_board", json.dumps(game_board))
 
     return game_board
 
