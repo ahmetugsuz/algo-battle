@@ -429,7 +429,7 @@ function OptionPage(){
             </div>
               : 
               <>
-                <p>Loading ...</p>
+                <p></p>
               </>
             }
           </div>
