@@ -60,6 +60,45 @@ def get_enemies_played():
     return [enemy.decode('utf-8') for enemy in redis_client.lrange("enemies_played", 0, -1)]
 
 
+def get_variable(key):
+    """
+    Retrieve the value of a variable from Redis.
+
+    Args:
+        key (str): The name of the variable (Redis key).
+
+    Returns:
+        str or None: The current value of the variable, or None if the key does not exist.
+    """
+    value = redis_client.get(key)
+    return value.decode('utf-8') if value else None
+
+def set_variable(key, value):
+    """
+    Set the value of a variable in Redis.
+
+    Args:
+        key (str): The name of the variable (Redis key).
+        value (str or int): The new value to set.
+
+    Returns:
+        None
+    """
+    redis_client.set(key, value)
+
+def reset_variable(key):
+    """
+    Reset the value of a variable in Redis (set it to an empty value).
+
+    Args:
+        key (str): The name of the variable (Redis key).
+
+    Returns:
+        None
+    """
+    redis_client.delete(key)
+
+
 def clean_enemies_played():
     # Check if the list exists before attempting to delete it
     if redis_client.exists("enemies_played"):
@@ -108,7 +147,8 @@ def start_game():
     ANTALL_BOKS = 0
 
     ANTALL_BOKS = data["antall"]
-    ALGORITME = str(data["algoritme"])
+    #ALGORITME = str(data["algoritme"])
+    set_variable("algoritme", str(data["algoritme"]))
 
     # Adding algorithme played to Redis list
     add_enemies_played(data["algoritme"])
@@ -141,11 +181,15 @@ def arena():
     [game_board.append(i) for i in range(1, int(ANTALL_BOKS)+1)]
     valgte_elementer = []
 
-    if ALGORITME == "Tesla":
+    algoritme = get_variable("algoritme")
+    if algoritme == None:
+        print("DEBUG: algoritme received from redis is None")
+
+    if algoritme == "Tesla":
         [valgte_elementer.append(i) for i in range(0, len(GAME_BOARD)+1)]
-    elif ALGORITME == "Alan":
+    elif algoritme == "Alan":
         valgte_elementer = lag_binary_list()
-    elif ALGORITME == "Kidy":
+    elif algoritme == "Kidy":
         valgte_elementer = lag_random_liste()
 
     if len(game_board) == 0:
@@ -153,7 +197,7 @@ def arena():
 
     control_receives()
 
-    response = make_response(jsonify({"gameboard": game_board, "algorithm": ALGORITME, "answer": ANSWER, "valgte_elementer": valgte_elementer}))
+    response = make_response(jsonify({"gameboard": game_board, "algorithm": get_variable("algoritme"), "answer": ANSWER, "valgte_elementer": valgte_elementer}))
     response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
     response.headers["Pragma"] = "no-cache"
     response.headers["Expires"] = "0"
@@ -253,6 +297,7 @@ def reset_to_new_game():
     global ANSWER
     global KONSTANT_VALG
 
+    reset_variable("algoritme")
     ALL_CLICKED.clear()
     ALGORITME = ""
     GAME_BOARD.clear()
@@ -269,6 +314,7 @@ def restart():
     global GAME_BOARD
 
     ALGORITME = ""
+    reset_variable("algoritme")
     ANTALL_BOKS = 0
     TOTAL_POINTS = 0
     KONSTANT_VALG = 1
@@ -342,7 +388,7 @@ def double_check(valgte_tall):
     return False
 
 def control_receives():
-    print("Control API DEBUG: ENEMIES_PLAYED: ", get_enemies_played(), ", ALGORITME: ", ALGORITME,
+    print("Control API DEBUG: ENEMIES_PLAYED: ", get_enemies_played(), ", ALGORITME: ", get_variable("algoritme"),
     ", ANTALL_BOKS: ",ANTALL_BOKS, "TOTAL_POINTS: ",TOTAL_POINTS, ", ALL_CLICKED: ", ALL_CLICKED, "ANSWER:", ANSWER)
 
 
