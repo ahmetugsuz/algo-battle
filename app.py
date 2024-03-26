@@ -387,7 +387,7 @@ def restart():
 
 def lag_binary_list():
     low = 1
-    game_board = get_variable("game_board")
+    game_board = create_game_board()
     high = len(game_board)
     binary_list = [0] # first element is 0 because its starting from inedex 1
     while low <= high:
@@ -407,7 +407,7 @@ def lag_binary_list():
     return binary_list
     
 def lag_random_liste():
-    game_board = get_variable("game_board")
+    game_board = create_game_board()
     random_liste = [0] # first element is 0 because its starting from inedex 1
     while len(random_liste) <= len(game_board):
         selected_number = random.randint(1, len(game_board))
@@ -421,7 +421,7 @@ def Tesla(valg: int):
 
 #binary search
 def Alan(start, end):
-    game_board = get_variable("game_board")
+    game_board = create_game_board()
     i = (start + end) // 2
     if start <= end:
         selected_element = int(game_board[i])
@@ -436,7 +436,7 @@ def Alan(start, end):
 
 
 def Kidy():
-    game_board = get_variable("game_board")
+    game_board = create_game_board()
     size = len(game_board)
     tilfeldig_tall = random.randint(1, size)
     for i in ALL_CLICKED:
