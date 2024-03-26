@@ -32,16 +32,7 @@ redis_url = os.environ.get('REDIS_URL')  # or REDIS_TLS_URL
 
 redis_client = redis.StrictRedis.from_url(redis_url)
 
-
-GAME_BOARD = []
-ALL_CLICKED = []
-ALGORITME = ""
-ANTALL_BOKS = 0
-TOTAL_POINTS = 0
-ANSWER = 7
-KONSTANT_VALG = 1
-MIDLERTIDIG_TALL = 1
-SJEKK_DATA = 0
+ALL_CLICKED = [] # global list for all clicked, just for one segment at time, not used between other segments, or any links. Not needed to be cached.
 
 class User(db.Model):
   id = db.Column(db.Integer, primary_key=True)
@@ -184,16 +175,7 @@ def restart_and_to_optionpage():
 def start_game():
     data = request.get_json()
 
-    global ALGORITME
-    global ANTALL_BOKS
-    global GAME_BOARD
-
-    GAME_BOARD.clear()
-    #ANTALL_BOKS = 0
-    #ANTALL_BOKS = data["antall"]
-
     set_variable("antall_boks", data["antall"])
-    #ALGORITME = str(data["algoritme"])
     set_variable("algoritme", str(data["algoritme"]))
 
     # Adding algorithme played to Redis list
@@ -210,7 +192,6 @@ def start_game():
     """
 
     #control_receives() # kontrollerer om data har blitt satt fra API - client side
-    #lag_game_board() # Lager game board som det skal bli spilt på
     set_answer() #setting the answer on the game_board randomly
 
     data = jsonify({})
@@ -222,11 +203,7 @@ def start_game():
 @app.route('/arena')
 @cross_origin()
 def arena():
-    global ALGORITME
-
-    # Phase 1: Creating the game board
-    # game_board = []
-    # [game_board.append(i) for i in range(1, int(ANTALL_BOKS)+1)]
+    # Creating the game board
     antall_boks = get_integer_variable("antall_boks")
     if antall_boks == None:
         start_game()
@@ -276,7 +253,7 @@ def midlertidig_data():
         total_points = 0
     
     response = make_response(jsonify({"total_points": total_points, "enemies_played": get_enemies_played()}))
-    print("response", response, ", ENEMIES PLAYED: ", get_enemies_played())
+    #print("response", response, ", ENEMIES PLAYED: ", get_enemies_played())
     response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
     response.headers["Pragma"] = "no-cache"
     response.headers["Expires"] = "0"
@@ -290,7 +267,6 @@ def midlertidig_data():
 def round_end():
     data = request.get_json()
     reset_to_new_game()
-    global TOTAL_POINTS
 
     total_points = get_integer_variable("total_points")  
     set_variable("total_points", total_points + int(data["poeng"]) if total_points is not None else int(data["poeng"]))
@@ -340,56 +316,29 @@ def get_users_db():
 
 
 def set_answer():
-    #print("--DEBUG-- Creating game board")
-    global GAME_BOARD
-    global ANSWER 
-    global MIDLERTIDIG_TALL
-
+    #Creating game board
     game_board = create_game_board()
     board_storrelse = int(len(game_board))
     answer = random.randint(1, board_storrelse)
     set_variable("answer", answer)
 
-
-
 def reset_to_new_game():
     global ALL_CLICKED
-    global ALGORITME
-    global GAME_BOARD
-    global ANTALL_BOKS
-    global ANSWER
-    global KONSTANT_VALG
-    
 
     reset_variable("algoritme")
     reset_variable("antall_boks")
     reset_variable("game_board")
     reset_variable("answer")
     ALL_CLICKED.clear()
-    ALGORITME = ""
-    GAME_BOARD.clear()
-    ANTALL_BOKS = 0
-    ANSWER = 7
-    KONSTANT_VALG = 1
 
 def restart():
-    global ALGORITME
-    global ANTALL_BOKS
-    global TOTAL_POINTS
-    global KONSTANT_VALG
     global ALL_CLICKED
-    global GAME_BOARD
 
-    ALGORITME = ""
     reset_variable("antall_boks")
     reset_variable("algoritme")
     reset_variable("game_board")
     reset_variable("total_points")
-    ANTALL_BOKS = 0
-    TOTAL_POINTS = 0
-    KONSTANT_VALG = 1
     ALL_CLICKED.clear()
-    GAME_BOARD.clear()
 
 
 def lag_binary_list():
