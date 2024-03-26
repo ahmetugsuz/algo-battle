@@ -270,10 +270,12 @@ def arena():
 @app.route('/last_standing')
 @cross_origin()
 def midlertidig_data():
-    global TOTAL_POINTS
     control_receives()
+    total_points = get_integer_variable("total_points")
+    if not total_points:
+        total_points = 0
     
-    response = make_response(jsonify({"total_points": get_integer_variable("total_points"), "enemies_played": get_enemies_played()}))
+    response = make_response(jsonify({"total_points": total_points, "enemies_played": get_enemies_played()}))
     print("response", response, ", ENEMIES PLAYED: ", get_enemies_played())
     response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
     response.headers["Pragma"] = "no-cache"
