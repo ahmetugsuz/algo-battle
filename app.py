@@ -59,6 +59,14 @@ def get_enemies_played():
     # Retrieve all enemies played from the list in Redis and decode them
     return [enemy.decode('utf-8') for enemy in redis_client.lrange("enemies_played", 0, -1)]
 
+def clean_enemies_played():
+    # Check if the list exists before attempting to delete it
+    if redis_client.exists("enemies_played"):
+        # Clean all values in redis list, it deletes the whole list
+        redis_client.delete("enemies_played")
+        return True
+    else:
+        return False
 
 def get_variable(key):
     """
@@ -98,15 +106,27 @@ def reset_variable(key):
     """
     redis_client.delete(key)
 
+def create_game_board():
+    """
+    Create or retrieve the game board from Redis.
 
-def clean_enemies_played():
-    # Check if the list exists before attempting to delete it
-    if redis_client.exists("enemies_played"):
-        # Clean all values in redis list, it deletes the whole list
-        redis_client.delete("enemies_played")
-        return True
+    Returns:
+        list: The game board (list of integers).
+    """
+
+    # Check if the game board already exists in Redis
+    game_board = get_variable("game_board")
+    if game_board:
+        # Convert the string representation back to a list
+        game_board = [int(x) for x in game_board.split(",")]
     else:
-        return False
+        # Create a new game board
+        game_board = list(range(1, int(get_variable("antall_boks")) + 1))
+        # Store the initial game board in Redis
+        set_variable("game_board", ",".join(map(str, game_board)))
+
+    return game_board
+
 
 @app.route("/")
 @cross_origin()
@@ -144,9 +164,10 @@ def start_game():
     global GAME_BOARD
     global TOTAL_POINTS
     GAME_BOARD.clear()
-    ANTALL_BOKS = 0
+    #ANTALL_BOKS = 0
+    #ANTALL_BOKS = data["antall"]
 
-    ANTALL_BOKS = data["antall"]
+    set_variable("antall_boks", data["antall"])
     #ALGORITME = str(data["algoritme"])
     set_variable("algoritme", str(data["algoritme"]))
 
@@ -177,8 +198,11 @@ def start_game():
 def arena():
     global ALGORITME
 
-    game_board = []
-    [game_board.append(i) for i in range(1, int(ANTALL_BOKS)+1)]
+    # Phase 1: Creating the game board
+    # game_board = []
+    # [game_board.append(i) for i in range(1, int(ANTALL_BOKS)+1)]
+    game_board = create_game_board()
+    
     valgte_elementer = []
 
     algoritme = get_variable("algoritme")
@@ -186,14 +210,14 @@ def arena():
         print("DEBUG: algoritme received from redis is None")
 
     if algoritme == "Tesla":
-        [valgte_elementer.append(i) for i in range(0, len(GAME_BOARD)+1)]
+        [valgte_elementer.append(i) for i in range(0, len(game_board)+1)]
     elif algoritme == "Alan":
         valgte_elementer = lag_binary_list()
     elif algoritme == "Kidy":
         valgte_elementer = lag_random_liste()
 
     if len(game_board) == 0:
-        [game_board.append(i) for i in range(1, int(ANTALL_BOKS)+1)]
+        [game_board.append(i) for i in range(1, int(get_variable("antall_boks"))+1)]
 
     control_receives()
 
@@ -277,7 +301,7 @@ def get_users_db():
 
 
 def lag_game_board():
-    print("--DEBUG-- Creating game board")
+    #print("--DEBUG-- Creating game board")
     global GAME_BOARD
     global ANSWER 
     global MIDLERTIDIG_TALL
@@ -296,8 +320,11 @@ def reset_to_new_game():
     global ANTALL_BOKS
     global ANSWER
     global KONSTANT_VALG
+    
 
     reset_variable("algoritme")
+    reset_variable("antall_boks")
+    reset_variable("game_board")
     ALL_CLICKED.clear()
     ALGORITME = ""
     GAME_BOARD.clear()
@@ -314,7 +341,9 @@ def restart():
     global GAME_BOARD
 
     ALGORITME = ""
+    reset_variable("antall_boks")
     reset_variable("algoritme")
+    reset_variable("game_board")
     ANTALL_BOKS = 0
     TOTAL_POINTS = 0
     KONSTANT_VALG = 1
@@ -324,16 +353,17 @@ def restart():
 
 def lag_binary_list():
     low = 1
-    high = len(GAME_BOARD)
+    game_board = get_variable("game_board")
+    high = len(game_board)
     binary_list = [0] # first element is 0 because its starting from inedex 1
     while low <= high:
         mid = (low + high) // 2
         binary_list.append(mid)
 
-        if GAME_BOARD[mid] < ANSWER:
+        if game_board[mid] < ANSWER:
             low = mid +1
         
-        elif GAME_BOARD[mid] > ANSWER:
+        elif game_board[mid] > ANSWER:
             high = mid -1
         
         else:
@@ -343,11 +373,12 @@ def lag_binary_list():
     return binary_list
     
 def lag_random_liste():
+    game_board = get_variable("game_board")
     random_liste = [0] # first element is 0 because its starting from inedex 1
-    while len(random_liste) <= len(GAME_BOARD):
-        selected_number = random.randint(1, len(GAME_BOARD))
+    while len(random_liste) <= len(game_board):
+        selected_number = random.randint(1, len(game_board))
         while selected_number in random_liste:
-            selected_number = random.randint(1, len(GAME_BOARD))
+            selected_number = random.randint(1, len(game_board))
         random_liste.append(selected_number)
     return random_liste
 
@@ -356,9 +387,10 @@ def Tesla(valg: int):
 
 #binary search
 def Alan(start, end):
+    game_board = get_variable("game_board")
     i = (start + end) // 2
     if start <= end:
-        selected_element = int(GAME_BOARD[i])
+        selected_element = int(game_board[i])
         if selected_element in ALL_CLICKED:
             if selected_element < ANSWER:
                 return Alan(i + 1, end)
@@ -370,7 +402,8 @@ def Alan(start, end):
 
 
 def Kidy():
-    size = len(GAME_BOARD)
+    game_board = get_variable("game_board")
+    size = len(game_board)
     tilfeldig_tall = random.randint(1, size)
     for i in ALL_CLICKED:
         if tilfeldig_tall == i:
