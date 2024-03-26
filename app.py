@@ -132,7 +132,7 @@ def create_game_board():
     game_board = get_variable("game_board")
     if game_board:
         # Convert the string representation back to a list
-        game_board = [int(x) for x in game_board.split(",")]
+        game_board = json.loads(game_board)
     else:
         # Create a new game board
         antall_boks = get_integer_variable("antall_boks")
@@ -211,7 +211,7 @@ def start_game():
     """
 
     #control_receives() # kontrollerer om data har blitt satt fra API - client side
-    lag_game_board() # Lager game board som det skal bli spilt på
+    #lag_game_board() # Lager game board som det skal bli spilt på
 
     data = jsonify({})
     data.status_code = 200
