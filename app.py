@@ -81,6 +81,19 @@ def get_variable(key):
     value = redis_client.get(key)
     return value.decode('utf-8') if value else None
 
+def get_integer_variable(key):
+    """
+    Retrieve the value of a variable from Redis.
+
+    Args:
+        key (str): The name of the variable (Redis key).
+
+    Returns:
+        int or None: The current value of the variable as an integer, or None if the key does not exist.
+    """
+    value = redis_client.get(key)
+    return int(value) if value is not None else None
+
 def set_variable(key, value):
     """
     Set the value of a variable in Redis.
@@ -121,7 +134,17 @@ def create_game_board():
         game_board = [int(x) for x in game_board.split(",")]
     else:
         # Create a new game board
-        game_board = list(range(1, int(get_variable("antall_boks")) + 1))
+        antall_boks = get_integer_variable("antall_boks")
+        if antall_boks == None:
+            start_game()
+            antall_boks = get_integer_variable("antall_boks")
+            if antall_boks is None:
+                # Optionally handle the case where the API call fails
+                raise ValueError("Failed to retrieve antall_boks from API")
+            else:
+                set_variable("antall_boks", antall_boks)
+        else:
+            game_board = list(range(1, antall_boks + 1))
         # Store the initial game board in Redis
         set_variable("game_board", ",".join(map(str, game_board)))
 
@@ -201,6 +224,15 @@ def arena():
     # Phase 1: Creating the game board
     # game_board = []
     # [game_board.append(i) for i in range(1, int(ANTALL_BOKS)+1)]
+    antall_boks = get_integer_variable("antall_boks")
+    if antall_boks == None:
+        start_game()
+        antall_boks = get_integer_variable("antall_boks")
+        if antall_boks is None:
+            # Optionally handle the case where the API call fails
+            raise ValueError("Failed to retrieve antall_boks from API")
+        else:
+            set_variable("antall_boks", antall_boks)
     game_board = create_game_board()
     
     valgte_elementer = []
@@ -217,11 +249,11 @@ def arena():
         valgte_elementer = lag_random_liste()
 
     if len(game_board) == 0:
-        [game_board.append(i) for i in range(1, int(get_variable("antall_boks"))+1)]
+        [game_board.append(i) for i in range(1, antall_boks+1)]
 
     control_receives()
 
-    response = make_response(jsonify({"gameboard": game_board, "algorithm": get_variable("algoritme"), "answer": ANSWER, "valgte_elementer": valgte_elementer}))
+    response = make_response(jsonify({"gameboard": game_board, "algorithm": algoritme, "answer": ANSWER, "valgte_elementer": valgte_elementer}))
     response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
     response.headers["Pragma"] = "no-cache"
     response.headers["Expires"] = "0"
