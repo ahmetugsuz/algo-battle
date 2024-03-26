@@ -256,6 +256,9 @@ def arena():
 
     control_receives()
     answer = get_variable("answer")
+    if not answer:
+        set_answer()
+        
     response = make_response(jsonify({"gameboard": game_board, "algorithm": algoritme, "answer": answer, "valgte_elementer": valgte_elementer}))
     response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
     response.headers["Pragma"] = "no-cache"
