@@ -187,7 +187,7 @@ def start_game():
     global ALGORITME
     global ANTALL_BOKS
     global GAME_BOARD
-    global TOTAL_POINTS
+
     GAME_BOARD.clear()
     #ANTALL_BOKS = 0
     #ANTALL_BOKS = data["antall"]
@@ -273,7 +273,7 @@ def midlertidig_data():
     global TOTAL_POINTS
     control_receives()
     
-    response = make_response(jsonify({"total_points": TOTAL_POINTS, "enemies_played": get_enemies_played()}))
+    response = make_response(jsonify({"total_points": get_integer_variable("total_points"), "enemies_played": get_enemies_played()}))
     print("response", response, ", ENEMIES PLAYED: ", get_enemies_played())
     response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
     response.headers["Pragma"] = "no-cache"
@@ -288,12 +288,11 @@ def midlertidig_data():
 def round_end():
     data = request.get_json()
     reset_to_new_game()
-
     global TOTAL_POINTS
 
-    TOTAL_POINTS = TOTAL_POINTS + int(data["poeng"])
-    print("Total poeng er: ", TOTAL_POINTS)
-    response = jsonify({"total_points": TOTAL_POINTS})
+    total_points = get_integer_variable("total_points")  
+    set_variable("total_points", total_points + int(data["poeng"]) if total_points is not None else int(data["poeng"]))
+    response = jsonify({"total_points": total_points})
     response.status_code = 200
     return response
 
@@ -383,7 +382,7 @@ def restart():
     reset_variable("antall_boks")
     reset_variable("algoritme")
     reset_variable("game_board")
-
+    reset_variable("total_points")
     ANTALL_BOKS = 0
     TOTAL_POINTS = 0
     KONSTANT_VALG = 1
@@ -464,7 +463,7 @@ def double_check(valgte_tall):
 
 def control_receives():
     print("Control API DEBUG: ENEMIES_PLAYED: ", get_enemies_played(), ", ALGORITME: ", get_variable("algoritme"),
-    ", ANTALL_BOKS: ",get_integer_variable("antall_boks"), "TOTAL_POINTS: ",TOTAL_POINTS, ", ALL_CLICKED: ", ALL_CLICKED, "ANSWER:", get_integer_variable("answer"))
+    ", ANTALL_BOKS: ",get_integer_variable("antall_boks"), "TOTAL_POINTS: ",get_integer_variable("total_points"), ", ALL_CLICKED: ", ALL_CLICKED, "ANSWER:", get_integer_variable("answer"))
 
 
 if __name__ == "__main__":
