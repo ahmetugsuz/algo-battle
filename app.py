@@ -255,10 +255,10 @@ def arena():
         [game_board.append(i) for i in range(1, antall_boks+1)]
 
     control_receives()
-    answer = get_variable("answer")
+    answer = get_integer_variable("answer")
     if not answer:
         set_answer()
-        
+
     response = make_response(jsonify({"gameboard": game_board, "algorithm": algoritme, "answer": answer, "valgte_elementer": valgte_elementer}))
     response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
     response.headers["Pragma"] = "no-cache"
@@ -383,7 +383,7 @@ def restart():
     reset_variable("antall_boks")
     reset_variable("algoritme")
     reset_variable("game_board")
-    reset_variable("answer")
+
     ANTALL_BOKS = 0
     TOTAL_POINTS = 0
     KONSTANT_VALG = 1
@@ -396,7 +396,7 @@ def lag_binary_list():
     game_board = create_game_board()
     high = len(game_board)
     binary_list = [0] # first element is 0 because its starting from inedex 1
-    answer = get_variable("answer")
+    answer = get_integer_variable("answer")
     while low <= high:
         mid = (low + high) // 2
         binary_list.append(mid)
@@ -415,7 +415,7 @@ def lag_binary_list():
     
 def lag_random_liste():
     game_board = create_game_board()
-    random_liste = [0] # first element is 0 because its starting from inedex 1
+    random_liste = [0] # first element is 0 because its starting from index 1
     while len(random_liste) <= len(game_board):
         selected_number = random.randint(1, len(game_board))
         while selected_number in random_liste:
@@ -430,7 +430,7 @@ def Tesla(valg: int):
 def Alan(start, end):
     game_board = create_game_board()
     i = (start + end) // 2
-    answer = get_variable("answer")
+    answer = get_integer_variable("answer")
     if start <= end:
         selected_element = int(game_board[i])
         if selected_element in ALL_CLICKED:
@@ -452,7 +452,7 @@ def Kidy():
             if len(ALL_CLICKED) < size:
                 return Kidy()
             else:
-                return None
+                return 0 # as Null but to not get error
     control_receives()
     return tilfeldig_tall
 
@@ -464,7 +464,7 @@ def double_check(valgte_tall):
 
 def control_receives():
     print("Control API DEBUG: ENEMIES_PLAYED: ", get_enemies_played(), ", ALGORITME: ", get_variable("algoritme"),
-    ", ANTALL_BOKS: ",ANTALL_BOKS, "TOTAL_POINTS: ",TOTAL_POINTS, ", ALL_CLICKED: ", ALL_CLICKED, "ANSWER:", get_variable("answer"))
+    ", ANTALL_BOKS: ",get_integer_variable("antall_boks"), "TOTAL_POINTS: ",TOTAL_POINTS, ", ALL_CLICKED: ", ALL_CLICKED, "ANSWER:", get_integer_variable("answer"))
 
 
 if __name__ == "__main__":
