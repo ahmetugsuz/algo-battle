@@ -211,6 +211,7 @@ def start_game():
 
     #control_receives() # kontrollerer om data har blitt satt fra API - client side
     #lag_game_board() # Lager game board som det skal bli spilt på
+    set_answer() #setting the answer on the game_board randomly
 
     data = jsonify({})
     data.status_code = 200
@@ -254,8 +255,8 @@ def arena():
         [game_board.append(i) for i in range(1, antall_boks+1)]
 
     control_receives()
-
-    response = make_response(jsonify({"gameboard": game_board, "algorithm": algoritme, "answer": ANSWER, "valgte_elementer": valgte_elementer}))
+    answer = get_variable("answer")
+    response = make_response(jsonify({"gameboard": game_board, "algorithm": algoritme, "answer": answer, "valgte_elementer": valgte_elementer}))
     response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
     response.headers["Pragma"] = "no-cache"
     response.headers["Expires"] = "0"
@@ -334,18 +335,18 @@ def get_users_db():
 
 
 
-def lag_game_board():
+def set_answer():
     #print("--DEBUG-- Creating game board")
     global GAME_BOARD
     global ANSWER 
     global MIDLERTIDIG_TALL
 
-    board_storrelse = int(ANTALL_BOKS)
-    ANSWER = random.randint(1, board_storrelse)
-    box_number = 1
-    for i in range(board_storrelse): # it could be range(1, length) but it gave som error
-        GAME_BOARD.append(box_number)
-        box_number += 1
+    game_board = create_game_board()
+    board_storrelse = int(len(game_board))
+    answer = random.randint(1, board_storrelse)
+    set_variable("answer", answer)
+
+
 
 def reset_to_new_game():
     global ALL_CLICKED
@@ -359,6 +360,7 @@ def reset_to_new_game():
     reset_variable("algoritme")
     reset_variable("antall_boks")
     reset_variable("game_board")
+    reset_variable("answer")
     ALL_CLICKED.clear()
     ALGORITME = ""
     GAME_BOARD.clear()
@@ -378,6 +380,7 @@ def restart():
     reset_variable("antall_boks")
     reset_variable("algoritme")
     reset_variable("game_board")
+    reset_variable("answer")
     ANTALL_BOKS = 0
     TOTAL_POINTS = 0
     KONSTANT_VALG = 1
@@ -390,18 +393,19 @@ def lag_binary_list():
     game_board = create_game_board()
     high = len(game_board)
     binary_list = [0] # first element is 0 because its starting from inedex 1
+    answer = get_variable("answer")
     while low <= high:
         mid = (low + high) // 2
         binary_list.append(mid)
 
-        if game_board[mid] < ANSWER:
+        if game_board[mid] < answer:
             low = mid +1
         
-        elif game_board[mid] > ANSWER:
+        elif game_board[mid] > answer:
             high = mid -1
         
         else:
-            binary_list.append(ANSWER)
+            binary_list.append(answer)
             return binary_list
         
     return binary_list
@@ -423,10 +427,11 @@ def Tesla(valg: int):
 def Alan(start, end):
     game_board = create_game_board()
     i = (start + end) // 2
+    answer = get_variable("answer")
     if start <= end:
         selected_element = int(game_board[i])
         if selected_element in ALL_CLICKED:
-            if selected_element < ANSWER:
+            if selected_element < answer:
                 return Alan(i + 1, end)
             else:
                 return Alan(start, i - 1)
@@ -456,7 +461,7 @@ def double_check(valgte_tall):
 
 def control_receives():
     print("Control API DEBUG: ENEMIES_PLAYED: ", get_enemies_played(), ", ALGORITME: ", get_variable("algoritme"),
-    ", ANTALL_BOKS: ",ANTALL_BOKS, "TOTAL_POINTS: ",TOTAL_POINTS, ", ALL_CLICKED: ", ALL_CLICKED, "ANSWER:", ANSWER)
+    ", ANTALL_BOKS: ",ANTALL_BOKS, "TOTAL_POINTS: ",TOTAL_POINTS, ", ALL_CLICKED: ", ALL_CLICKED, "ANSWER:", get_variable("answer"))
 
 
 if __name__ == "__main__":
