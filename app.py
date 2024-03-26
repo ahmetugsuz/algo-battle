@@ -145,8 +145,10 @@ def create_game_board():
                 set_variable("antall_boks", antall_boks)
         else:
             game_board = list(range(1, antall_boks + 1))
+
+
         # Store the initial game board in Redis
-        set_variable("game_board", ",".join(map(str, game_board)))
+        set_variable("game_board", game_board)
 
     return game_board
 
