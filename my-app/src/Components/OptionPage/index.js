@@ -197,7 +197,6 @@ function OptionPage(){
 
             if (!data ) {
               if (forsok < maksForsok) {
-                  console.log("Forsok number ", forsok);
                   setForsok(prevForsok => prevForsok + 1); // Increment the retry counter
                   return;
               }
@@ -217,20 +216,15 @@ function OptionPage(){
                 setKidyDisabled(true);
               }
               setFetchSuccess(true);
-              console.log("Enemies played: ", enemiesPlayed);
-              console.log("total points: ", TotalScore);
-              //console.log("Enemies played from server: ", data.enemies_played);
-              //console.log("total points: ", data.total_points);
               return;
             }
               
 
           } catch (error) {
-            console.log("Couldnt fetch data, u should try again..");
             console.log("error received: ", error);
             setFetchSuccess(false); // Set fetch success to false so it can retry
             if (forsok < maksForsok) {
-              console.log("Forsok number ", forsok);
+              console.log("Retry number ", forsok);
               setForsok(prevForsok => prevForsok + 1); // Increment the retry counter
               return;
             }
@@ -238,9 +232,6 @@ function OptionPage(){
             setLoading(false);
           }
         };
-        
-        console.log("Fetch data is: ", fetchSuccess);
-        console.log("Forsoks number is ", forsok)
         
         if (!fetchSuccess) { // Only fetch if previous fetch wasn't successful
           fetchData();
@@ -261,7 +252,6 @@ function OptionPage(){
         teller++
       }
       if(teller >= 3){
-        //console.log("Showing final rusults")
         setFinalResults(true);
         setShowResults(true);
         //console.log("YES the showResult is now true -- DEBUG 2")
