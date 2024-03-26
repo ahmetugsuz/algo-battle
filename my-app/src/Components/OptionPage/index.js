@@ -122,9 +122,6 @@ function OptionPage(){
             const res = await fetch(`/last_standing?t=${Date.now()}`);
             const data = await res.json();
 
-            console.log("Enemies played: ", enemiesPlayed);
-            console.log("total points: ", TotalScore);
-
             if (fetchSuccess === false){
               if ((data.enemies_played.length === 0 || data.total_points === 0) && forsok < maksForsok) {
                 console.log("Forsok number ", forsok);
@@ -166,15 +163,6 @@ function OptionPage(){
           }
         };
         
-        console.log("Fetch data is: ", fetchSuccess);
-        console.log("Forsoks number is ", forsok)
-        
-        if(forsok === 0 && !fetchSuccess){
-          console.log("Tidligere data ", tidligereData);
-        }else{
-          console.log("Nyere data ", tidligereData);
-        }
-        
         if (!fetchSuccess) { // Only fetch if previous fetch wasn't successful
           setFetchSuccess(false);
           fetchData();
@@ -182,7 +170,6 @@ function OptionPage(){
         
         // last thing we do before leaving this useEffect - for next iterations
         if(fetchSuccess && forsok === 0){
-          console.log("The last thing we do is to set fetchSuccess to false");
           setFetchSuccess(false);
         }
       }, [forsok]); 
