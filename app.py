@@ -279,6 +279,8 @@ def round_end():
 @cross_origin()
 def register_user():
     data = request.get_json()
+    if int(data["total_points"]) > 50: # check if points is over max-points
+        return jsonify("Failed to add new user, due to risk of hacking the system")
     session.permanent = True
     session["username"] = data["username"]
     session["points"] = int(data["total_points"])
@@ -291,12 +293,21 @@ def register_user():
 @cross_origin()
 def get_database():
   # Retrieve all rows from the table with 'username' and 'points' columns
+
+  # Database - Mysql
+  # Server - Python    
+  # Frontend - React
+      
   # Execute a SQL query
   query = User.query.order_by(User.points.desc()).all() # henter ut data med order, fra hoyest poeng til lavest
+
+  for user in query:
+      if int(user.points) > 50:
+        delete_user(user.username)
   
   # Retrieve the data
-  data = query
-
+  data = User.query.order_by(User.points.desc()).all() 
+  
   # Format the data as a list of dictionaries
   data_dict = [{"username": row.username, "points": row.points} for row in data]
 
@@ -312,6 +323,19 @@ def get_users_db():
     usernames = [user.username.lower() for user in query]
 
     return jsonify(usernames)
+
+def delete_user(username):
+    # delete function to delete users from database
+    session.permanent = True
+    try:
+        user = User.query.filter_by(username=username).first()
+
+        if user:
+            db.session.delete(user)
+            db.session.commit()
+    except:
+        db.session.rollback()
+            
 
 
 
