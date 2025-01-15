@@ -18,8 +18,9 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:mysql@localhost/algobattle'
 
 # Heroku Postgres URI (latest one)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://u60sb86l93kiv6:pec990bfdd7e77fa388db7b43850d46d1f6f0d5dd11f60266e69e4fb6458b7452@cdgn4ufq38ipd0.cluster-czz5s0kz4scl.eu-west-1.rds.amazonaws.com:5432/dfn1js36r6tq3f?sslmode=require'
-
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://u60sb86l93kiv6:pec990bfdd7e77fa388db7b43850d46d1f6f0d5dd11f60266e69e4fb6458b7452@cdgn4ufq38ipd0.cluster-czz5s0kz4scl.eu-west-1.rds.amazonaws.com:5432/dfn1js36r6tq3f?sslmode=require'
+#postgres://u60sb86l93kiv6:p228d4b011e2d5b2a9672dc5c760a1787f525469c4a6e24b688124430fba89b6b@cfs632mn9c82a7.cluster-czz5s0kz4scl.eu-west-1.rds.amazonaws.com:5432/d3d24tnko8g87j
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
 # Initialize SQLAlchemy and migration
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
