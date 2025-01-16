@@ -4,6 +4,7 @@ from flask_cors import CORS, cross_origin # deploy
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from redis import StrictRedis
+from redis.connection import SSLConnection
 import random, time
 import redis
 import os
@@ -40,15 +41,20 @@ migrate = Migrate(app, db)
 # Path to your CA certificate
 
 
-redis_url = 'rediss://:your_password@ec2-52-49-254-201.eu-west-1.compute.amazonaws.com:26240'
-ssl_cert_reqs = ssl.CERT_NONE  # or ssl.CERT_REQUIRED/ssl.CERT_OPTIONAL, as per your need
 
-redis_client = StrictRedis.from_url(
-    redis_url,
+redis_url = 'rediss://:your_password@ec2-52-49-254-201.eu-west-1.compute.amazonaws.com:26240'
+
+redis_client = StrictRedis(
+    connection_class=SSLConnection,
+    host='ec2-52-49-254-201.eu-west-1.compute.amazonaws.com',
+    port=26240,
+    password='your_password',
     decode_responses=True,
-    ssl=True,
-    ssl_cert_reqs=ssl_cert_reqs  # Use the correct SSL certificate requirement option
+    ssl_cert_reqs=ssl.CERT_NONE,  # Adjust according to your certificate needs
+    ssl_ca_certs='ca.crt'  # Path to your CA certificate or self-signed certificate
 )
+
+
 
 
 
