@@ -37,7 +37,7 @@ redis_client = redis.StrictRedis.from_url(
     redis_url,
     decode_responses=True,
     ssl=True,
-    ssl_ca_certs=None  # Path to your CA certificate
+    ssl_ca_certs = '/Users/ahmettugsuz/Documents/GitHub/algorithmbattle/redis.crt'  # Path to your CA certificate
 )
 
 try:
