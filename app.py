@@ -42,43 +42,25 @@ migrate = Migrate(app, db)
 
 
 
+# Path to the updated CA certificate
+ssl_ca_certs = './ca.crt'
 
-redis_url = 'rediss://:your_password@ec2-52-49-254-201.eu-west-1.compute.amazonaws.com:26240'
+# Redis connection URL
+redis_url = 'rediss://:password@ec2-52-49-254-201.eu-west-1.compute.amazonaws.com:26240'
 
-class SSLRedis(redis.Redis):
-    def __init__(self, *args, **kwargs):
-        kwargs['connection_class'] = SSLConnection
-        super().__init__(*args, **kwargs)
-
-redis_client = SSLRedis.from_url(
+# Initialize Redis client
+redis_client = StrictRedis.from_url(
     redis_url,
     decode_responses=True,
-    ssl_cert_reqs=ssl.CERT_NONE,  # Adjust according to your certificate needs
-    ssl_ca_certs='./ca.crt'  # Path to your CA certificate or self-signed certificate
+    ssl=True,
+    ssl_cert_reqs='required',  # Enforce SSL certificate validation
+    ssl_ca_certs=ssl_ca_certs  # Provide the path to the CA cert
 )
 
-# Test the connection
-try:
-    redis_client.ping()
-    print("Redis connection successful!")
-except Exception as e:
-    print("Redis connection failed:", e)
-
-
-
-
-# Test the connection
-try:
-    redis_client.ping()
-    print("Redis connection successful!")
-except Exception as e:
-    print("Redis connection failed:", e)
-
-try:
     redis_client.ping()  # Test the connection
     print("Redis is connected and working!")
-except redis.ConnectionError as e:
-    print(f"Failed to connect to Redis: {e}")
+    except redis.ConnectionError as e:
+        print(f"Failed to connect to Redis: {e}")
 
 ALL_CLICKED = [] # global list for all clicked, just for one segment at time, not used between other segments, or any links. Not needed to be cached.
 
