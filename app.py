@@ -36,16 +36,16 @@ migrate = Migrate(app, db)
 # Certificate paths
 # Path to your CA certificate
 # Path to your CA certificate
+from redis import StrictRedis
+
+# Path to your CA certificate
 ssl_ca_certs = './ca.crt'
 
-# Redis URL
+# Initialize Redis client
 redis_url = 'rediss://:p77275872e8dc6a1296ed70f2379a3d2e7816ed21d638c976c767e714f6cab944@ec2-52-49-254-201.eu-west-1.compute.amazonaws.com:26240'
-
-# Create a Redis connection pool with SSL parameters
-connection_pool = redis.ConnectionPool.from_url(
+redis_client = StrictRedis.from_url(
     redis_url,
-    decode_responses=True,  # Ensure Python strings are returned
-    ssl=True,               # Enable SSL
+    decode_responses=True,  # Ensures Python strings are returned instead of bytes
     ssl_cert_reqs='required',  # Enforce certificate validation
     ssl_ca_certs=ssl_ca_certs  # Validate the server certificate
 )
