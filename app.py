@@ -8,6 +8,7 @@ import random, time
 import redis
 import os
 import json
+import ssl
 # Create Flask app
 app = Flask(__name__, static_folder='my-app/build', static_url_path='/')
 CORS(app)
@@ -38,14 +39,17 @@ migrate = Migrate(app, db)
 # Path to your CA certificate
 # Path to your CA certificate
 
-# Path to your CA certificate
-ssl_ca_certs = './ca.crt'
+
+ssl_context = ssl.create_default_context(ssl.Purpose.SERVER_AUTH)
+ssl_context.verify_mode = ssl.CERT_REQUIRED
+ssl_context.check_hostname = True
+ssl_context.load_verify_locations('./ca.crt')
 
 redis_client = StrictRedis.from_url(
     redis_url,
     decode_responses=True,
     ssl=True,
-    ssl_cert_reqs=None  # Bypass SSL certificate validation
+    ssl_context=ssl_context  # Use the custom SSL context
 )
 
 
