@@ -38,20 +38,20 @@ migrate = Migrate(app, db)
 # Certificate paths
 # Path to your CA certificate
 # Path to your CA certificate
+redis_url = 'rediss://:your_password@ec2-52-49-254-201.eu-west-1.compute.amazonaws.com:26240'
 
-
-ssl_context = ssl.create_default_context(ssl.Purpose.SERVER_AUTH)
+# Create an SSL context with the Heroku CA
+ssl_context = ssl.create_default_context()
 ssl_context.verify_mode = ssl.CERT_REQUIRED
 ssl_context.check_hostname = True
-ssl_context.load_verify_locations('./ca.crt')
+ssl_context.load_verify_locations('heroku_ca.crt')
 
-redis_client = StrictRedis.from_url(
+# Initialize Redis client with the SSL context
+redis_client = redis.StrictRedis.from_url(
     redis_url,
     decode_responses=True,
-    ssl=True,
-    ssl_context=ssl_context  # Use the custom SSL context
+    ssl_context=ssl_context
 )
-
 
 # Test the connection
 try:
