@@ -33,8 +33,13 @@ ssl_ca_certs = '/Users/ahmettugsuz/Documents/GitHub/algorithmbattle/redis.crt'
 
 # Initialize Redis client with SSL/TLS parameters
 redis_url = os.environ.get('REDIS_URL')  # or REDIS_TLS_URL
-
 redis_client = redis.StrictRedis.from_url(redis_url)
+
+try:
+    redis_client.ping()  # Test the connection
+    print("Redis is connected and working!")
+except redis.ConnectionError as e:
+    print(f"Failed to connect to Redis: {e}")
 
 ALL_CLICKED = [] # global list for all clicked, just for one segment at time, not used between other segments, or any links. Not needed to be cached.
 
