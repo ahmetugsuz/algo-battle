@@ -57,10 +57,7 @@ redis_client = StrictRedis.from_url(
     ssl_ca_certs=ssl_ca_certs  # Provide the path to the CA cert
 )
 
-    redis_client.ping()  # Test the connection
-    print("Redis is connected and working!")
-    except redis.ConnectionError as e:
-        print(f"Failed to connect to Redis: {e}")
+
 
 ALL_CLICKED = [] # global list for all clicked, just for one segment at time, not used between other segments, or any links. Not needed to be cached.
 
