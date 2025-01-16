@@ -42,18 +42,27 @@ migrate = Migrate(app, db)
 
 
 
+
 redis_url = 'rediss://:your_password@ec2-52-49-254-201.eu-west-1.compute.amazonaws.com:26240'
 
-redis_client = StrictRedis(
-    connection_class=SSLConnection,
-    host='ec2-52-49-254-201.eu-west-1.compute.amazonaws.com',
-    port=26240,
-    password='your_password',
+class SSLRedis(redis.Redis):
+    def __init__(self, *args, **kwargs):
+        kwargs['connection_class'] = SSLConnection
+        super().__init__(*args, **kwargs)
+
+redis_client = SSLRedis.from_url(
+    redis_url,
     decode_responses=True,
     ssl_cert_reqs=ssl.CERT_NONE,  # Adjust according to your certificate needs
-    ssl_ca_certs='ca.crt'  # Path to your CA certificate or self-signed certificate
+    ssl_ca_certs='./ca.crt'  # Path to your CA certificate or self-signed certificate
 )
 
+# Test the connection
+try:
+    redis_client.ping()
+    print("Redis connection successful!")
+except Exception as e:
+    print("Redis connection failed:", e)
 
 
 
