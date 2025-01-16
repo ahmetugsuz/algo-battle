@@ -35,18 +35,30 @@ migrate = Migrate(app, db)
 #ssl_ca_certs = '/Users/ahmettugsuz/Documents/GitHub/algo-battle/redis.crt'
 # Certificate paths
 # Path to your CA certificate
+# Path to your CA certificate
 ssl_ca_certs = './ca.crt'
 
-# Initialize Redis client
+# Redis URL
 redis_url = 'rediss://:p77275872e8dc6a1296ed70f2379a3d2e7816ed21d638c976c767e714f6cab944@ec2-52-49-254-201.eu-west-1.compute.amazonaws.com:26240'
-redis_client = redis.StrictRedis.from_url(
+
+# Create a Redis connection pool with SSL parameters
+connection_pool = redis.ConnectionPool.from_url(
     redis_url,
-    decode_responses=True,  # Ensures Python strings are returned instead of bytes
+    decode_responses=True,  # Ensure Python strings are returned
     ssl=True,               # Enable SSL
     ssl_cert_reqs='required',  # Enforce certificate validation
     ssl_ca_certs=ssl_ca_certs  # Validate the server certificate
 )
 
+# Initialize Redis client using the connection pool
+redis_client = redis.Redis(connection_pool=connection_pool)
+
+# Test the connection
+try:
+    redis_client.ping()
+    print("Redis connection successful!")
+except Exception as e:
+    print("Redis connection failed:", e)
 
 try:
     redis_client.ping()  # Test the connection
