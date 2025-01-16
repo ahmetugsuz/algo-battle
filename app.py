@@ -31,14 +31,13 @@ migrate = Migrate(app, db)
 # Path to your CA certificate or self-signed certificate
 #ssl_ca_certs = '/Users/ahmettugsuz/Documents/GitHub/algorithmbattle/redis.crt'
 
+# Path to your CA certificate or self-signed certificate
+ssl_ca_certs = '/Users/ahmettugsuz/Documents/GitHub/algorithmbattle/redis.crt'
+
 # Initialize Redis client with SSL/TLS parameters
 redis_url = os.environ.get('REDIS_URL')  # or REDIS_TLS_URL
-redis_client = redis.StrictRedis.from_url(
-    redis_url,
-    decode_responses=True,
-    ssl=True,
-    ssl_ca_certs = '/Users/ahmettugsuz/Documents/GitHub/algorithmbattle/redis.crt'  # Path to your CA certificate
-)
+
+redis_client = redis.StrictRedis.from_url(redis_url)
 
 try:
     redis_client.ping()  # Test the connection
