@@ -41,11 +41,7 @@ ssl_ca_certs = './ca.crt'
 #redis_url = os.environ.get('REDIS_URL')  # Ensure this is set correctly
 
 # Initialize Redis client
-redis_client = redis.StrictRedis.from_url(
-    redis_url='rediss://:p77275872e8dc6a1296ed70f2379a3d2e7816ed21d638c976c767e714f6cab944@ec2-52-49-254-201.eu-west-1.compute.amazonaws.com:26240',
-    decode_responses=True,  # Ensures Python strings are returned instead of bytes               # Enable SSL
-
-)
+redis_client = redis.StrictRedis.from_url('rediss://:p77275872e8dc6a1296ed70f2379a3d2e7816ed21d638c976c767e714f6cab944@ec2-52-49-254-201.eu-west-1.compute.amazonaws.com:26240')
 
 try:
     redis_client.ping()  # Test the connection
