@@ -42,7 +42,6 @@ ssl_keyfile = './redis.key'
 redis_client = redis.StrictRedis.from_url(
     redis_url,
     decode_responses=True,
-    ssl=True,
     ssl_ca_certs=ssl_ca_certs,
     ssl_certfile=ssl_certfile,
     ssl_keyfile=ssl_keyfile
