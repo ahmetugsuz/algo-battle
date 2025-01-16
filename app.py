@@ -3,6 +3,7 @@ from flask.helpers import send_from_directory
 from flask_cors import CORS, cross_origin # deploy
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from redis import StrictRedis
 import random, time
 import redis
 import os
@@ -36,7 +37,6 @@ migrate = Migrate(app, db)
 # Certificate paths
 # Path to your CA certificate
 # Path to your CA certificate
-from redis import StrictRedis
 
 # Path to your CA certificate
 ssl_ca_certs = './ca.crt'
