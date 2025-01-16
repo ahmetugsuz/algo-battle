@@ -43,9 +43,8 @@ ssl_ca_certs = './ca.crt'
 # Initialize Redis client
 redis_client = redis.StrictRedis.from_url(
     redis_url='rediss://:p77275872e8dc6a1296ed70f2379a3d2e7816ed21d638c976c767e714f6cab944@ec2-52-49-254-201.eu-west-1.compute.amazonaws.com:26240',
-    decode_responses=True,  # Ensures Python strings are returned instead of bytes
-    ssl=True,               # Enable SSL
-    ssl_ca_certs=ssl_ca_certs  # Validate the server certificate
+    decode_responses=True,  # Ensures Python strings are returned instead of bytes               # Enable SSL
+    ssl_ca_certs=None  # Validate the server certificate
 )
 
 try:
