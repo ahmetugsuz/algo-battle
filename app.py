@@ -50,8 +50,6 @@ redis_client = StrictRedis.from_url(
     ssl_ca_certs=ssl_ca_certs  # Validate the server certificate
 )
 
-# Initialize Redis client using the connection pool
-redis_client = redis.Redis(connection_pool=connection_pool)
 
 # Test the connection
 try:
