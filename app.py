@@ -39,7 +39,6 @@ redis_url = os.environ.get('REDIS_URL')  # or REDIS_TLS_URL
 
 redis_client = redis.StrictRedis.from_url(
     redis_url,
-    ssl=True,               # Enable SSL
     ssl_ca_certs=ssl_ca_certs  # Specify the path to the CA certificate
 )
 
