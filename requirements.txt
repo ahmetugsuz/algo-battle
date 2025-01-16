@@ -23,3 +23,6 @@ zipp==3.13.0
 psycopg2-binary
 psycopg2
 redis
+certifi==2024.8.30
+cffi==1.17.1
+
