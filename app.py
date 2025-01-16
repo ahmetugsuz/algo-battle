@@ -38,13 +38,16 @@ migrate = Migrate(app, db)
 # Certificate paths
 # Path to your CA certificate
 # Path to your CA certificate
+
+
 redis_url = 'rediss://:your_password@ec2-52-49-254-201.eu-west-1.compute.amazonaws.com:26240'
-ssl_cert_reqs = './redis.crt'
+ssl_cert_reqs = ssl.CERT_NONE  # or ssl.CERT_REQUIRED/ssl.CERT_OPTIONAL, as per your need
+
 redis_client = StrictRedis.from_url(
     redis_url,
     decode_responses=True,
     ssl=True,
-    ssl_cert_reqs=ssl_cert_reqs  # Disable SSL certificate validation
+    ssl_cert_reqs=ssl_cert_reqs  # Use the correct SSL certificate requirement option
 )
 
 
