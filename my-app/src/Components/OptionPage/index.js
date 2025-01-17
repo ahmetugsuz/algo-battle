@@ -362,6 +362,10 @@ function OptionPage(){
               <div></div>
               }
             </div>
+            <form className='inputField' >
+              <label className='antallBoxT'>Number of Boxes: </label>
+              <input className='antallBox' type="number" placeholder='Boxes' onChange={handleAntallBokser} />
+            </form>
           </div> 
           <div className='middle'>
             <p className='select' style={{fontWeight: 600, letterSpacing: 0.3}}>Select an Algorithm </p>
@@ -428,12 +432,6 @@ function OptionPage(){
                 <p>Something went wrong fetching latest data, please try again</p>
               </>
             }
-            <div className='top'>
-              <form className='inputField' >
-                <label className='antallBoxT'>Number of Boxes: </label>
-                <input className='antallBox' type="number" placeholder='Boxes' onChange={handleAntallBokser} />
-              </form>
-            </div>
           </div>
           <div className='bottom'>
             {ShowResults ?
