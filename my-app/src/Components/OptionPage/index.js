@@ -428,10 +428,12 @@ function OptionPage(){
                 <p>Something went wrong fetching latest data, please try again</p>
               </>
             }
-            <form className='inputField' >
-              <label className='antallBoxT'>Number of Boxes: </label>
-              <input className='antallBox' type="number" placeholder='Boxes' onChange={handleAntallBokser} />
-            </form>
+            <div className='top'>
+              <form className='inputField' >
+                <label className='antallBoxT'>Number of Boxes: </label>
+                <input className='antallBox' type="number" placeholder='Boxes' onChange={handleAntallBokser} />
+              </form>
+            </div>
           </div>
           <div className='bottom'>
             {ShowResults ?
