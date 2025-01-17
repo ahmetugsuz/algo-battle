@@ -46,7 +46,6 @@ redis_url = 'rediss://:p77275872e8dc6a1296ed70f2379a3d2e7816ed21d638c976c767e714
 # Set up the connection pool with SSL parameters
 pool = ConnectionPool.from_url(
     redis_url,
-    decode_responses=True,
     connection_class=SSLConnection,
     ssl_cert_reqs=ssl.CERT_REQUIRED,  # Enforce SSL certificate validation
     ssl_ca_certs=ssl_ca_certs  # Provide the path to the CA cert
