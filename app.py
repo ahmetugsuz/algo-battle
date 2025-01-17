@@ -38,16 +38,22 @@ migrate = Migrate(app, db)
 # Path to your CA certificate or self-signed certificate
 #ssl_ca_certs = '/Users/ahmettugsuz/Documents/GitHub/algo-battle/redis.crt'
 
-# Path to the updated CA certificate
 ssl_ca_certs = './ca.crt'
 
 # Redis connection URL
 redis_url = 'rediss://:p77275872e8dc6a1296ed70f2379a3d2e7816ed21d638c976c767e714f6cab944@ec2-52-49-254-201.eu-west-1.compute.amazonaws.com:26240'
 
-redis_client = redis.StrictRedis.from_url(
+# Set up the connection pool with SSL parameters
+pool = ConnectionPool.from_url(
     redis_url,
-    decode_responses=True
+    decode_responses=True,
+    connection_class=SSLConnection,
+    ssl_cert_reqs=ssl.CERT_REQUIRED,  # Enforce SSL certificate validation
+    ssl_ca_certs=ssl_ca_certs  # Provide the path to the CA cert
 )
+
+# Initialize Redis client using the connection pool
+redis_client = redis.StrictRedis(connection_pool=pool)
 
 # Test the connection
 try:
