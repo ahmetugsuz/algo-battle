@@ -36,11 +36,6 @@ migrate = Migrate(app, db)
 
 # Path to your CA certificate or self-signed certificate
 #ssl_ca_certs = '/Users/ahmettugsuz/Documents/GitHub/algo-battle/redis.crt'
-# Certificate paths
-# Path to your CA certificate
-# Path to your CA certificate
-
-
 
 # Path to the updated CA certificate
 ssl_ca_certs = './ca.crt'
@@ -48,18 +43,22 @@ ssl_ca_certs = './ca.crt'
 # Redis connection URL
 redis_url = 'rediss://:password@ec2-52-49-254-201.eu-west-1.compute.amazonaws.com:26240'
 
+class SSLRedis(redis.Redis):
+    def __init__(self, *args, **kwargs):
+        kwargs['connection_class'] = SSLConnection
+        super().__init__(*args, **kwargs)
+
 # Initialize Redis client
-redis_client = StrictRedis.from_url(
-    redis_url,
+redis_client = SSLRedis(
+    host='ec2-52-49-254-201.eu-west-1.compute.amazonaws.com',
+    port=26240,
+    password='password',
     decode_responses=True,
-    ssl=True,
     ssl_cert_reqs='required',  # Enforce SSL certificate validation
     ssl_ca_certs=ssl_ca_certs  # Provide the path to the CA cert
 )
 
-
-
-ALL_CLICKED = [] # global list for all clicked, just for one segment at time, not used between other segments, or any links. Not needed to be cached.
+ALL_CLICKED = []  # global list for all clicked, just for one segment at time, not used between other segments, or any links. Not needed to be cached.
 
 class User(db.Model):
   id = db.Column(db.Integer, primary_key=True)
@@ -86,6 +85,7 @@ def clean_enemies_played():
         return True
     else:
         return False
+
 
 def get_variable(key):
     """
