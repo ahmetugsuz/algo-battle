@@ -5,6 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from redis import StrictRedis
 from redis.connection import SSLConnection
+from redis.connection import ConnectionPool
 import random, time
 import redis
 import os
@@ -43,20 +44,17 @@ ssl_ca_certs = './ca.crt'
 # Redis connection URL
 redis_url = 'rediss://:password@ec2-52-49-254-201.eu-west-1.compute.amazonaws.com:26240'
 
-class SSLRedis(redis.Redis):
-    def __init__(self, *args, **kwargs):
-        kwargs['connection_class'] = SSLConnection
-        super().__init__(*args, **kwargs)
-
-# Initialize Redis client
-redis_client = SSLRedis(
-    host='ec2-52-49-254-201.eu-west-1.compute.amazonaws.com',
-    port=26240,
-    password='password',
+# Set up the connection pool with SSL parameters
+pool = ConnectionPool.from_url(
+    redis_url,
     decode_responses=True,
-    ssl_cert_reqs='required',  # Enforce SSL certificate validation
+    ssl=True,
+    ssl_cert_reqs=ssl.CERT_REQUIRED,  # Enforce SSL certificate validation
     ssl_ca_certs=ssl_ca_certs  # Provide the path to the CA cert
 )
+
+# Initialize Redis client using the connection pool
+redis_client = redis.StrictRedis(connection_pool=pool)
 
 ALL_CLICKED = []  # global list for all clicked, just for one segment at time, not used between other segments, or any links. Not needed to be cached.
 
