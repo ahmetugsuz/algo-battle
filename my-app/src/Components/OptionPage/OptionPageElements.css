@@ -47,8 +47,8 @@
 .introductionWindow {
     position: relative;
     background-color: white;
-    width: 800px;
-    height: 800px;
+    width: 0.5vw;
+    height: 0.7vh;
     z-index: 2;
     border-radius: 18px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);

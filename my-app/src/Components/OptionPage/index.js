@@ -333,6 +333,9 @@ function OptionPage(){
         <div id="optionpage" className='OptionPageContainer' onClick={handlePageClick}>
           <div className='introductionWindowContainer'>
             <div className='introductionWindow'>
+              <div className="questionHeader">
+                <h3>What's This Game About? </h3>
+              </div>
 
             </div> 
           </div>
