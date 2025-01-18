@@ -52,6 +52,7 @@ function OptionPage(){
           navigate('/arena')
       };
 
+    
       //mottar data for hvem som har blitt spilt mot
       /*
       const [dataFetched, setDataFetched] = useState(false);
