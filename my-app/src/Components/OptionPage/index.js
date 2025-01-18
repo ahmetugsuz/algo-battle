@@ -390,7 +390,7 @@ function OptionPage(){
                 }
               </div>
               }
-  
+
               {AlanDisabled ? 
                 <div className='BtnAlan LockedPicture' onMouseEnter={handleHoverAlan} onMouseLeave={handleHoverAlan}>
                   {imageHoverAlan ? 
