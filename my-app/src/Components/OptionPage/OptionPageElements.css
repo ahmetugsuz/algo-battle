@@ -27,6 +27,13 @@
     background: linear-gradient(to top, rgb(175, 148, 114) 0%, rgba(6, 16, 29, 0.941) 38%);
 }
 
+.IntroductionWindowContainer{
+    height: 300px;
+    width: 300px;
+    border: solid white 2 px;
+    background-color: white;
+}
+
 .mainSectionContainer{
     width: 100%;
     height: 100%;
