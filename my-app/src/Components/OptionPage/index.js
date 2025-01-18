@@ -362,11 +362,11 @@ function OptionPage(){
               :
               <div></div>
               }
+                </div>
                 <form className='inputField' >
                   <label className='antallBoxT'>Number of Boxes: </label>
                   <input className='antallBox' type="number" placeholder='Boxes' onChange={handleAntallBokser} />
                 </form>
-            </div>
           </div> 
           <div className='middle'>
             <p className='select' style={{fontWeight: 600, letterSpacing: 0.3}}>Select an Algorithm </p>
