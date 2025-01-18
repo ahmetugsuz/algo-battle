@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import { useNavigate } from "react-router-dom";
 import './OptionPageElements.css';
-import {InfoBtn, RestartBtn, LeftArrow, RightArrow} from "../ButtonElements.js";
+import {InfoBtn, RestartBtn, LeftArrow, RightArrow, CloseIcon} from "../ButtonElements.js";
 import { MdInfo, MdOutlineClosedCaption } from 'react-icons/md';
 import { RiListSettingsFill } from 'react-icons/ri';
 import { PiArrowElbowRightDownBold } from "react-icons/pi";
@@ -29,6 +29,7 @@ function OptionPage(){
     const [showLeaderboard, setShowLeaderboard] = useState(false);
     const [UserData, setUserData] = useState();
     const [InfoVisible, setInfoVisible] = useState(false);
+    const [introductionWindowOpen, setIntroductionWindowOpen] = useState(true);
     const [konstantOppdateringer, setKonstantOppdateringer] = useState(0);
     const names = ["Alan", "Tesla", "Kidy"]
 
@@ -331,14 +332,20 @@ function OptionPage(){
 
     return (
         <div id="optionpage" className='OptionPageContainer' onClick={handlePageClick}>
-          <div className='introductionWindowContainer'>
-            <div className='introductionWindow'>
-              <div className="questionHeader">
-                <h3>What's This Game About? </h3>
-              </div>
+          {introductionWindowOpen (
+            <div className='introductionWindowContainer'>
+              <div className='introductionWindow'>
+                <div onClick={() => setIntroductionWindowOpen(false)}>
+                  <CloseIcon />
+                </div>
 
-            </div> 
-          </div>
+
+
+
+
+              </div> 
+            </div>
+          )}
         <div className='mainSectionContainer'>
           <div className='top'>
             <div className='TopRightContainer'>
