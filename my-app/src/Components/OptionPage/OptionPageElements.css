@@ -28,10 +28,16 @@
 }
 
 .IntroductionWindowContainer{
-    height: 300px;
-    width: 300px;
-    border: solid white 2 px;
-    background-color: white;
+    position: fixed; /* or absolute */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50%; /* Adjust width as needed */
+    background: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    padding: 20px;
+    z-index: 1000; /* Ensure it appears above other content */
 }
 
 .mainSectionContainer{
