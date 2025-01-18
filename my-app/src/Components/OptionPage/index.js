@@ -332,7 +332,7 @@ function OptionPage(){
 
     return (
         <div id="optionpage" className='OptionPageContainer' onClick={handlePageClick}>
-          {introductionWindowOpen (
+          {introductionWindowOpen && (
             <div className='introductionWindowContainer'>
               <div className='introductionWindow'>
                 <div onClick={() => setIntroductionWindowOpen(false)}>
