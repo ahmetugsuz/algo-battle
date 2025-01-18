@@ -331,9 +331,10 @@ function OptionPage(){
 
     return (
         <div id="optionpage" className='OptionPageContainer' onClick={handlePageClick}>
-          <div className='IntroductionWindowContainer'>
-            
+          <div className='introductionWindowContainer'>
+            <div className='introductionWindow'>
 
+            </div> 
           </div>
         <div className='mainSectionContainer'>
           <div className='top'>

@@ -27,17 +27,33 @@
     background: linear-gradient(to top, rgb(175, 148, 114) 0%, rgba(6, 16, 29, 0.941) 38%);
 }
 
-.IntroductionWindowContainer{
-    position: fixed; /* or absolute */
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 50%; /* Adjust width as needed */
-    background: white;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    padding: 20px;
-    z-index: 1000; /* Ensure it appears above other content */
+.introductionWindowContainer{
+    position: fixed; /* Stay in place */
+    z-index: 999; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    display: flex;
+    justify-content: center;
+    margin: auto;
+    text-align: center;
+}
+
+.introductionWindow {
+    position: relative;
+    background-color: white;
+    width: 800px;
+    height: 800px;
+    z-index: 2;
+    border-radius: 18px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    transition: opacity 2.3s ease-in-out; /* Add a transition for opacity */
 }
 
 .mainSectionContainer{
