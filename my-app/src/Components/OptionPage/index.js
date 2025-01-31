@@ -353,7 +353,7 @@ function OptionPage(){
 
     return (
         <div id="optionpage" className='OptionPageContainer' onClick={handlePageClick}>
-          {introductionWindowOpen && introductionPages < 3  && (
+          {introductionWindowOpen && currentPage < 3  && (
             <div className='introductionWindowContainer'>
               <div className='introductionWindow'>
 
