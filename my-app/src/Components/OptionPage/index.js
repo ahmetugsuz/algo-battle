@@ -32,6 +32,7 @@ function OptionPage(){
     const [InfoVisible, setInfoVisible] = useState(false);
     const [introductionWindowOpen, setIntroductionWindowOpen] = useState(true);
     const [konstantOppdateringer, setKonstantOppdateringer] = useState(0);
+    const [currentPage, setCurrentPage] = useState(0);
     const names = ["Alan", "Tesla", "Kidy"]
 
     const handleClick = () =>{  
@@ -55,6 +56,20 @@ function OptionPage(){
       };
 
     
+      const introductionPages = [
+        {
+          title: "What's This Game About?",
+          description: "This game is about mastering algorithms and luck. To boost your chances, learn how your opponents use algorithms."
+        },
+        {
+          title: "What to expect?",
+          description: "something."
+        },
+        {
+          title: "Does retrying help?",
+          description: "Yeh"
+        }
+      ]
       //mottar data for hvem som har blitt spilt mot
       /*
       const [dataFetched, setDataFetched] = useState(false);
@@ -331,6 +346,11 @@ function OptionPage(){
         navigate('/resultpage')
       }
 
+      const handleNextIntroductionPage = () => {
+        setCurrentPage(currentPage + 1);
+      }
+      
+
     return (
         <div id="optionpage" className='OptionPageContainer' onClick={handlePageClick}>
           {introductionWindowOpen && (
@@ -341,7 +361,9 @@ function OptionPage(){
                 <div onClick={() => setIntroductionWindowOpen(false)}>
                   <CloseIcon />
                 </div>
-                    <p className='introductionWindowHeader'> What's this game about?</p>
+                    <p className='introductionWindowHeader'> 
+                      {introductionPages[currentPage].title}
+                    </p>
                 </div>
 
                 <div className='introductionAnimationContainer'>
@@ -349,12 +371,12 @@ function OptionPage(){
                 </div>
 
                 <div className='introductionTextContainer'>
-                  This game is about mastering algorithms and luck. To boost your chances, learn how your opponents use algorithms.
+                  {introductionPages[currentPage].description}
                 </div>
 
                 <div className='introductionMenuContainer'>
                   <p className='introductionWindowPageNumber'>1/3</p>
-                  <div className='introductionWindowNextPageContainer'> <BsArrowBarRight/></div>
+                  <div className='introductionWindowNextPageContainer' onClick={handleNextIntroductionPage}> <BsArrowBarRight/></div>
                 </div>
 
               </div> 

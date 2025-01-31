@@ -71,13 +71,13 @@
 
 .introductionAnimationContainer{
     position: relative;
-    height: 40%;
+    height: 35%;
     margin: auto;
 }
 
 .introductionTextContainer{
     position: relative;
-    height: 25%;
+    height: 30%;
     margin: auto;
     color: #666;
     font-size: 1.2em;
