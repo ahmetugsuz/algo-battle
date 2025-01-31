@@ -62,7 +62,6 @@
     position: relative;
     height: 10%;
     margin: auto;
-    border:solid green 2px;
 }
 
 .introductionWindowHeader{
@@ -74,20 +73,18 @@
     position: relative;
     height: 30%;
     margin: auto;
-    border:solid red 2px;
 }
 
 .introductionTextContainer{
     position: relative;
     height: 40%;
     margin: auto;
-    border:solid blue 2px;
+    color: #555;
 }
 
 .introductionMenuContainer{
     position: relative;
     height: 20%;
-    border:solid gray 2px;
 }
 
 .mainSectionContainer{

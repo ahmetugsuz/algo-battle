@@ -342,16 +342,18 @@ function OptionPage(){
                 <div className='introductionTitleContainer'>
                     <p className='introductionWindowHeader'> What's this game about?</p>
                 </div>
+
                 <div className='introductionAnimationContainer'>
               
                 </div>
-                <div className='introductionTextContainer'>
 
+                <div className='introductionTextContainer'>
+                  This game is about mastering algorithms and luck. To boost your chances, learn how your opponents use algorithms.
                 </div>
+
                 <div className='introductionMenuContainer'>
 
                 </div>
-              
 
               </div> 
             </div>
