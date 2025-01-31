@@ -79,12 +79,24 @@
     position: relative;
     height: 40%;
     margin: auto;
-    color: #555;
+    color: #666;
+    font-size: 1.2em;
 }
 
 .introductionMenuContainer{
     position: relative;
     height: 20%;
+    color: #666;
+}
+
+.introductionWindowPageNumber{
+    position:absolute;
+    display: flex-start;
+}
+
+.introductionWindowNextPageContainer{
+    position: absolute;
+    display: flex-end;
 }
 
 .mainSectionContainer{

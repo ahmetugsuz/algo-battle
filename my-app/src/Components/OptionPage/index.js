@@ -5,6 +5,7 @@ import {InfoBtn, RestartBtn, LeftArrow, RightArrow, CloseIcon} from "../ButtonEl
 import { MdInfo, MdOutlineClosedCaption } from 'react-icons/md';
 import { RiListSettingsFill } from 'react-icons/ri';
 import { PiArrowElbowRightDownBold } from "react-icons/pi";
+import { BsArrowBarRight } from 'react-icons/bs';
 
 
 function OptionPage(){
@@ -352,7 +353,8 @@ function OptionPage(){
                 </div>
 
                 <div className='introductionMenuContainer'>
-
+                  <p className='introductionWindowPageNumber'>1/3</p>
+                  <div className='introductionWindowNextPageContainer'>Next <BsArrowBarRight/></div>
                 </div>
 
               </div> 
