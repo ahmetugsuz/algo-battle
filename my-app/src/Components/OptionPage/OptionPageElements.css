@@ -60,7 +60,7 @@
 
 .introductionTitleContainer{
     position: relative;
-    height: 10%;
+    height: 20%;
     margin: auto;
 }
 
@@ -71,13 +71,13 @@
 
 .introductionAnimationContainer{
     position: relative;
-    height: 50%;
+    height: 45%;
     margin: auto;
 }
 
 .introductionTextContainer{
     position: relative;
-    height: 20%;
+    height: 25%;
     margin: auto;
     color: #666;
     font-size: 1.2em;
@@ -85,7 +85,7 @@
 
 .introductionMenuContainer{
     position: relative;
-    height: 20%;
+    height: 10%;
     color: #666;
     display: flex;
 }
