@@ -65,19 +65,19 @@
 }
 
 .introductionWindowHeader{
-    color: #555;
+    color: #444;
     font-size: 32px;
 }
 
 .introductionAnimationContainer{
     position: relative;
-    height: 30%;
+    height: 50%;
     margin: auto;
 }
 
 .introductionTextContainer{
     position: relative;
-    height: 40%;
+    height: 20%;
     margin: auto;
     color: #666;
     font-size: 1.2em;
@@ -92,13 +92,14 @@
 
 .introductionWindowPageNumber{
     position:absolute;
-    
     left: 0;
+    padding: 20px;
 }
 
 .introductionWindowNextPageContainer{
     position: absolute;
     right: 0;
+    padding: 20px;
 }
 
 .mainSectionContainer{
