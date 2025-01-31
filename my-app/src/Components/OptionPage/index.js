@@ -336,11 +336,11 @@ function OptionPage(){
           {introductionWindowOpen && (
             <div className='introductionWindowContainer'>
               <div className='introductionWindow'>
+
+                <div className='introductionTitleContainer'>
                 <div onClick={() => setIntroductionWindowOpen(false)}>
                   <CloseIcon />
                 </div>
-
-                <div className='introductionTitleContainer'>
                     <p className='introductionWindowHeader'> What's this game about?</p>
                 </div>
 
