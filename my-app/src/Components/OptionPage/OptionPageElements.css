@@ -457,12 +457,16 @@
     margin-left: 10px;
 }
 
-.ErrorMessage{
-    position: absolute;
-    right: 0;
-    left: 0;
-    width: 100vw;
-    color: #555;
+.errorMessageContainer{
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+}
+
+.errorMessage{
+    margin: auto;
+    color: #444;
+    
 }
 
 @media screen and (max-height: 1200px) {

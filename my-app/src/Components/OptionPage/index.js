@@ -506,7 +506,7 @@ function OptionPage(){
                     </thead>
                     <tbody>
                       {(typeof UserData === "undefined") ? (
-                      <div className='ErrorMessage'><p>Something went wrong, please try again.</p></div>
+                      <div className='errorMessageContainer'><p className='errorMessage'>Something went wrong, please try again.</p></div>
                       ) : (
                       UserData.map((item, index) => (
                         <tr key={index}>
