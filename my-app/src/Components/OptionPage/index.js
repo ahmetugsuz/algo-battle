@@ -353,7 +353,7 @@ function OptionPage(){
 
     return (
         <div id="optionpage" className='OptionPageContainer' onClick={handlePageClick}>
-          {introductionWindowOpen && currentPage < 3 && enemiesPlayed.length == 0 && (
+          {introductionWindowOpen && currentPage < 3 && enemiesPlayed.length == 0 && TotalScore == 0 && (
             <div className='introductionWindowContainer'>
               <div className='introductionWindow'>
 
