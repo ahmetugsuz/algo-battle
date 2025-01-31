@@ -30,7 +30,7 @@ function OptionPage(){
     const [showLeaderboard, setShowLeaderboard] = useState(false);
     const [UserData, setUserData] = useState();
     const [InfoVisible, setInfoVisible] = useState(false);
-    const [introductionWindowOpen, setIntroductionWindowOpen] = useState(true);
+    const [introductionWindowOpen, setIntroductionWindowOpen] = useState(false);
     const [konstantOppdateringer, setKonstantOppdateringer] = useState(0);
     const [currentPage, setCurrentPage] = useState(0);
     const names = ["Alan", "Tesla", "Kidy"]
@@ -212,6 +212,9 @@ function OptionPage(){
               if (data.enemies_played.includes(names[2])){
                 setKidyDisabled(true);
               }
+              if (data.enemies_played.length == 0) {
+                setIntroductionWindowOpen(true);
+              }
               setFetchSuccess(true);
               return;
             } 
@@ -353,7 +356,7 @@ function OptionPage(){
 
     return (
         <div id="optionpage" className='OptionPageContainer' onClick={handlePageClick}>
-          {introductionWindowOpen && currentPage < 3 && enemiesPlayed.length == 0 && TotalScore == 0 && (
+          {introductionWindowOpen && currentPage < 3 && (
             <div className='introductionWindowContainer'>
               <div className='introductionWindow'>
 
