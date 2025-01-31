@@ -339,9 +339,19 @@ function OptionPage(){
                   <CloseIcon />
                 </div>
 
+                <div className='introductionTitleContainer'>
+                    <p className='introductionWindowHeader'> What's this game about?</p>
+                </div>
+                <div className='introductionAnimationContainer'>
+              
+                </div>
+                <div className='introductionTextContainer'>
 
+                </div>
+                <div className='introductionMenuContainer'>
 
-
+                </div>
+              
 
               </div> 
             </div>

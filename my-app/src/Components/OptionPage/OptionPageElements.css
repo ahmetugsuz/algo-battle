@@ -54,12 +54,40 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     padding: 10px;
     transition: opacity 2.3s ease-in-out; /* Add a transition for opacity */
+    display: block;
+}
+
+
+.introductionTitleContainer{
+    position: relative;
+    height: 10%;
+    margin: auto;
+    border:solid green 2px;
 }
 
 .introductionWindowHeader{
     color: #555;
     font-size: 32px;
-    
+}
+
+.introductionAnimationContainer{
+    position: relative;
+    height: 30%;
+    margin: auto;
+    border:solid red 2px;
+}
+
+.introductionTextContainer{
+    position: relative;
+    height: 40%;
+    margin: auto;
+    border:solid blue 2px;
+}
+
+.introductionMenuContainer{
+    position: relative;
+    height: 20%;
+    border:solid gray 2px;
 }
 
 .mainSectionContainer{
