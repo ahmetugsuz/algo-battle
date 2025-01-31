@@ -484,7 +484,7 @@ function OptionPage(){
             </div>
               : 
               <>
-                <p>Something went wrong fetching latest data, please try again</p>
+                <p>Retrying..</p>
               </>
             }
           </div>
