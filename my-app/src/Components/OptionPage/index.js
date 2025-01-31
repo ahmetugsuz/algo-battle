@@ -375,7 +375,7 @@ function OptionPage(){
                 </div>
 
                 <div className='introductionMenuContainer'>
-                  <p className='introductionWindowPageNumber'>{introductionPages+1}/3</p>
+                  <p className='introductionWindowPageNumber'>{currentPage+1}/3</p>
                   <div className='introductionWindowNextPageContainer' onClick={handleNextIntroductionPage}> <BsArrowBarRight/></div>
                 </div>
 
