@@ -457,6 +457,14 @@
     margin-left: 10px;
 }
 
+.ErrorMessage{
+    position: absolute;
+    right: 0;
+    left: 0;
+    width: 100vw;
+    color: #555;
+}
+
 @media screen and (max-height: 1200px) {
     .tableWrapper{
         height: 310px;
