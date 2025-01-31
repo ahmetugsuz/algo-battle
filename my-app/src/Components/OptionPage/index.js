@@ -484,7 +484,7 @@ function OptionPage(){
             </div>
               : 
               <>
-                <p>Retrying..</p>
+                <div className='errorMessageContainer'><p className='errorMessage'>Loading ...</p></div>
               </>
             }
           </div>
