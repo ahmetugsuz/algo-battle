@@ -87,16 +87,18 @@
     position: relative;
     height: 20%;
     color: #666;
+    display: flex;
 }
 
 .introductionWindowPageNumber{
     position:absolute;
-    display: flex-start;
+    
+    left: 0;
 }
 
 .introductionWindowNextPageContainer{
     position: absolute;
-    display: flex-end;
+    right: 0;
 }
 
 .mainSectionContainer{
