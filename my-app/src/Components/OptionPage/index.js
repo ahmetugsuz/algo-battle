@@ -353,14 +353,14 @@ function OptionPage(){
 
     return (
         <div id="optionpage" className='OptionPageContainer' onClick={handlePageClick}>
-          {introductionWindowOpen && (introductionPages < 3)  && (
+          {introductionWindowOpen && introductionPages < 3  && (
             <div className='introductionWindowContainer'>
               <div className='introductionWindow'>
 
                 <div className='introductionTitleContainer'>
-                <div onClick={() => setIntroductionWindowOpen(false)}>
-                  <CloseIcon />
-                </div>
+                    <div onClick={() => setIntroductionWindowOpen(false)}>
+                      <CloseIcon />
+                    </div>
                     <p className='introductionWindowHeader'> 
                       {introductionPages[currentPage].title}
                     </p>
