@@ -394,7 +394,7 @@ function OptionPage(){
 
                 <div className='introductionMenuContainer'>
                   <p className='introductionWindowPageNumber'>{currentPage+1}/3</p>
-                  <div className='introductionWindowNextPageContainer' onClick={handleNextIntroductionPage}> Next <MdArrowRight/></div>
+                  <div className='introductionWindowNextPageContainer' onClick={handleNextIntroductionPage}> <MdArrowRight/></div>
                 </div>
 
               </div> 
