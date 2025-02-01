@@ -7,6 +7,8 @@ import { RiListSettingsFill } from 'react-icons/ri';
 import { PiArrowElbowRightDownBold } from "react-icons/pi";
 import { BsArrowBarRight } from 'react-icons/bs';
 
+import { Player } from "@lottiefiles/react-lottie-player";
+import linerSearchAnimation from '../../assets/linear_search.json';
 
 function OptionPage(){
     const navigate = useNavigate()
@@ -341,6 +343,19 @@ function OptionPage(){
             }
         }
       }
+
+      const LinearSearchAnimation = () => {
+        return (
+          <div className="animation-container">
+            <Player
+              autoplay
+              loop={true} // Set to false if you want it to play once
+              src={LinearSearchAnimation}
+              style={{ height: "400px", width: "800px" }} // Adjust dimensions as needed
+            />
+          </div>
+        );
+      };
     
       const handleShowLeaderboard = () =>{
         {showLeaderboard ? setShowLeaderboard(!showLeaderboard) : setShowLeaderboard(!showLeaderboard)}
@@ -371,7 +386,7 @@ function OptionPage(){
                 </div>
 
                 <div className='introductionAnimationContainer'>
-              
+                  <LinearSearchAnimation />
                 </div>
 
                 <div className='introductionTextContainer'>
@@ -380,7 +395,7 @@ function OptionPage(){
 
                 <div className='introductionMenuContainer'>
                   <p className='introductionWindowPageNumber'>{currentPage+1}/3</p>
-                  <div className='introductionWindowNextPageContainer' onClick={handleNextIntroductionPage}> <MdArrowRight/></div>
+                  <div className='introductionWindowNextPageContainer' onClick={handleNextIntroductionPage}> Next <MdArrowRight/></div>
                 </div>
 
               </div> 
