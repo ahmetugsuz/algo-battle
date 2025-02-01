@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import { useNavigate } from "react-router-dom";
 import './OptionPageElements.css';
 import {InfoBtn, RestartBtn, LeftArrow, RightArrow, CloseIcon} from "../ButtonElements.js";
-import { MdInfo, MdOutlineClosedCaption } from 'react-icons/md';
+import { MdArrowRight, MdInfo, MdOutlineClosedCaption } from 'react-icons/md';
 import { RiListSettingsFill } from 'react-icons/ri';
 import { PiArrowElbowRightDownBold } from "react-icons/pi";
 import { BsArrowBarRight } from 'react-icons/bs';
@@ -62,14 +62,15 @@ function OptionPage(){
           description: "This game is about mastering algorithms and luck. To boost your chances, learn how your opponents use algorithms."
         },
         {
-          title: "What to expect?",
-          description: "something."
+          title: "How Does Strategy Work Here?",
+          description: "The key to winning lies in observing patterns, adapting your decisions, and thinking ahead. Experiment with different approaches to outsmart your opponents!"
         },
         {
-          title: "Does retrying help?",
-          description: "Yeh"
+          title: "Luck vs. Skill: What's More Important?",
+          description: "While luck can influence the outcome, consistent success comes from improving your skills. Analyze past attempts, refine your strategy, and leverage every opportunity!"
         }
-      ]
+      ];
+      
       //mottar data for hvem som har blitt spilt mot
       /*
       const [dataFetched, setDataFetched] = useState(false);
@@ -379,7 +380,7 @@ function OptionPage(){
 
                 <div className='introductionMenuContainer'>
                   <p className='introductionWindowPageNumber'>{currentPage+1}/3</p>
-                  <div className='introductionWindowNextPageContainer' onClick={handleNextIntroductionPage}> <BsArrowBarRight/></div>
+                  <div className='introductionWindowNextPageContainer' onClick={handleNextIntroductionPage}> <MdArrowRight/></div>
                 </div>
 
               </div> 
