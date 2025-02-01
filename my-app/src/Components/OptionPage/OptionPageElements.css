@@ -77,13 +77,15 @@
     display: flex;
     align-items: center;
     overflow: hidden;
-    padding: 30px;
+    border: solid red 2px;
 }
 
 .animation-container{
     height: 100%; /* Match the parent container height */
     width: 100%; /* Match the parent container width */
-    
+    margin: auto;
+    justify-content: center;
+    border: solid green 3px;
 }
 
 .introductionTextContainer{
