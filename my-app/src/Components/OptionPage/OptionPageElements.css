@@ -82,7 +82,6 @@
 .animation-container{
     height: 100%; /* Match the parent container height */
     width: 100%; /* Match the parent container width */
-    padding: 30px;
 }
 
 .introductionTextContainer{

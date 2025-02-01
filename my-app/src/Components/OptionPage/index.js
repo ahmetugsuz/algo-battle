@@ -346,7 +346,7 @@ function OptionPage(){
 
       const LinearSearchAnimation = () => {
         return (
-          <div className="introductionAnimationContainer">
+          <div className="animation-container">
             <Player
               autoplay
               loop={true} // Set to false if you want it to play once
