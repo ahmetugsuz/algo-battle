@@ -73,7 +73,6 @@
     position: relative;
     height: 35%;
     margin: auto;
-    border: solid red 2px;
     justify-content: center;
     display: flex;
     align-items: center;
@@ -81,7 +80,6 @@
 }
 
 .animation-container{
-    border: green 3px solid;
     position: relative;
     margin: auto;
 }
