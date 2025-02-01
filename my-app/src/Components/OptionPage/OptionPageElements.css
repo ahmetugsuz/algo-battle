@@ -82,6 +82,11 @@
 .animation-container{
     position: relative;
     margin: auto;
+    height: 100%; /* Match the parent container height */
+    width: 100%; /* Match the parent container width */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .introductionTextContainer{
