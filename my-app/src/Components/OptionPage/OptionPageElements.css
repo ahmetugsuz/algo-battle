@@ -80,7 +80,7 @@
 }
 
 .animation-container{
-    position: relative;
+    position: absolute;
     height: 100%; /* Match the parent container height */
     width: 100%; /* Match the parent container width */
     display: flex;

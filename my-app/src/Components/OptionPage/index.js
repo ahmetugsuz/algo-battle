@@ -351,7 +351,6 @@ function OptionPage(){
               autoplay
               loop={true} // Set to false if you want it to play once
               src={linerSearchAnimation}
-              style={{ height: "100%", width: "100%", objectFit: "contain" }}
             />
           </div>
         );
