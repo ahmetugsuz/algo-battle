@@ -351,7 +351,7 @@ function OptionPage(){
               autoplay
               loop={true} // Set to false if you want it to play once
               src={linerSearchAnimation}
-              style={{ height: "400px", width: "800px" }} // Adjust dimensions as needed
+
             />
           </div>
         );

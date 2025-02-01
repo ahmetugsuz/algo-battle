@@ -74,6 +74,10 @@
     height: 35%;
     margin: auto;
     border: solid red 2px;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
 }
 
 .animation-container{
