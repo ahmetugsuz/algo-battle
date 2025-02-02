@@ -123,16 +123,17 @@
     font-size: 1.5rem;
     font-weight: bold;
     color: #ffffff;
+    font-family: 'Fira Math', sans-serif;
   }
   
   .currentPage,
   .totalPages {
-    font-size: 2rem; /* Larger numbers */
-    color: #ffd700; /* Gold color for numbers */
+    font-size: 1.5rem; /* Larger numbers */
+    color: #ccc; /* Gold color for numbers */
   }
   
   .divider {
-    font-size: 2rem;
+    font-size: 1.5rem;
     color: #ccc; /* Neutral color for the slash */
     margin: 0 0.5rem; /* Add space around the slash */
   }
