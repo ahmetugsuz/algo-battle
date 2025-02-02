@@ -10,6 +10,8 @@ import { BsArrowBarRight } from 'react-icons/bs';
 import { Player } from "@lottiefiles/react-lottie-player";
 import randomGivenGreenBox from '../../assets/randomly_given_green_box.json';
 import linearSearchAnimation from '../../assets/linear_search_animation.json';
+import binarySearchAnimation from '../../assets/binary_search_animation.json';
+
 
 function OptionPage(){
     const navigate = useNavigate()
@@ -73,7 +75,7 @@ function OptionPage(){
         {
           title: "How Does Strategy Work Here?",
           description: "The key to winning lies in observing patterns, adapting your decisions, and staying one step ahead of the algorithms you're competing against. Once you understand how the algorithms work, you'll quickly recognize patterns to win each round. Experiment with different strategies to outsmart your opponents!",
-          animation: null
+          animation: binarySearchAnimation
         }
       ];
       
