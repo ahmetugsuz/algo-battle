@@ -9,6 +9,7 @@ import { BsArrowBarRight } from 'react-icons/bs';
 
 import { Player } from "@lottiefiles/react-lottie-player";
 import randomGivenGreenBox from '../../assets/randomly_given_green_box.json';
+import linearSearchAnimation from '../../assets/linear_search_animation.json';
 
 function OptionPage(){
     const navigate = useNavigate()
@@ -60,18 +61,18 @@ function OptionPage(){
     
       const introductionPages = [
         {
-          title: "How does it work?",
-          description: "Your main goal is to find the green box in the battlefield. There will be one green box amongst all red boxes, this green box is given randomly each round.",
+          title: "How it works?",
+          description: "Your main goal is to find the green box on the battlefield. In each round, the green box is randomly placed among the number of the red boxes you select.",
           animation: randomGivenGreenBox
         },
         {
-          title: "How Does Strategy Work Here?",
-          description: "The key to winning lies in observing patterns, adapting your decisions, and thinking ahead. Experiment with different approaches to outsmart your opponents!",
-          animation: null
+          title: "Competing Against Algorithms",
+          description: "You'll compete against unique algorithms to secure your spot on the leaderboard. Each opponent follows their own algorithm, making picks based on your selections. Be aware: these algorithms analyze the board after every move and can manipulate the game by deciding who starts each round or even reversing your choices.",
+          animation: linearSearchAnimation
         },
         {
-          title: "Luck vs. Skill: What's More Important?",
-          description: "This game is about mastering algorithms and luck. To boost your chances, learn how your opponents use algorithms. While luck can influence the outcome, consistent success comes from improving your skills. Analyze past attempts, refine your strategy, and leverage every opportunity!",
+          title: "How Does Strategy Work Here?",
+          description: "The key to winning lies in observing patterns, adapting your decisions, and staying one step ahead of the algorithms you're competing against. Once you understand how the algorithms work, you'll quickly recognize patterns to win each round. Experiment with different strategies to outsmart your opponents!",
           animation: null
         }
       ];
