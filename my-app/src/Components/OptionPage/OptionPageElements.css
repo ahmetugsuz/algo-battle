@@ -77,14 +77,12 @@
     display: flex;
     align-items: center;
     overflow: hidden;
-    border: solid red 2px;
 }
 
 .animation-container{
     height: 100%; /* Match the parent container height */
     width: 100%; /* Match the parent container width */
     justify-content: center;
-    border: solid green 3px;
     align-items: center;
 }
 
