@@ -120,8 +120,7 @@
     position: absolute;
     left: 0;
     bottom: 0;
-    padding: 20px;
-    padding-bottom: 10px;
+    padding: 30px;
     font-size: 1rem;
     font-weight: bold;
     color: #ffffff;
@@ -131,12 +130,12 @@
   .currentPage,
   .totalPages {
     font-size: 1rem; /* Larger numbers */
-    color: #666; /* Gold color for numbers */
+    color: #555; /* Gold color for numbers */
   }
   
   .divider {
     font-size: 1rem;
-    color: #666; /* Neutral color for the slash */
+    color: #555; /* Neutral color for the slash */
     margin: 0 0.5rem; /* Add space around the slash */
   }
   
