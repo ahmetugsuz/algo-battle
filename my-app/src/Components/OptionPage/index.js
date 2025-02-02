@@ -400,7 +400,13 @@ function OptionPage(){
 
                 <div className='introductionMenuContainer'>
                   <p className='introductionWindowPageNumber'>{currentPage+1}/3</p>
-                  <div className='introductionWindowNextPageContainer' onClick={handleNextIntroductionPage}> <MdArrowRight/></div>
+                  <div className='introductionWindowNextPageContainer' onClick={handleNextIntroductionPage}> <MdArrowRight size={32}/></div>
+                  <p className="fancyProgress">
+                    <span className="currentPage">{currentPage+1}</span>
+                    <span className="divider">/</span>
+                    <span className="totalPages">3</span>
+                  </p>
+
                 </div>
 
               </div> 
