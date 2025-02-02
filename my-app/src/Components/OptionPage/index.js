@@ -8,7 +8,7 @@ import { PiArrowElbowRightDownBold } from "react-icons/pi";
 import { BsArrowBarRight } from 'react-icons/bs';
 
 import { Player } from "@lottiefiles/react-lottie-player";
-import linerSearchAnimation from '../../assets/linear_search.json';
+import randomGivenGreenBox from '../../assets/randomly_given_green_box.json';
 
 function OptionPage(){
     const navigate = useNavigate()
@@ -60,16 +60,19 @@ function OptionPage(){
     
       const introductionPages = [
         {
-          title: "What's This Game About?",
-          description: "This game is about mastering algorithms and luck. To boost your chances, learn how your opponents use algorithms."
+          title: "How does it work?",
+          description: "Your main goal is to find the green box in the battlefield. There will be one green box amongst all red boxes, this green box is given randomly each round.",
+          animation: randomGivenGreenBox
         },
         {
           title: "How Does Strategy Work Here?",
-          description: "The key to winning lies in observing patterns, adapting your decisions, and thinking ahead. Experiment with different approaches to outsmart your opponents!"
+          description: "The key to winning lies in observing patterns, adapting your decisions, and thinking ahead. Experiment with different approaches to outsmart your opponents!",
+          animation: null
         },
         {
           title: "Luck vs. Skill: What's More Important?",
-          description: "While luck can influence the outcome, consistent success comes from improving your skills. Analyze past attempts, refine your strategy, and leverage every opportunity!"
+          description: "This game is about mastering algorithms and luck. To boost your chances, learn how your opponents use algorithms. While luck can influence the outcome, consistent success comes from improving your skills. Analyze past attempts, refine your strategy, and leverage every opportunity!",
+          animation: null
         }
       ];
       
@@ -350,7 +353,7 @@ function OptionPage(){
             <Player
               autoplay
               loop={true} // Set to false if you want it to play once
-              src={linerSearchAnimation}
+              src={introductionPages[currentPage].animation}
             />
           </div>
         );
