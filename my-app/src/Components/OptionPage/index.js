@@ -382,7 +382,7 @@ function OptionPage(){
               <div className='introductionWindow'>
 
                 <div className='introductionTitleContainer'>
-                    <div onClick={() => setIntroductionWindowOpen(false)}>
+                    <div onClick={() => setIntroductionWindowOpen(false)} style={{color: "#555"}}>
                       <CloseIcon />
                     </div>
                     <p className='introductionWindowHeader'> 
