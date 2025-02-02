@@ -110,6 +110,7 @@
 
 .introductionWindowNextPageContainer{
     position: absolute;
+    display: flex;
     right: 0;
     bottom: 0;
     padding: 20px;
@@ -126,12 +127,12 @@
   .currentPage,
   .totalPages {
     font-size: 1rem; /* Larger numbers */
-    color: #ccc; /* Gold color for numbers */
+    color: #444; /* Gold color for numbers */
   }
   
   .divider {
     font-size: 1rem;
-    color: #ccc; /* Neutral color for the slash */
+    color: #444; /* Neutral color for the slash */
     margin: 0 0.5rem; /* Add space around the slash */
   }
   
